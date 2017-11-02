@@ -1,9 +1,11 @@
 var express = require('express');
+var app=express();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
 var moment=require('moment');
 var User = require('../models/users');
+
 
 
 /* GET users listing. */
@@ -107,13 +109,22 @@ router.post('/login',
       failureFlash: true
     }),
     function (req, res) {
-      console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+        name=req.body.username;
+app.set('name',req.body.username);
+User.updateLogin(name,function(err,name){
+    console.log('login logged');
+});
       res.redirect('/inventory');
+
     });
 
 router.get('/logout', function (req, res) {
+   var name= app.get('name');
+   console.log(name);
     req.logout();
-
+    User.updateLogout(name,function(err,name){
+        console.log('log out logged');
+    })
     req.flash('success_msg', 'You are logged out');
    
     res.redirect('/users/login');

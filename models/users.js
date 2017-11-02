@@ -1,4 +1,5 @@
  var mongoose = require('mongoose');
+ var moment=require('moment')
 
 
 //mongoose.connect('mongodb://127.0.0.1/nodelogin');
@@ -49,6 +50,28 @@ module.exports.getUserByUsername = function(username, callback){
 
 module.exports.getUserById = function(id, callback){
 	User.findById(id, callback);
+};
+module.exports.updateLogin=function(name,callback)
+{
+	User.findOneAndUpdate({
+		"username" : name
+	},{
+		$set:{
+			"login":moment()
+		}
+	},callback);
+	 var x=1;
+	 console.log(x);
+};
+module.exports.updateLogout=function(name,callback)
+{
+	User.findOneAndUpdate({
+		"username":name
+	},{
+		$set:{
+			"logout":moment()
+		}
+	},callback)
 }
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){
