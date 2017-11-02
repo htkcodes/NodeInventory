@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 #{title}
+    
+    form(method='POST' action='')
+      div.form-group
+        input#itemname.form-control(type='text',name='itemname', required='true')
+
+      button.btn.btn-primary(type='submit') Delete
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

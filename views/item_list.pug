@@ -6,7 +6,18 @@ block content
   ul
   each item in item_list
     li 
-      |  #{item.name} #{item.quantity} #{item.price}
+      form(action="/inventory/item/delete", method="post")
+        |  #{item.name} #{item.quantity} #{item.price} #{item._id}
+        input(type="hidden" name="itemname" value="#{item.name}")
+        button.btn.btn-primary(type='submit') Submit
+    form(action="/inventory/item/update", method="post")
+        input(type="hidden" name="itemname" value="#{item.name}")
+        input(type="number" name="quantity" value="" placeholder="quantity")
+        input(type="number" name="price" value="" placeholder="price")
+        input(type="hidden", name="_id" value="#{item._id}")
+        button.btn.btn-primary(type='submit') update
+
+
 
   else
-    li There are no books.
+    li There are no items
