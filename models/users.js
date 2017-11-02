@@ -1,5 +1,6 @@
  var mongoose = require('mongoose');
 
+
 //mongoose.connect('mongodb://127.0.0.1/nodelogin');
 //var db = mongoose.connection;
 var bcrypt=require('bcrypt');
@@ -18,7 +19,13 @@ var UserSchema = mongoose.Schema({
 	},
 	name: {
 		type: String
-	}
+    },
+    login:{
+        type:Date
+    },
+    logout:{
+        type:Date
+    }
 });
 
 
@@ -35,7 +42,8 @@ module.exports.createUser = function(newUser, callback){
 }
 
 module.exports.getUserByUsername = function(username, callback){
-	var query = {username: username};
+    var query = {username: username};
+ 
 	User.findOne(query, callback);
 }
 

@@ -10,7 +10,7 @@ var ItemSchema = Schema(
   }
 );
 
-// Virtual for author's full name
+// Virtual for item's full name
 ItemSchema
 .virtual('item_name')
 .get(function () {

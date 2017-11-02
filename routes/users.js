@@ -2,7 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
-
+var moment=require('moment');
 var User = require('../models/users');
 
 
@@ -85,6 +85,7 @@ passport.use(new LocalStrategy(
                     });
                 }
             });
+           
         });
     }));
 
@@ -99,21 +100,22 @@ passport.deserializeUser(function (id, done) {
 });
 
 router.post('/login',
-
+    
     passport.authenticate('local', {
-        successRedirect: '/inventory',
-        failureRedirect: '/users/login',
-        failureFlash: true
+        //successRedirect: '/inventory',
+       failureRedirect: '/users/login',
+      failureFlash: true
     }),
     function (req, res) {
-        res.redirect('/');
+      console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+      res.redirect('/inventory');
     });
 
 router.get('/logout', function (req, res) {
     req.logout();
 
     req.flash('success_msg', 'You are logged out');
-
+   
     res.redirect('/users/login');
 }); 
 module.exports = router;
