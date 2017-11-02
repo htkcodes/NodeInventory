@@ -1,0 +1,30 @@
+extends layout
+
+block content
+
+ .row
+  form(method="POST" action="/users/register").col.s12
+    .row
+      .input-field.col.s6
+        input#first_name.validate(placeholder='Name', type='text' name='name')
+        label(for='name') 
+      .input-field.col.s6
+        input#email.validate(type='email' name='email' placeholder="Email")
+        label(for='email') 
+    .row
+      .input-field.col.s6
+        input#first_name.validate(placeholder='Username', type='text' name='username')
+        label(for='username') 
+    .row
+      .input-field.col.s12
+        input#password.validate(type='password' name='password' placeholder="password")
+        label(for='password') 
+    .row
+      .input-field.col.s12
+        input#password.validate(type='password' name='password2' placeholder="confirm password")
+        label(for='password2') 
+    button.btn.btn-primary(type='submit') Register
+    if errors 
+        ul
+            for error in errors
+                li!= error.msg

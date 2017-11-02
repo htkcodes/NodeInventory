@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+ .row
+  form(method="post" action="/users/login" ).col.s12
+    .row
+      .input-field.col.s6
+        input#first_name.validate(placeholder='username', type='text' name="username")
+        label(for='username') 
+    .row
+      .input-field.col.s12
+        input#password.validate(type='password' placeholder="password" name="password")
+        label(for='password')
+    button.btn.btn-primary(type='submit') Register
