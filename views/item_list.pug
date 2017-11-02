@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  
+  ul
+  each item in item_list
+    li 
+      |  #{item.name} #{item.quantity} #{item.price}
+
+  else
+    li There are no books.

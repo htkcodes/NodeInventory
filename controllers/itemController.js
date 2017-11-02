@@ -2,13 +2,29 @@ var item = require('../models/item');
 
 // Display list of all items
 
-exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Site Home Page');
-};
-exports.item_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: item list');
+var async = require('async');
+
+exports.index = function(req, res) {   
+    
+    async.parallel({
+        item_count: function(callback) {
+            item.count(callback);
+        },
+    }, function(err, results) {
+        res.render('index', { title: 'Local Library Home', error: err, data: results });
+    });
 };
 
+exports.item_list = function(req, res, next) {
+    
+      item.find({}, 'name quantity price')
+        .exec(function (err, list_items) {
+          if (err) { return next(err); }
+          //Successful, so render
+          res.render('item_list', { title: 'Item List', item_list: list_items });
+        });
+        
+    };
 // Display detail page for a specific item
 exports.item_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: item detail: ' + req.params.id);

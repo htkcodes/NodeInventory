@@ -1,7 +1,25 @@
 doctype html
-html
+html(lang='en')
   head
     title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // Compiled and minified CSS
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+    // Compiled and minified JavaScript
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    div(class='container fluid')
+      div(class='row')
+        div(class='col s2')
+          block sidebar
+            ul(class='sidebar-nav')
+              li 
+                a(href='/inventory') Home
+              li 
+                a(href='/inventory/items') Items
+                
+        div(class='col s10')
+          block content
