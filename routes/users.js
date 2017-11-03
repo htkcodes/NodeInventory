@@ -21,6 +21,7 @@ router.get('/register', function (req, res) {
 // Login
 router.get('/login', function (req, res) {
   res.render('login', { title: 'Login'});
+  req.flash('success_msg',5)
 });
 
 // Register User
@@ -106,7 +107,7 @@ router.post('/login',
     passport.authenticate('local', {
         //successRedirect: '/inventory',
        failureRedirect: '/users/login',
-      failureFlash: true
+      failureFlash: 'Invalid username or password'
     }),
     function (req, res) {
         name=req.body.username;
@@ -115,7 +116,6 @@ User.updateLogin(name,function(err,name){
     console.log('login logged');
 });
       res.redirect('/inventory');
-
     });
 
 router.get('/logout', function (req, res) {

@@ -17,6 +17,12 @@ ItemSchema
   return this.name + ', ' + this.quantity + ',' + this.price;
 });
 
+ItemSchema
+.virtual('quantityupdate')
+.get(function(){
+  return ((this.quantity-1));
+})
+
 
 //Export model
 module.exports = mongoose.model('Item', ItemSchema);

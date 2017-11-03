@@ -6,18 +6,27 @@ block content
   ul
   each item in item_list
     li 
+      - var result= item.quantityupdate
+    
       form(action="/inventory/item/delete", method="post")
-        |  #{item.name} #{item.quantity} #{item.price} #{item._id}
+        |  #{item.name} #{item.quantity} #{item.price}
         input(type="hidden" name="itemname" value="#{item.name}")
         button.btn.btn-primary(type='submit') Submit
-    form(action="/inventory/item/update", method="post")
+      form(action="/inventory/item/update", method="post")
         input(type="hidden" name="itemname" value="#{item.name}")
         input(type="number" name="quantity" value="" placeholder="quantity")
         input(type="number" name="price" value="" placeholder="price")
         input(type="hidden", name="_id" value="#{item._id}")
         button.btn.btn-primary(type='submit') update
-
-
-
+      form(action="/inventory/item/update",method="post")
+        input(type="hidden" name="itemname" value="#{item.name}")
+        input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
+        input(type="hidden" name="price" value="#{item.price}" placeholder="price")
+        input(type="hidden", name="_id" value="#{item._id}")
+        button.btn.btn-primary(type='submit') sold
+        
   else
     li There are no items
+  
+
+     

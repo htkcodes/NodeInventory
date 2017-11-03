@@ -7,7 +7,9 @@ html(lang='en')
     // Compiled and minified CSS
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
     // Compiled and minified JavaScript
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+    
 
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
@@ -16,6 +18,7 @@ html(lang='en')
         div(class='col s2')
           block sidebar
             ul(class='sidebar-nav')
+            if user
               li 
                 a(href='/inventory') Home
               li 
@@ -24,6 +27,13 @@ html(lang='en')
                 a(href='/inventory/item/create') Add item
               li
                 a(href="/users/logout") Logout
+            if !user
+              li
+                a(href="") test
                 
         div(class='col s10')
           block content
+    script.
+      var result=$('.result').val();
+      console.log(result);
+    

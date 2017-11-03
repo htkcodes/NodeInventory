@@ -9,7 +9,11 @@ block content
         input#first_name.validate(placeholder='username', type='text' name="username")
         label(for='username') 
     .row
+      | #{success_msg}
+      | #{error}
       .input-field.col.s12
         input#password.validate(type='password' placeholder="password" name="password")
         label(for='password')
     button.btn.btn-primary(type='submit') Register
+      
+                                        

@@ -13,7 +13,6 @@ exports.index = function(req, res) {
         },
     }, function(err, results) {
         res.render('index', { title: 'Local Library Home', error: err, data: results });
-      
     });
 };
 
@@ -65,7 +64,7 @@ exports.item_create_post = function(req, res,next) {
         items.save(function (err) {
             if (err) { return next(err); }
                //successful - redirect to new iem record.
-               res.redirect('/');
+               res.redirect('/inventory/items');
             });
     }
 

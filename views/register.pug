@@ -24,6 +24,7 @@ block content
         input#password.validate(type='password' name='password2' placeholder="confirm password")
         label(for='password2') 
     button.btn.btn-primary(type='submit') Register
+
     if errors 
         ul
             for error in errors

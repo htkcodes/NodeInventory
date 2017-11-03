@@ -8,18 +8,18 @@ var bodyParser = require('body-parser');
 var session=require('express-session');
 var passport=require('passport');
 var LocalStrategy=require('passport-local');
-var multer=require('multer');
+
 var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
-var upload=multer({dest:'./uploads'});
+
 mongoose.connect('mongodb://127.0.0.1/chipsinv',{
   useMongoClient:true
 });
 var db=mongoose.connection;
-db.on('error',console.error.bind(console,'Database connection error'));
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -38,10 +38,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
+
 app.use(session({
   secret:'secret',
   saveUninitialized:true,
-  resave:true
+  resave:true,
+  cookie:{
+    maxAge:6000000
+  }
 }));
 
 app.use(passport.initialize());
@@ -65,15 +69,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(flash());
+
+// Global Vars
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
+
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
 
+app.get('*',function(req,res,next){
+res.locals.user=req.user || null;;
+next();
+})
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/inventory',inventory);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
