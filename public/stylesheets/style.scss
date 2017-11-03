@@ -1,9 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Montserrat|Raleway|Raleway+Dots');
+/* Put your CSS code in the left column, instead of example, to put or remove unnecessary prefixes. */
+
+.example {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: all .5s;
+  -o-transition: all .5s;
+  transition: all .5s;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(black));
+  background: -webkit-linear-gradient(top, white, black);
+  background: -o-linear-gradient(top, white, black);
+  background: linear-gradient(to bottom, white, black);
+}@import url('https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Montserrat|Raleway|Raleway+Dots');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 //Colors
 $primary:#1E1D2D;
 $text:#FEE8F1;
+
+
 
 //Fonts
 
@@ -14,117 +33,169 @@ $rdots:'Raleway Dots', cursive;
 
 
 html{
-  background-color: $primary;
+background-color: $primary;
+}
+
+body{
+overflow-x: hidden !important;
 }
 h1{
-  font-family: $rdots;
-  text-align: center;
-  color: $text;
+font-family: $rdots;
+text-align: center;
+color: $text;
+margin-left: 0.4em;
 
-  
 }
 h5{
-  font-family: $mons;
-  text-align: center;
-  color: $text;
+font-family: $mons;
+text-align: center;
+color: $text;
 }
 h6{
-  text-align: center;
-  color: $text;
-  font-family: $mons;
-  margin-top: 3em;
+text-align: center;
+color: $text;
+font-family: $mons;
+margin-top: 3em;
 }
-.sidebar-nav {
-  position: relative;
-  padding: 0;
-  list-style: none;
-  height: 100vh;
-  list-style: none;
-  ul{
-    position: absolute;
-    top: 40%;
-    transform: translateY(-40%);
+
+.side-nav{
+li{
+
+  font-family: $mons;
+  a{
+    padding: 0 80px;
+    font-size: 1.2em;
+    text-transform:inherit;
   }
 }
-
-.sidebar-nav li{
-  list-style: none;
-  width:100%;
-  text-align: center;
-  font-family: $rale;
 }
 
 
-.primary{
-  background: -moz-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* ff3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959)); /* safari4+,chrome */
-  background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* ie10+ */
-  background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%); /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 ); /* ie6-9 */
+
+.primary{ /* ff3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959)); /* safari4+,chrome */
+background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* safari5.1+,chrome10+ */
+background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* opera 11.10+ */ /* ie10+ */
+background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%); /* w3c */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 ); /* ie6-9 */
 }
 .second{
 background-color: $primary;
 }
 .container.fluid { width: 100%; max-width: 100%; } .container.fluid > .row { margin-left: 0; margin-right: 0;margin-bottom: 0; }
 a{
-  color:$text !important;
+color:$text !important;
 }
 nav{
-  box-shadow: none;
+-webkit-box-shadow: none;
+        box-shadow: none;
 }
 .bottom{
-  position: absolute;
-  bottom:0;
-  left:0;
-  text-align: center;
-  font-family: $rale;
-  width: 100%;
+position: absolute;
+bottom:0;
+left:0;
+text-align: center;
+font-family: $rale;
+width: 100%;
+line-height: 25px;
 }
 .main-wrap{
 height: 100vh;
 margin: 0;
 form{
-margin-top:10em;
+margin-top:3em;
 }
+}
+
+.list-wrap{
+position: absolute;
+top:40%;
+-webkit-transform: translateY(-40%);
+    -ms-transform: translateY(-40%);
+        transform: translateY(-40%);
 }
 
 .move{
-  position: absolute;
-  left: 60%;
-  transform: translateX(-60%);
+position: absolute;
+left: 50%;
+-webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
 }
 .material-icons{
-  line-height: normal;
+line-height: normal;
 }
 i{
-  color: $text !important;
+color: $text !important;
 }
 input {
-  &:not([type]):focus:not([readonly]), &[type=text]:not(.browser-default):focus:not([readonly]), &[type=password]:not(.browser-default):focus:not([readonly]), &[type=email]:not(.browser-default):focus:not([readonly]), &[type=url]:not(.browser-default):focus:not([readonly]), &[type=time]:not(.browser-default):focus:not([readonly]), &[type=date]:not(.browser-default):focus:not([readonly]), &[type=datetime]:not(.browser-default):focus:not([readonly]), &[type=datetime-local]:not(.browser-default):focus:not([readonly]), &[type=tel]:not(.browser-default):focus:not([readonly]), &[type=number]:not(.browser-default):focus:not([readonly]), &[type=search]:not(.browser-default):focus:not([readonly]) {
-    border-bottom: 1px solid #FE3959;
-    -webkit-box-shadow: 0 1px 0 0 #FE3959;
-    box-shadow: 0 1px 0 0 #FE3959;
-  }
+&:not([type]):focus:not([readonly]), &[type=text]:not(.browser-default):focus:not([readonly]), &[type=password]:not(.browser-default):focus:not([readonly]), &[type=email]:not(.browser-default):focus:not([readonly]), &[type=url]:not(.browser-default):focus:not([readonly]), &[type=time]:not(.browser-default):focus:not([readonly]), &[type=date]:not(.browser-default):focus:not([readonly]), &[type=datetime]:not(.browser-default):focus:not([readonly]), &[type=datetime-local]:not(.browser-default):focus:not([readonly]), &[type=tel]:not(.browser-default):focus:not([readonly]), &[type=number]:not(.browser-default):focus:not([readonly]), &[type=search]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid #38FAA6;
+  -webkit-box-shadow: 0 1px 0 0 #38FAA6;
+  box-shadow: 0 1px 0 0 #38FAA6;
+}
 }
 
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #FE3959;
-  -webkit-box-shadow: 0 1px 0 0 #FE3959;
-  box-shadow: 0 1px 0 0 #FE3959;
+border-bottom: 1px solid #FE3959;
+-webkit-box-shadow: 0 1px 0 0 #FE3959;
+box-shadow: 0 1px 0 0 #FE3959;
 }
 
-input[type=text] {
-  color: $text;
-}
-.btn{
-  background: -moz-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* ff3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959)); /* safari4+,chrome */
-  background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* ie10+ */
-  background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%); /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 ); /* ie6-9 */
+input[type=text],input[type=password] {
 color: $text;
 }
+.btn{ /* ff3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959)); /* safari4+,chrome */
+background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* safari5.1+,chrome10+ */
+background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* opera 11.10+ */ /* ie10+ */
+background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%); /* w3c */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 ); /* ie6-9 */
+color: $text;
+}
+
+.flash-error{
+color:#FF4073;
+position: absolute;
+left: 50%;
+-webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+height: 20px;
+i{
+  margin-top: -3px;
+}
+font-family: $rale;
+white-space: normal;
+min-width: 218px;
+}
+
+.hide{
+visibility: hidden;
+}
+.top-left{
+position: absolute;
+top: 0;
+left: 0;
+margin: 3em;
+i{
+  font-size: 3em;
+}
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .top-left{
+    margin-left: 1em;
+    i{
+      font-size: 2.8em;
+    }
+  }
+  i.left {
+          margin-right: 0px;
+      }
+}
+
+

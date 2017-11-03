@@ -9,36 +9,57 @@ html(lang='en')
     // Compiled and minified JavaScript
     script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css")
     
 
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div(class='container fluid')
       div(class='row')
-        div(class='col s2 primary')
+        ul#slide-out.side-nav.primary
+          div(class="list-wrap")
+            if user
+              li
+                a(href="/inventory") 
+                  i.material-icons home
+                  |  Home
+              li
+                a(href="/inventory/items")
+                  i.material-icons list
+                  | Products
+              li
+                a(href="/inventory/items/create")
+                  i.material-icons add_shopping_cart
+                  | Add
+              li
+                a(href="/users/logout")
+                  i.material-icons input
+                  | Logout
+            if !user
+              li
+                a(href="/users/login")
+                  i.material-icons person
+                  | Login
+              li
+                a(href="/users/register")
+                  i.material-icons person_add
+                  | Register
+
+            
           block sidebar
-            nav(class="sidebar-nav primary")
-              div(class="nav-wrapper")
-                h1 CHIPS
-                h5 INVENTORY
-                ul
-                  li 
-                    a(href='/inventory') Home
-                  li 
-                    a(href='/inventory/items') Product List
-                  li
-                    a(href='/inventory/item/create') Add Product
-                  li
-                    a(href="/users/logout") Logout
-                  li
-                    a(href="/users/login") Login
-                  li
-                    a(href="/users/register") Register
-                p(class="bottom") Made with 💙 by Reneicko Getten       
-        div(class='col s10')
+        div(class='col s12')
           div(class="main-wrap second")
             block content
+      div(class="top-left")
+          a.button-collapse.show-on-large(href='#',data-activates='slide-out')
+            i.material-icons menu
     script.
-      var result=$('.result').val();
-      console.log(result);
+      if( $(".flash-error:contains('Invalid')").length >0 )
+      {
+      $("p i").removeClass("hide")
+      }
+      else
+      console.log('no')
+    script(src="/javascripts/scripts.js")
+        
     
