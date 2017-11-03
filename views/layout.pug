@@ -15,24 +15,29 @@ html(lang='en')
   body
     div(class='container fluid')
       div(class='row')
-        div(class='col s2')
+        div(class='col s2 primary')
           block sidebar
-            ul(class='sidebar-nav')
-            if user
-              li 
-                a(href='/inventory') Home
-              li 
-                a(href='/inventory/items') Items
-              li
-                a(href='/inventory/item/create') Add item
-              li
-                a(href="/users/logout") Logout
-            if !user
-              li
-                a(href="") test
-                
+            nav(class="sidebar-nav primary")
+              div(class="nav-wrapper")
+                h1 CHIPS
+                h5 INVENTORY
+                ul
+                  li 
+                    a(href='/inventory') Home
+                  li 
+                    a(href='/inventory/items') Product List
+                  li
+                    a(href='/inventory/item/create') Add Product
+                  li
+                    a(href="/users/logout") Logout
+                  li
+                    a(href="/users/login") Login
+                  li
+                    a(href="/users/register") Register
+                p(class="bottom") Made with 💙 by Reneicko Getten       
         div(class='col s10')
-          block content
+          div(class="main-wrap second")
+            block content
     script.
       var result=$('.result').val();
       console.log(result);

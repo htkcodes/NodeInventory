@@ -3,17 +3,22 @@ extends layout
 block content
 
  .row
+  h1  LOGIN
+  h6  Enter your credentials down below
   form(method="post" action="/users/login" ).col.s12
     .row
-      .input-field.col.s6
-        input#first_name.validate(placeholder='username', type='text' name="username")
-        label(for='username') 
+      .input-field.col.s6.offset-s3
+        i.material-icons.prefix account_circle
+        input(placeholder='username', type='text' name="Username" id="icon_prefix" class="validate")
+        label(for='icon_prefix')
     .row
       | #{success_msg}
       | #{error}
-      .input-field.col.s12
-        input#password.validate(type='password' placeholder="password" name="password")
+      .input-field.col.s6.offset-s3
+        i.material-icons.prefix lock
+        input(type='password' placeholder="Password" name="password" id="icon_prefix" class="validate")
         label(for='password')
-    button.btn.btn-primary(type='submit') Register
+    button.btn.btn-primary.move.btn-large(type='submit') Login
+      i.material-icons.right lock_open
       
                                         

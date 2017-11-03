@@ -1,6 +1,128 @@
+@import url("https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Montserrat|Raleway|Raleway+Dots");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+html {
+  background-color: #1E1D2D; }
+
+h1 {
+  font-family: "Raleway Dots", cursive;
+  text-align: center;
+  color: #FEE8F1; }
+
+h5 {
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  color: #FEE8F1; }
+
+h6 {
+  text-align: center;
+  color: #FEE8F1;
+  font-family: "Montserrat", sans-serif;
+  margin-top: 3em; }
+
 .sidebar-nav {
-  margin-top: 20px;
+  position: relative;
   padding: 0;
   list-style: none;
-}
-.container.fluid { width: 100%; max-width: 100%; } .container.fluid > .row { margin-left: 0; margin-right: 0; } 
+  height: 100vh;
+  list-style: none; }
+  .sidebar-nav ul {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-40%); }
+
+.sidebar-nav li {
+  list-style: none;
+  width: 100%;
+  text-align: center;
+  font-family: "Raleway", sans-serif; }
+
+.primary {
+  background: -moz-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* ff3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959));
+  /* safari4+,chrome */
+  background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* opera 11.10+ */
+  background: -ms-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* ie10+ */
+  background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
+  /* ie6-9 */ }
+
+.second {
+  background-color: #1E1D2D; }
+
+.container.fluid {
+  width: 100%;
+  max-width: 100%; }
+
+.container.fluid > .row {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0; }
+
+a {
+  color: #FEE8F1 !important; }
+
+nav {
+  box-shadow: none; }
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-family: "Raleway", sans-serif;
+  width: 100%; }
+
+.main-wrap {
+  height: 100vh;
+  margin: 0; }
+  .main-wrap form {
+    margin-top: 10em; }
+
+.move {
+  position: absolute;
+  left: 60%;
+  transform: translateX(-60%); }
+
+.material-icons {
+  line-height: normal; }
+
+i {
+  color: #FEE8F1 !important; }
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid #FE3959;
+  -webkit-box-shadow: 0 1px 0 0 #FE3959;
+  box-shadow: 0 1px 0 0 #FE3959; }
+
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #FE3959;
+  -webkit-box-shadow: 0 1px 0 0 #FE3959;
+  box-shadow: 0 1px 0 0 #FE3959; }
+
+input[type=text] {
+  color: #FEE8F1; }
+
+.btn {
+  background: -moz-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* ff3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959));
+  /* safari4+,chrome */
+  background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* opera 11.10+ */
+  background: -ms-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
+  /* ie10+ */
+  background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
+  /* ie6-9 */
+  color: #FEE8F1; }
+
+/*# sourceMappingURL=style.css.map */
