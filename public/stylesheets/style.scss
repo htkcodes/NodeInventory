@@ -69,6 +69,10 @@ li{
   }
 }
 }
+p{
+  text-align: center;
+  color: $text;
+}
 
 
 
@@ -142,7 +146,7 @@ border-bottom: 1px solid #FE3959;
 box-shadow: 0 1px 0 0 #FE3959;
 }
 
-input[type=text],input[type=password] {
+input[type=text],input[type=password],input[type=email]{
 color: $text;
 }
 .btn{ /* ff3.6+ */
@@ -187,6 +191,9 @@ i{
 
 /* Portrait and Landscape */
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .register{
+    font-size: 3.5em
+  }
   .top-left{
     margin-left: 1em;
     i{

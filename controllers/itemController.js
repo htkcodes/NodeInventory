@@ -12,7 +12,7 @@ exports.index = function(req, res) {
             item.count(callback);
         },
     }, function(err, results) {
-        res.render('index', { title: 'Local Library Home', error: err, data: results });
+        res.render('index', { title: 'CHIPS INVENTORY', error: err, data: results });
     });
 };
 
@@ -55,7 +55,7 @@ exports.item_create_post = function(req, res,next) {
        });
        
     if (errors) {
-        res.render('item_form', { title: 'Item Author', item: items, errors: errors});
+        res.render('item_form', { title: 'Item', item: items, errors: errors});
     return;
     } 
     else {
