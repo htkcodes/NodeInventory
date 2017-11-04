@@ -2,14 +2,11 @@ extends layout
 
 block content
   h1= title
-  
-  ul
-  each item in item_list
-    li 
-      - var result= item.quantityupdate
-    
+  div
+    each  item  in  item_list
+     div
       form(action="/inventory/item/delete", method="post")
-        |  #{item.name} #{item.quantity} #{item.price}
+        |  #{item.name} Quantity: #{item.quantity} #{item.price}
         input(type="hidden" name="itemname" value="#{item.name}")
         button.btn.btn-primary(type='submit') Submit
       form(action="/inventory/item/update", method="post")
@@ -23,10 +20,10 @@ block content
         input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
         input(type="hidden" name="price" value="#{item.price}" placeholder="price")
         input(type="hidden", name="_id" value="#{item._id}")
-        button.btn.btn-primary(type='submit') sold
-        
-  else
-    li There are no items
+        button.btn.btn-primary(type='submit') sold  
+      
+      
+      
   
 
      
