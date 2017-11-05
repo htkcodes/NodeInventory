@@ -28,4 +28,30 @@ $( document ).ready(function() {
         }
     })
 
+    $(".biglist > div").on("mouseover",function(){
+        var listorder= $(this).attr('class');
+        $("."+listorder).find("button").click(function(e){
+            e.preventDefault();
+            var name=$(this).parent().find("input").attr('class');
+            console.log(name);
+            var iName=$("."+name).val();
+            console.log(iName);
+     
+            var formDate={
+             '_id':iName
+         };
+         console.log(JSON.stringify(formDate));
+        $.ajax({
+         type:'POST',
+         url:'http://localhost:3000/inventory/item/delete',
+         data:JSON.stringify(formDate),
+         contentType:'application/json',
+         success:function(data){
+           // $(iName).parent().remove();
+            console.log('here');
+         }
+     })
+    })
+     })
+
 });

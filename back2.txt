@@ -1,0 +1,37 @@
+form(action="/inventory/item/update", method="post")
+        input(type="hidden" name="itemname" value="#{item.name}")
+        input(type="number" name="quantity" value="" placeholder="quantity")
+        input(type="number" name="price" value="" placeholder="price")
+        input(type="hidden", name="_id" value="#{item._id}")
+        button.btn.btn-primary(type='submit') update
+      form(action="/inventory/item/update",method="post")
+        input(type="hidden" name="itemname" value="#{item.name}")
+        input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
+        input(type="hidden" name="price" value="#{item.price}" placeholder="price")
+        input(type="hidden", name="_id" value="#{item._id}")
+        button.btn.btn-primary(type='submit') sold  
+
+
+
+        $(".biglist > div").on("mouseover",function(){
+   var listorder= $(this).attr('class');
+   $("."+listorder).find("button").click(function(e){
+       e.preventDefault();
+       var name=$(this).parent().find(".namedelete").val();
+
+       var formData={
+        'name':name
+    };
+    console.log(JSON.stringify(formData));
+   });
+   $.ajax({
+    type:'POST',
+    url:'http://localhost:3000/inventory/item/delete',
+    data:JSON.stringify(formData),
+    contentType:'application/json',
+    success:function(data){
+       
+       console.log('here');
+    }
+})
+})

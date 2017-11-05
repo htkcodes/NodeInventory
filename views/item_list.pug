@@ -2,25 +2,13 @@ extends layout
 
 block content
   h1= title
-  div
-    each  item  in  item_list
-     div
-      form(action="/inventory/item/delete", method="post")
-        |  #{item.name} Quantity: #{item.quantity} #{item.price}
-        input(type="hidden" name="itemname" value="#{item.name}")
-        button.btn.btn-primary(type='submit') Submit
-      form(action="/inventory/item/update", method="post")
-        input(type="hidden" name="itemname" value="#{item.name}")
-        input(type="number" name="quantity" value="" placeholder="quantity")
-        input(type="number" name="price" value="" placeholder="price")
-        input(type="hidden", name="_id" value="#{item._id}")
-        button.btn.btn-primary(type='submit') update
-      form(action="/inventory/item/update",method="post")
-        input(type="hidden" name="itemname" value="#{item.name}")
-        input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
-        input(type="hidden" name="price" value="#{item.price}" placeholder="price")
-        input(type="hidden", name="_id" value="#{item._id}")
-        button.btn.btn-primary(type='submit') sold  
+  div.biglist
+    each  item, i  in  item_list
+     div(id=itemlist class="item-" + (i+1))
+      |  #{item.name} Quantity: #{item.quantity} #{item.price}
+      input(type="hidden" class="namedelete-" + (i+1) value=item._id)
+      button.btn.btn-primary(type='submit' class="delete-" + (i+1)) Delete
+      
       
       
       

@@ -83,7 +83,7 @@ exports.item_delete_post = function(req, res) {
     return;
     }
     else{
-        item.findOneAndRemove(req.body.itemname,function deleteItem(err){
+        item.findByIdAndRemove(req.body._id,function deleteItem(err){
             if(err){return next(err);}
             res.redirect('/inventory/items');
         });
