@@ -60,8 +60,7 @@ module.exports.updateLogin=function(name,callback)
 			"login":moment()
 		}
 	},callback);
-	 var x=1;
-	 console.log(x);
+
 };
 module.exports.updateLogout=function(name,callback)
 {

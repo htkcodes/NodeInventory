@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var ItemSchema = Schema({
    name: {type: String, required: true, max: 100},
-    quantity: {type: Number, required: true, max: 100},
+    quantity: {type: Number, required: true, max: 1000},
    price:{type:Number},
    sold:{type:Number},
    total:{

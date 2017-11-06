@@ -114,6 +114,7 @@ router.post('/login',
 app.set('name',req.body.username);
 User.updateLogin(name,function(err,name){
     console.log('login logged');
+
 });
       res.redirect('/inventory');
     });

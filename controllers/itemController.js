@@ -27,15 +27,26 @@ exports.index = function(req, res) {
 };
 
 exports.item_list = function(req, res, next) {
-
-        
-      item.find({}, 'name quantity price sold total')
+  /*   if(moment().weekday()==1)
+    {
+        item.findOneAndUpdate({total:{$gt:0}},
+        {
+            $set:{total:0}
+        },
+        {
+            multi:true
+        }
+        )
+    } */
+    
+        item.find({}, 'name quantity price sold total')
         .exec(function (err, list_items) {
           if (err) { return next(err); }
           //Successful, so render
           console.log(list_items);
           res.render('item_list', { title: 'Item List', item_list: list_items });
         });
+     
         
     };
 
