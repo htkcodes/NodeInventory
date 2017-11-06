@@ -6,6 +6,8 @@
 $primary:#1C1C25;
 $text:#fff;
 $prim-darker:#FE4B68;
+$green:#00A676;
+$wild:#FB46A2;
 
 
 
@@ -23,6 +25,15 @@ $fred:'Fredoka One', cursive;
 
 html{
 background-color: $primary;
+}
+.green-text{
+  color: $green !important;
+}
+.prim-text{
+ color: $prim-darker !important;
+}
+.wild-text{
+  color: $wild !important;
 }
 
 .prim-light
@@ -168,7 +179,7 @@ border-bottom: 1px solid #FE3959;
 box-shadow: 0 1px 0 0 #FE3959;
 }
 
-input[type=text],input[type=password],input[type=email]{
+input[type=text],input[type=password],input[type=email],input[type=number]{
 color: $text;
 }
 .btn{ /* ff3.6+ */
@@ -178,6 +189,21 @@ background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* opera 11.10+
 background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%); /* w3c */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 ); /* ie6-9 */
 color: $text;
+}
+.btn-actions{
+  background: transparent !important;
+  box-shadow:none;
+  padding-right: 5px;
+  margin: 0;
+  &:hover{
+    box-shadow: none !important;
+  }
+}
+td,th{
+  padding: 35px 5px;
+}
+.no-mt{
+  margin-top: 0 !important;
 }
 
 .flash-error{
@@ -226,6 +252,36 @@ margin: 0 auto !important;
   font-family: $mons;
   font-weight: 300;
 }
+.modal-content{
+background: $primary;
+h4{
+  i{
+    font-size: 0.5em;
+  }
+  font-family: $mons;
+  text-transform: uppercase !important;
+  color: $text;
+}
+p{
+
+  padding: 2px;
+  i{
+    position: absolute;
+    top:22.3%;
+    left: 18%;
+  }
+}
+}
+.actions{
+  width: 0px;
+  display: inline-flex;
+  margin: 0;
+  padding-right: 4px;
+  position: absolute;
+  right: 36%;
+  top: 29.5%;
+transform: translate(36%,-29.5%);
+}
 
 
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
@@ -244,6 +300,14 @@ margin: 0 auto !important;
   i.left {
           margin-right: 0px;
       }
+}
+th{
+  font-family: $mons;
+  color: $text;
+}
+td{
+  font-family: $robo;
+  color: $text;
 }
 
 

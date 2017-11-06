@@ -7,6 +7,15 @@
 html {
   background-color: #1C1C25; }
 
+.green-text {
+  color: #00A676 !important; }
+
+.prim-text {
+  color: #FE4B68 !important; }
+
+.wild-text {
+  color: #FB46A2 !important; }
+
 .prim-light {
   background: #FE4B68; }
 
@@ -156,7 +165,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
   -webkit-box-shadow: 0 1px 0 0 #FE3959;
   box-shadow: 0 1px 0 0 #FE3959; }
 
-input[type=text], input[type=password], input[type=email] {
+input[type=text], input[type=password], input[type=email], input[type=number] {
   color: #fff; }
 
 .btn {
@@ -173,6 +182,20 @@ input[type=text], input[type=password], input[type=email] {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
   /* ie6-9 */
   color: #fff; }
+
+.btn-actions {
+  background: transparent !important;
+  box-shadow: none;
+  padding-right: 5px;
+  margin: 0; }
+  .btn-actions:hover {
+    box-shadow: none !important; }
+
+td, th {
+  padding: 35px 5px; }
+
+.no-mt {
+  margin-top: 0 !important; }
 
 .flash-error {
   color: #FF4073;
@@ -216,6 +239,31 @@ input[type=text], input[type=password], input[type=email] {
   font-family: "Montserrat", sans-serif;
   font-weight: 300; }
 
+.modal-content {
+  background: #1C1C25; }
+  .modal-content h4 {
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase !important;
+    color: #fff; }
+    .modal-content h4 i {
+      font-size: 0.5em; }
+  .modal-content p {
+    padding: 2px; }
+    .modal-content p i {
+      position: absolute;
+      top: 22.3%;
+      left: 18%; }
+
+.actions {
+  width: 0px;
+  display: inline-flex;
+  margin: 0;
+  padding-right: 4px;
+  position: absolute;
+  right: 36%;
+  top: 29.5%;
+  transform: translate(36%, -29.5%); }
+
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
 /* Portrait and Landscape */
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
@@ -229,5 +277,12 @@ input[type=text], input[type=password], input[type=email] {
 
   i.left {
     margin-right: 0px; } }
+th {
+  font-family: "Montserrat", sans-serif;
+  color: #fff; }
+
+td {
+  font-family: "Roboto", sans-serif;
+  color: #fff; }
 
 /*# sourceMappingURL=style.css.map */

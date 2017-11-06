@@ -2,6 +2,7 @@
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
+    $('.modal').modal();
     console.log( "ready!" );
     $(".button-collapse").sideNav();
 
@@ -27,10 +28,13 @@ $( document ).ready(function() {
             console.log('match')
         }
     })
+    
 
     $(".biglist > div").on("mouseover",function(){
+        console.log('mouseover');
         var listorder= $(this).attr('class');
-        $("."+listorder).find("button").click(function(e){
+        $("."+listorder).find("button.delete").click(function(e){
+            console.log('reached')
             e.preventDefault();
             var name=$(this).parent().find("input").attr('class');
             console.log(name);
