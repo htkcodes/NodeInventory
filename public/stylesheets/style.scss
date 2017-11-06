@@ -1,50 +1,51 @@
-/* Put your CSS code in the left column, instead of example, to put or remove unnecessary prefixes. */
-
-.example {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-transition: all .5s;
-  -o-transition: all .5s;
-  transition: all .5s;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background: -webkit-gradient(linear, left top, left bottom, from(white), to(black));
-  background: -webkit-linear-gradient(top, white, black);
-  background: -o-linear-gradient(top, white, black);
-  background: linear-gradient(to bottom, white, black);
-}@import url('https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Montserrat|Raleway|Raleway+Dots');
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One|Lato|Montserrat:300,400|Roboto:400,500');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+
 //Colors
-$primary:#1E1D2D;
-$text:#FEE8F1;
+$primary:#1C1C25;
+$text:#fff;
+$prim-darker:#FE4B68;
 
 
 
 //Fonts
 
+$robo:'Roboto',sans-serif;
 $mons:'Montserrat', sans-serif;
-$rale:'Raleway', sans-serif;
-$bar:'Libre Barcode 128 Text', cursive;
-$rdots:'Raleway Dots', cursive;
+$lato:'Lato',sans-serif;
+$fred:'Fredoka One', cursive;
 
+*{
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+}
 
 html{
 background-color: $primary;
 }
 
+.prim-light
+{
+  background:$prim-darker;
+}
 body{
 overflow-x: hidden !important;
 }
 h1{
-font-family: $rdots;
+font-family: $mons;
 text-align: center;
+font-weight: 400;
 color: $text;
 margin-left: 0.4em;
-
+}
+h3{
+  font-family: $mons;
+  text-align: center;
+  font-weight: 400;
+  color: $text;
+  margin-left: 0.4em;
+  margin-bottom: 2em;
 }
 h5{
 font-family: $mons;
@@ -72,6 +73,15 @@ li{
 p{
   text-align: center;
   color: $text;
+  font-family: $robo;
+}
+.num{
+  font-size: 5em;
+  font-family: $mons;
+}
+.money{
+ text-align: left;
+ position: absolute;
 }
 
 
@@ -82,6 +92,15 @@ background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* safari5
 background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%); /* opera 11.10+ */ /* ie10+ */
 background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%); /* w3c */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 ); /* ie6-9 */
+}
+.primary-reverse{
+  background: -moz-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%); /* ff3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #FB46A2), color-stop(87%, #FE4B68), color-stop(100%, #FE4B68)); /* safari4+,chrome */
+  background: -webkit-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%); /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%); /* opera 11.10+ */
+  background: -ms-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%); /* ie10+ */
+  background: linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%); /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE4B68', endColorstr='#FB46A2',GradientType=1 ); /* ie6-9 */
 }
 .second{
 background-color: $primary;
@@ -99,7 +118,7 @@ position: absolute;
 bottom:0;
 left:0;
 text-align: center;
-font-family: $rale;
+font-family: $robo;
 width: 100%;
 line-height: 25px;
 }
@@ -109,6 +128,9 @@ margin: 0;
 form{
 margin-top:3em;
 }
+}
+.card{
+  border-radius: 25px !important;
 }
 
 .list-wrap{
@@ -169,7 +191,7 @@ height: 20px;
 i{
   margin-top: -3px;
 }
-font-family: $rale;
+font-family: $robo;
 white-space: normal;
 min-width: 218px;
 }
@@ -186,6 +208,25 @@ i{
   font-size: 3em;
 }
 }
+.overview{
+  margin-top: 3%;
+li{
+margin: 0 auto !important;
+}
+}
+.card-title{
+  font-family: $mons;
+  text-transform: uppercase;
+  font-weight: 300 !important;
+  letter-spacing: 1.3px;
+  font-size: 1.1em !important;
+}
+.item{
+  font-size: 0.2em;
+  font-family: $mons;
+  font-weight: 300;
+}
+
 
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
 

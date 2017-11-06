@@ -1,42 +1,41 @@
-/* Put your CSS code in the left column, instead of example, to put or remove unnecessary prefixes. */
-@import url("https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Montserrat|Raleway|Raleway+Dots");
+@import url("https://fonts.googleapis.com/css?family=Fredoka+One|Lato|Montserrat:300,400|Roboto:400,500");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-.example {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-transition: all .5s;
-  -o-transition: all .5s;
-  transition: all .5s;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background: -webkit-gradient(linear, left top, left bottom, from(white), to(black));
-  background: -webkit-linear-gradient(top, white, black);
-  background: -o-linear-gradient(top, white, black);
-  background: linear-gradient(to bottom, white, black); }
+* {
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased; }
 
 html {
-  background-color: #1E1D2D; }
+  background-color: #1C1C25; }
+
+.prim-light {
+  background: #FE4B68; }
 
 body {
   overflow-x: hidden !important; }
 
 h1 {
-  font-family: "Raleway Dots", cursive;
+  font-family: "Montserrat", sans-serif;
   text-align: center;
-  color: #FEE8F1;
+  font-weight: 400;
+  color: #fff;
   margin-left: 0.4em; }
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  font-weight: 400;
+  color: #fff;
+  margin-left: 0.4em;
+  margin-bottom: 2em; }
 
 h5 {
   font-family: "Montserrat", sans-serif;
   text-align: center;
-  color: #FEE8F1; }
+  color: #fff; }
 
 h6 {
   text-align: center;
-  color: #FEE8F1;
+  color: #fff;
   font-family: "Montserrat", sans-serif;
   margin-top: 3em; }
 
@@ -49,7 +48,16 @@ h6 {
 
 p {
   text-align: center;
-  color: #FEE8F1; }
+  color: #fff;
+  font-family: "Roboto", sans-serif; }
+
+.num {
+  font-size: 5em;
+  font-family: "Montserrat", sans-serif; }
+
+.money {
+  text-align: left;
+  position: absolute; }
 
 .primary {
   /* ff3.6+ */
@@ -65,8 +73,24 @@ p {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
   /* ie6-9 */ }
 
+.primary-reverse {
+  background: -moz-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
+  /* ff3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #FB46A2), color-stop(87%, #FE4B68), color-stop(100%, #FE4B68));
+  /* safari4+,chrome */
+  background: -webkit-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
+  /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
+  /* opera 11.10+ */
+  background: -ms-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
+  /* ie10+ */
+  background: linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE4B68', endColorstr='#FB46A2',GradientType=1 );
+  /* ie6-9 */ }
+
 .second {
-  background-color: #1E1D2D; }
+  background-color: #1C1C25; }
 
 .container.fluid {
   width: 100%;
@@ -78,7 +102,7 @@ p {
   margin-bottom: 0; }
 
 a {
-  color: #FEE8F1 !important; }
+  color: #fff !important; }
 
 nav {
   -webkit-box-shadow: none;
@@ -89,7 +113,7 @@ nav {
   bottom: 0;
   left: 0;
   text-align: center;
-  font-family: "Raleway", sans-serif;
+  font-family: "Roboto", sans-serif;
   width: 100%;
   line-height: 25px; }
 
@@ -98,6 +122,9 @@ nav {
   margin: 0; }
   .main-wrap form {
     margin-top: 3em; }
+
+.card {
+  border-radius: 25px !important; }
 
 .list-wrap {
   position: absolute;
@@ -117,7 +144,7 @@ nav {
   line-height: normal; }
 
 i {
-  color: #FEE8F1 !important; }
+  color: #fff !important; }
 
 input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]) {
   border-bottom: 1px solid #38FAA6;
@@ -130,7 +157,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
   box-shadow: 0 1px 0 0 #FE3959; }
 
 input[type=text], input[type=password], input[type=email] {
-  color: #FEE8F1; }
+  color: #fff; }
 
 .btn {
   /* ff3.6+ */
@@ -145,7 +172,7 @@ input[type=text], input[type=password], input[type=email] {
   /* w3c */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
   /* ie6-9 */
-  color: #FEE8F1; }
+  color: #fff; }
 
 .flash-error {
   color: #FF4073;
@@ -155,7 +182,7 @@ input[type=text], input[type=password], input[type=email] {
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   height: 20px;
-  font-family: "Raleway", sans-serif;
+  font-family: "Roboto", sans-serif;
   white-space: normal;
   min-width: 218px; }
   .flash-error i {
@@ -171,6 +198,23 @@ input[type=text], input[type=password], input[type=email] {
   margin: 3em; }
   .top-left i {
     font-size: 3em; }
+
+.overview {
+  margin-top: 3%; }
+  .overview li {
+    margin: 0 auto !important; }
+
+.card-title {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  font-weight: 300 !important;
+  letter-spacing: 1.3px;
+  font-size: 1.1em !important; }
+
+.item {
+  font-size: 0.2em;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300; }
 
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
 /* Portrait and Landscape */

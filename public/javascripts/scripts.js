@@ -43,11 +43,11 @@ $( document ).ready(function() {
          console.log(JSON.stringify(formDate));
         $.ajax({
          type:'POST',
-         url:'http://localhost:3000/inventory/item/delete',
+         url:'/inventory/item/delete',
          data:JSON.stringify(formDate),
          contentType:'application/json',
          success:function(data){
-           // $(iName).parent().remove();
+         $("."+listorder).remove();
             console.log('here');
          }
      })

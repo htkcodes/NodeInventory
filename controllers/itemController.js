@@ -8,20 +8,32 @@ var async = require('async');
 exports.index = function(req, res) {   
     
     async.parallel({
+        item_total:function(callback){
+            item.aggregate({
+                $group:{
+                    _id:null,sum:{
+                        $sum:"$total"
+                    }
+                }
+                },callback)
+        },
         item_count: function(callback) {
             item.count(callback);
-        },
+        }
     }, function(err, results) {
+       // console.log(results.item_total[0].sum)
         res.render('index', { title: 'CHIPS INVENTORY', error: err, data: results });
     });
 };
 
 exports.item_list = function(req, res, next) {
-    
+
+        
       item.find({}, 'name quantity price')
         .exec(function (err, list_items) {
           if (err) { return next(err); }
           //Successful, so render
+          console.log(list_items);
           res.render('item_list', { title: 'Item List', item_list: list_items });
         });
         
@@ -52,6 +64,8 @@ exports.item_create_post = function(req, res,next) {
       { name: req.body.name, 
         quantity: req.body.quantity, 
         price: req.body.price,
+        sold:0,
+        total:100
        });
        
     if (errors) {
@@ -74,7 +88,7 @@ exports.item_delete_get=function(req,res,next){
 };
 // Handle item delete on POST
 exports.item_delete_post = function(req, res) {
-    req.checkBody('itemname', 'Item name must exist').notEmpty(); 
+    req.checkBody('_id', 'Item name must exist').notEmpty(); 
 
     var errors = req.validationErrors();
     
@@ -115,7 +129,9 @@ exports.item_update_post = function(req, res,next) {
         {  name: req.body.name, 
           quantity: req.body.quantity, 
           price: req.body.price,
-          _id:req.body._id
+          _id:req.body._id,
+          sold:req.body.sold,
+          total:req.body.total
          });
     
     var errors = req.validationErrors();

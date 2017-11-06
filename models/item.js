@@ -6,7 +6,11 @@ var ItemSchema = Schema(
   {
    name: {type: String, required: true, max: 100},
     quantity: {type: Number, required: true, max: 100},
-   price:{type:Number}
+   price:{type:Number},
+   sold:{type:Number},
+   total:{
+     type:Number
+   }
   }
 );
 

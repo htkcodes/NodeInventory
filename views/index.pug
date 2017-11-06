@@ -2,15 +2,49 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #[em CHIPS INVENTORY], you're logged in as #{user.name}.
+  p Welcome #{user.name}.
 
-  h1 Dynamic content
+  h3 Records Overview
 
   if error
     p Error getting dynamic content.
   else
     p The Inventory has the following record counts:
 
-    ul
-        li #[strong Items:] !{data.item_count}
-    
+    ul.overview
+      .row
+        .col.s3.offset-s3
+          .card.primary-reverse
+            .card-content.white-text
+              span.card-title.left-align Inventory Item Count
+              li
+                p.money
+                  i.material-icons shopping_cart  
+                p.num.count
+                  |#{data.item_count}
+        .col.s3
+          .card.primary-reverse
+            .card-content.white-text
+              span.card-title.left-align Weekly Sales Total
+              li
+                p.money
+                  i.material-icons attach_money
+                p.num.count
+                  |#{data.item_total[0].sum}
+  script.
+    $(function(){
+      $('.count').each(function () {
+      $(this).prop('Counter',0).animate({
+        Counter: $(this).text()
+      }, {
+        duration: 4000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+      });
+      });
+      })
+
+      
+          
