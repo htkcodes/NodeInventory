@@ -30,9 +30,11 @@ $( document ).ready(function() {
     })
     
 
-    $(".biglist > div").on("mouseover",function(){
+    $("tbody > tr").on("mouseover",function(){
         console.log('mouseover');
+
         var listorder= $(this).attr('class');
+        console.log(listorder)
         $("."+listorder).find("button.delete").click(function(e){
             console.log('reached')
             e.preventDefault();
@@ -57,5 +59,8 @@ $( document ).ready(function() {
      })
     })
      })
+
+
+     console.log($(".sold").text().trim());
 
 });

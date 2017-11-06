@@ -3,50 +3,58 @@ extends layout
 block content
   h1= title
   div.biglist
-  .row
-    .col.s7.offset-s2
-      table.responsive-table.centered
-        thead
-          tr
-            th  Name
-            th  Quantity
-            th  Price
-            th  Total Sold
-            th  Actions
-        tbody
-            each  item, i  in  item_list
-              tr
-                td  #{item.name}
-                td  #{item.quantity}
-                td  #{item.quantity}
-                td  #{item.price}
-                td
-                  div(class="actions item-" + (i+1))
-                    input(type="hidden" class="namedelete-" + (i+1) value=item._id)
-                    button.delete.btn.btn-primary.btn-actions(type='submit' class="delete-" + (i+1))
-                      i.material-icons.wild-text  delete
-                    button(href="#modal1" class="modal-trigger btn btn-primary btn-actions") 
-                      i.material-icons.prim-text  update
-                    div(id="modal1" class="modal")
-                      .modal-content
-                        h4
-                          | Update Item
-                        p
-                          i.material-icons info
-                          | You do not have to fill in the price if it has not changed.
-                        form(action="/inventory/item/update", method="post")
-                          input(type="hidden" name="itemname" value="#{item.name}")
-                          input(type="number" name="quantity" value="" placeholder="quantity")
-                          input(type="number" name="price" value=item.price placeholder="price")
-                          input(type="hidden", name="_id" value="#{item._id}")
-                          button.update.btn.btn-primary(type='submit') update
-                    form(action="/inventory/item/update",method="post" class="no-mt")
-                      input(type="hidden" name="itemname" value="#{item.name}")
-                      input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
-                      input(type="hidden" name="price" value="#{item.price}" placeholder="price")
-                      input(type="hidden", name="_id" value="#{item._id}")
-                      button.btn.btn-primary.btn-actions(type='submit')
-                        i.material-icons.green-text  shopping_basket 
+    .row
+      .col.s7.offset-s2
+        table.responsive-table.centered
+          thead
+            tr
+              th  Name
+              th  Quantity
+              th  Price
+              th  Amount Sold
+              th  Total Sold
+              th  Delete
+              th  Update
+              th  Sell
+          tbody
+              each  item, i  in  item_list
+                tr(class="tabler-" + (i+1))
+                  td  #{item.name}
+                  td  #{item.quantity}
+                  td  $#{item.price}
+                  td.sold  #{item.soldupdate-1}
+                  td  $#{item.totalupdate-item.price}
+                  td
+                    div(class="item-" + (i+1))
+                      input(type="hidden" class="namedelete-" + (i+1) value=item._id)
+                      button.delete.btn.btn-primary.btn-actions(type='submit' class="delete-" + (i+1))
+                        i.material-icons.wild-text  delete
+                  td
+                      button(href="#modal1-" +(i+1) class="modal-trigger btn btn-primary btn-actions") 
+                        i.material-icons.prim-text  update
+                      div(id="modal1-" +(i+1) class="modal")
+                        .modal-content
+                          h4
+                            | Update Item
+                          p
+                            i.material-icons info
+                            | You do not have to fill in the price if it has not changed.
+                          form(action="/inventory/item/update", method="post")
+                            input(type="hidden" name="itemname" value="#{item.name}")
+                            input(type="number" name="quantity" value="" placeholder="quantity")
+                            input(type="number" name="price" value=item.price placeholder="price")
+                            input(type="hidden", name="_id" value=item._id)
+                            button.update.btn.btn-primary(type='submit') update
+                  td
+                      form(action="/inventory/item/update",method="post" class="no-mt")
+                        input(type="hidden" name="itemname" value="#{item.name}")
+                        input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
+                        input(type="hidden" name="price" value=item.price placeholder="price")
+                        input(type="hidden", name="_id" value=item._id)
+                        input(type="hidden",name="sold" value=item.soldupdate)
+                        input(type="hidden" name="total" value=item.totalupdate)
+                        button.btn.btn-primary.btn-actions(type='submit')
+                          i.material-icons.green-text  shopping_basket 
 
 
 

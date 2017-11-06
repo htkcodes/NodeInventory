@@ -30,7 +30,10 @@ block content
                 p.money
                   i.material-icons attach_money
                 p.num.count
-                  |#{data.item_total[0].sum}
+                  if  data.item_total[0]  !=  0
+                    |#{data.item_total[0].sum}
+                  else
+                    | 0
   script.
     $(function(){
       $('.count').each(function () {

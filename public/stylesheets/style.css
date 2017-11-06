@@ -270,13 +270,36 @@ td, th {
   .register {
     font-size: 3.5em; }
 
+  h1 {
+    font-size: 3.5em;
+    margin-top: 0.7em; }
+
   .top-left {
     margin-left: 1em; }
     .top-left i {
       font-size: 2.8em; }
 
   i.left {
-    margin-right: 0px; } }
+    margin-right: 0px; }
+
+  .bottom {
+    bottom: -50px; } }
+/* ----------- Non-Retina Screens ----------- */
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
+  .actions {
+    top: 26.5%;
+    right: 36.9%;
+    transform: translate(-26.5%, -36.9%); } }
+@media screen and (min-device-width: 769px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+  .actions {
+    top: 35.3%;
+    right: 40.9%;
+    transform: translate(-35.3%, -40.9%); } }
+@media screen and (min-device-width: 320px) and (max-device-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
+  .actions {
+    top: 91.3%;
+    left: 2%;
+    transform: translate(-91.3%, -2%); } }
 th {
   font-family: "Montserrat", sans-serif;
   color: #fff; }

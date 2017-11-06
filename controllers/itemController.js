@@ -29,7 +29,7 @@ exports.index = function(req, res) {
 exports.item_list = function(req, res, next) {
 
         
-      item.find({}, 'name quantity price')
+      item.find({}, 'name quantity price sold total')
         .exec(function (err, list_items) {
           if (err) { return next(err); }
           //Successful, so render
@@ -41,7 +41,7 @@ exports.item_list = function(req, res, next) {
 
 // Display item create form on GET
 exports.item_create_get = function(req, res) {
-    res.render('item_form', { title: 'item Genre' });
+    res.render('item_form', { title: 'Item Add' });
 };
 // Handle item create on POST
 exports.item_create_post = function(req, res,next) {
@@ -65,7 +65,7 @@ exports.item_create_post = function(req, res,next) {
         quantity: req.body.quantity, 
         price: req.body.price,
         sold:0,
-        total:100
+        total:0
        });
        
     if (errors) {
@@ -142,7 +142,7 @@ exports.item_update_post = function(req, res,next) {
     return;
     }
     else{
-        item.findOneAndUpdate(req.body.itemname,items,function updateItem(err){
+        item.findByIdAndUpdate(req.body._id,items,function updateItem(err){
             if(err){return next(err);}
             res.redirect('/inventory/items');
         });

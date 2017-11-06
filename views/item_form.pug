@@ -2,18 +2,23 @@ extends layout
 
 block content
   h1=title
-
-  form(method='POST' action='')
-    div.form-group
-      label(for='name') Item Name:
-      input#name.form-control(type='text', placeholder='Iten Name' name='name' required='true',value=(undefined===item ? '' : item.name))
-    div.form-group
-      label(for='quantity') Quantity:
-      input#quantity.form-control(type='number', placeholder='Quantity' name='quantity' required='true',value=(undefined===item ? '' : item.quantity))
-    div.form-group
-      label(for='price') Price
-      input#price.form-control(type='number', name='price',required='true',value=(undefined===item ? '' : item.price) )
-    button.btn.btn-primary(type='submit') Submit
+  .row
+    form(method='POST' action='').col.s12
+      .row
+        .input-field.col.s8.l4.offset-s2.offset-l4
+          i.material-icons.prefix local_offer
+          input(type='text', placeholder='Item Name' id="icon_prefx" class="validate" name='name' required='true',value=(undefined===item ? '' : item.name))
+          label(for='icon_prefix' data-error="You actually need to type in an item 😒")
+        .input-field.col.s8.l4.offset-s2.offset-l4
+          i.material-icons.prefix local_grocery_store
+          input(type='text', placeholder='Quantity' id="icon_prefx" class="validate" name='quantity' required='true',value=(undefined===item ? '' : item.quantity))
+          label(for='icon_prefix' data-error="You actually need to type in the amount of items 😒")
+      .row
+        .input-field.col.s8.l4.offset-s2.offset-l4
+          i.material-icons.prefix attach_money
+          input(type='text', placeholder='Price' id="icon_prefx" class="validate" name='price' required='true',value=(undefined===item ? '' : item.price))
+          label(for='icon_prefix' data-error="You actually need to type in the price 😒")
+      button.btn.btn-primary.btn-large.move(type='submit') Submit
   if errors 
     ul
       for error in errors
