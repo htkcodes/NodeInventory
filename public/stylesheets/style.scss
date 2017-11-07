@@ -303,7 +303,13 @@ p{
   top: 29.5%;
 transform: translate(36%,-29.5%);
 }
-
+.ddisabled{
+  background-color: none !important;
+  pointer-events: none;
+ i{
+  color: gray !important;
+ }
+}
 
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
 
