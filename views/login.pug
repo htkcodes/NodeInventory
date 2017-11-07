@@ -10,7 +10,7 @@ block content
   p.flash-error.animated.flash
     | #{error}
     i.material-icons.left.hide error
-  p.flash-success
+  p.flash-success.animated.flash
     | #{success_msg}
   form(method="post" action="/users/login" ).col.s12
     .row
@@ -24,5 +24,6 @@ block content
         label(for='password' data-error="You actually need to type in a password 😒")
     button.btn.btn-primary.move.btn-large(type='submit') Login
       i.material-icons.right lock_open
-      
+    p.move-down 
+      a(href="/inventory/users/register") Not Registered? Register Here     
                                         

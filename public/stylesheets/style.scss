@@ -159,6 +159,12 @@ left: 50%;
     -ms-transform: translateX(-50%);
         transform: translateX(-50%);
 }
+.move-down{
+  position: absolute;
+  left: 50%;
+  bottom: 25%;
+          transform: translate(-50%,-25%);
+}
 .material-icons{
 line-height: normal;
 }
@@ -220,6 +226,21 @@ i{
 font-family: $robo;
 white-space: normal;
 min-width: 218px;
+}
+.flash-success{
+  color:$green;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+  height: 20px;
+  i{
+    margin-top: -3px;
+  }
+  font-family: $robo;
+  white-space: normal;
+  min-width: 218px;
 }
 
 .hide{
