@@ -31,6 +31,8 @@ router.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.password2;
+    var secret =req.body.secret;
+    var secretconfirm="chipsexec";
 
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
@@ -39,6 +41,7 @@ router.post('/register', function (req, res) {
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
+    req.checkBody('secret','The secret is incorrect').equals(secretconfirm);
 
 		var errors = req.validationErrors();
 		

@@ -379,5 +379,21 @@ td{
   font-family: $robo;
   color: $text;
 }
+.register-btn{
+  margin-top: 4em;
+  margin-bottom: 3em;
+}
+.register-errors{
+ @extend .move;
+ margin-top: 3.8em;
+ .material-icons{
+   vertical-align: middle;
+   font-size: 23px;
+   margin-right: 8px;
+ }
+.li-errors{
+  color: #FF4073;
+}
+}
 
 

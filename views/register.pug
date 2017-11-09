@@ -4,6 +4,12 @@ block content
 
  .row
   h1.register REGISTER
+  if errors 
+        ul.register-errors
+            for error in errors
+                li.li-errors.animated.flash
+                  i.material-icons error 
+                  != error.msg
   h6 Fill out the fields down below
   form(method="POST" id="reg" action="/users/register").col.s12
     .row
@@ -29,10 +35,12 @@ block content
         i.material-icons.prefix lock_outline
         input(type='password' class="validate pass2" name='password2' placeholder="Confirm Password" id="icon_prefix")
         label(for='password2' class="hide") 
-    button.btn.btn-primary.move.btn-large.checkpass(type='submit') Register
+      .input-field.col.s8.l4.offset-s2.offset-l4
+        i.material-icons.prefix security
+        input(type='password' class="secret" name='secret' placeholder="Secret Key" id="icon_prefix")
+        label(for='secret' class="hide") 
+        
+    button.btn.btn-primary.move.register-btn.btn-large.checkpass(type='submit') Register
    
 
-    if errors 
-        ul
-            for error in errors
-                li!= error.msg
+    

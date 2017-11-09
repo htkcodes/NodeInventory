@@ -31,21 +31,27 @@ $( document ).ready(function() {
     
 
     $("tbody > tr").on("mouseover",function(){
-        console.log('mouseover');
-
         var listorder= $(this).attr('class');
         console.log(listorder)
+        $(this).unbind('mouseover');
         $("."+listorder).find("button.delete").click(function(e){
+           
+            var ask=confirm('Are you sure you want to delete?');
+            if(ask)
+            {
+
+            
             console.log('reached')
             e.preventDefault();
             var name=$(this).parent().find("input").attr('class');
             console.log(name);
             var iName=$("."+name).val();
             console.log(iName);
+           
+             var formDate={
+                '_id':iName
+            };
      
-            var formDate={
-             '_id':iName
-         };
          console.log(JSON.stringify(formDate));
         $.ajax({
          type:'POST',
@@ -53,12 +59,19 @@ $( document ).ready(function() {
          data:JSON.stringify(formDate),
          contentType:'application/json',
          success:function(data){
+        Materialize.toast('Deletion Successful',3000);
          $("."+listorder).remove();
-            console.log('here');
          }
      })
-    })
-     })
+    }
+    else if(!ask){
+        Materialize.toast('Deletion Cancelled',3000);
+        location.reload(false);
+    }
+    });
+
+     });
+     
 
 
      console.log($(".sold").text().trim());
