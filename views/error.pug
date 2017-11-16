@@ -1,6 +1,15 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .container
+    .row
+      .col.s12
+        .message-wrapper
+          h1.center-align.msghead
+            | 💩 we've hit a wall 😟
+          h2.center-align.white-text= error.status
+          h3.center-align= message
+          br
+          button.btn.btn-primary.move.btn-large
+            a(href="/users/") Return to safety
+          

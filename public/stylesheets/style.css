@@ -124,7 +124,7 @@ nav {
   text-align: center;
   font-family: "Roboto", sans-serif;
   width: 100%;
-  line-height: 25px; }
+  line-height: 0px; }
 
 .main-wrap {
   height: 100vh;
@@ -309,7 +309,7 @@ td, th {
     margin-right: 0px; }
 
   .bottom {
-    bottom: -50px; } }
+    visibility: hidden; } }
 /* ----------- Non-Retina Screens ----------- */
 @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
   .actions {
@@ -320,12 +320,29 @@ td, th {
   .actions {
     top: 35.3%;
     right: 40.9%;
-    transform: translate(-35.3%, -40.9%); } }
+    transform: translate(-35.3%, -40.9%); }
+
+  .bottom {
+    visibility: hidden; } }
 @media screen and (min-device-width: 320px) and (max-device-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
   .actions {
     top: 91.3%;
     left: 2%;
-    transform: translate(-91.3%, -2%); } }
+    transform: translate(-91.3%, -2%); }
+
+  .bottom {
+    visibility: hidden; } }
+.message-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+
+.msghead {
+  color: #fff;
+  text-transform: uppercase;
+  width: 60vw; }
+
 th {
   font-family: "Montserrat", sans-serif;
   color: #fff; }
