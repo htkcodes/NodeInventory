@@ -37,12 +37,12 @@ block content
                           h4
                             | Update Item
                           p
-                            i.material-icons info
+                            //i.material-icons info
                             | You do not have to fill in the price if it has not changed.
                           form(action="/inventory/item/update", method="post")
                             input(type="hidden" name="itemname" value="#{item.name}")
-                            input(type="number" name="quantity" value="" placeholder="quantity")
-                            input(type="number" name="price" value=item.price placeholder="price")
+                            input(type="number" name="quantity" value="" placeholder="quantity" required)
+                            input(type="number" name="price" value=item.price placeholder="price" required)
                             input(type="hidden", name="_id" value=item._id)
                             button.update.btn.btn-primary(type='submit') update
                   td
