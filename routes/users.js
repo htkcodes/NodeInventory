@@ -126,20 +126,22 @@ User.updateLogin(name,function(err,name){
     console.log('login logged');
 
 });
-let id='5a0f2b9fa84d1548dcfd8349';
+let id=req.body.username;
 let stype;
 User.getUserType(id,function(err,name){
   app.set('sType',name.userType);
   stype=app.get('sType');
   console.log(stype+ ' USER TYPE CONSOLE' + stype);
-  if(stype=='admin')
+  if(stype=='user')
   {
       res.redirect('/users/consumer');
   }
-  else{
-      res.send('noo');
+  else if(stype=='admin'){
+      res.send('admin');
   }
   });
+
+//TODO:ADD SHOW SECRET KEY UPON ADMIN SELECTION
   //var sType=app.get('sType');
    
     });
