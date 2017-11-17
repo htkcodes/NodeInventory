@@ -55,7 +55,7 @@ module.exports.getUserById = function(id, callback){
 	User.findById(id, callback);
 };
 module.exports.getUserType= function(id, callback){
-	User.findById(id,'email', callback);
+	User.findById(id,'userType', callback);
 };
 module.exports.updateLogin=function(name,callback)
 {

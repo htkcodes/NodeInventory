@@ -23,6 +23,9 @@ router.get('/login', function (req, res) {
   res.render('login', { title: 'Login'});
   req.flash('success_msg',5)
 });
+router.get('/consumer',function(req,res){
+    res.send('lol here');
+})
 
 // Register User
 router.post('/register', function (req, res) {
@@ -34,16 +37,17 @@ router.post('/register', function (req, res) {
     var secret =req.body.secret;
     var secretconfirm="chipsexec";
     var usertype=req.body.usertype;
+    console.log(usertype);
 
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('usertype','Type is required').notEmpty();
+    //req.checkBody('usertype','Type is required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-    req.checkBody('secret','The secret is incorrect').equals(secretconfirm);
+    //req.checkBody('secret','The secret is incorrect').equals(secretconfirm);
 
 		var errors = req.validationErrors();
 		
@@ -122,18 +126,22 @@ User.updateLogin(name,function(err,name){
     console.log('login logged');
 
 });
-      if(15>0)
-      {
-          let id='59facad437510a44205c733a';
-          User.getUserType(id,function(err,name){
-            console.log(name);
-          });
-          res.send('done');
-      }
-      else
-      {
-          res.send('not finished');
-      }
+let id='5a0f2b9fa84d1548dcfd8349';
+let stype;
+User.getUserType(id,function(err,name){
+  app.set('sType',name.userType);
+  stype=app.get('sType');
+  console.log(stype+ ' USER TYPE CONSOLE' + stype);
+  if(stype=='admin')
+  {
+      res.redirect('/users/consumer');
+  }
+  else{
+      res.send('noo');
+  }
+  });
+  //var sType=app.get('sType');
+   
     });
 
 router.get('/logout', function (req, res) {

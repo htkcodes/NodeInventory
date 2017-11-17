@@ -2,6 +2,7 @@
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
+    $('select').material_select();
     $('.modal').modal();
     console.log( "ready!" );
     $(".button-collapse").sideNav();
@@ -39,8 +40,6 @@ $( document ).ready(function() {
             var ask=confirm('Are you sure you want to delete?');
             if(ask)
             {
-
-            
             console.log('reached')
             e.preventDefault();
             var name=$(this).parent().find("input").attr('class');

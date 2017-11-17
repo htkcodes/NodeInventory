@@ -35,15 +35,17 @@ block content
         i.material-icons.prefix lock_outline
         input(type='password' class="validate pass2" name='password2' placeholder="Confirm Password" id="icon_prefix")
         label(for='password2' class="hide") 
-      .input-field.col.s8.l4.offset-s2.offset-l4
+      //.input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix security
         input(type='password' class="secret" name='secret' placeholder="Secret Key" id="icon_prefix")
         label(for='secret' class="hide")
-     .row
+    .row
       .input-field.col.s8.l4.offset-s2.offset-l4
-        i.material-icons.prefix security
-        input(type='text' class="validate" name='usertype' placeholder="usertype" id="icon_prefix")
-        label(for='icon_prefix' data-error="Enter the correct format THANKS! 🤗")
+        select(name="usertype")
+          option(value='', disabled='', selected='') Select A Type
+          option(value='user') User
+          option(value='admin') Admit
+        label User Type
          
         
     button.btn.btn-primary.move.register-btn.btn-large.checkpass(type='submit') Register
