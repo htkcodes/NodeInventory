@@ -26,7 +26,10 @@ var UserSchema = mongoose.Schema({
     },
     logout:{
         type:Date
-    }
+	},
+	userType:{
+		type:String
+	}
 });
 
 
@@ -50,6 +53,9 @@ module.exports.getUserByUsername = function(username, callback){
 
 module.exports.getUserById = function(id, callback){
 	User.findById(id, callback);
+};
+module.exports.getUserType= function(id, callback){
+	User.findById(id,'email', callback);
 };
 module.exports.updateLogin=function(name,callback)
 {
