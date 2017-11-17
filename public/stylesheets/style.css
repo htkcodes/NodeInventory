@@ -309,7 +309,14 @@ td, th {
     margin-right: 0px; }
 
   .bottom {
-    visibility: hidden; } }
+    visibility: hidden; }
+
+  .move-down {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translate(-50%, -10%);
+    white-space: nowrap; } }
 /* ----------- Non-Retina Screens ----------- */
 @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
   .actions {

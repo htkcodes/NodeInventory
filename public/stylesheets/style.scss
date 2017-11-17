@@ -342,6 +342,13 @@ transform: translate(36%,-29.5%);
     .bottom{
       visibility: hidden;
     }
+    .move-down{
+      position: absolute;
+      left: 50%;
+      bottom: 10%;
+              transform: translate(-50%,-10%);
+      white-space: nowrap
+    }
 }
 /* ----------- Non-Retina Screens ----------- */
 @media screen 
