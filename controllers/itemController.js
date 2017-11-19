@@ -1,12 +1,15 @@
-var item = require('../models/item');
-var moment=require('moment');
+/*jshint esversion: 6 */ 
+/* jshint node: true */
+'use strict';
+let item = require('../models/item');
+let moment=require('moment');
+let async = require('async');
 
-// Display list of all items
+// Display list of all item + total
 
-var async = require('async');
 
 exports.index = function(req, res) {   
-    
+    'use strict';
     async.parallel({
         item_total:function(callback){
             item.aggregate({
@@ -22,7 +25,7 @@ exports.index = function(req, res) {
         }
     }, function(err, results) {
        // console.log(results.item_total[0].sum)
-        res.render('index', { title: 'CHIPS INVENTORY', error: err, data: results });
+        res.render('index', { title: '>0<', error: err, data: results });
     });
 };
 

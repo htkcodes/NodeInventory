@@ -1,3 +1,4 @@
+/* jshint node: true */
 var express = require('express');
 var app=express();
 var passport = require('passport');
@@ -5,6 +6,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
 var moment=require('moment');
 var User = require('../models/users');
+var Order=require('../models/orderlist');
+var item=require('../models/item');
 
 
 
@@ -24,8 +27,49 @@ router.get('/login', function (req, res) {
   req.flash('success_msg',5)
 });
 router.get('/consumer',function(req,res){
-    res.send('lol here');
-})
+    item.find({}, 'name quantity price sold total')
+    .exec(function (err, list_items) {
+      if (err) { return next(err); }
+      //Successful, so render
+      console.log(list_items);
+      res.render('consumer', { title: 'Item List', item_list: list_items });
+    });
+});
+
+router.post('/consumer',function(req,res){
+    var name=req.body.itemname;
+    var quantity=req.body.quantity;
+    var totaldue=req.body.totaldue;
+    var username=req.body.username;
+
+      // Validation
+      req.checkBody('itemname', 'Name is required').notEmpty();
+      req.checkBody('quantity', 'Quantity is required').notEmpty();
+      req.checkBody('totaldue','total due').notEmpty();
+      //req.checkBody('secret','The secret is incorrect').equals(secretconfirm);
+  
+          var errors = req.validationErrors();
+          
+          var newOrder = new Order({
+            name: name,
+            quantity: quantity,
+            totaldue:totaldue,
+            username:username
+        });
+  
+      if (errors) {
+          res.send('error',{
+              errors:errors
+          });
+      } else {
+        newOrder.save(function(err){
+            if(err){return next(err);}
+            res.redirect('/users/consumer')
+        });
+        }
+      
+      //  res.redirect('/users/consumer');
+});
 
 // Register User
 router.post('/register', function (req, res) {
@@ -124,7 +168,6 @@ router.post('/login',
 app.set('name',req.body.username);
 User.updateLogin(name,function(err,name){
     console.log('login logged');
-
 });
 let id=req.body.username;
 let stype;
@@ -132,11 +175,11 @@ User.getUserType(id,function(err,name){
   app.set('sType',name.userType);
   stype=app.get('sType');
   console.log(stype+ ' USER TYPE CONSOLE' + stype);
-  if(stype=='user')
+  if(stype==='user')
   {
       res.redirect('/users/consumer');
   }
-  else if(stype=='admin'){
+  else if(stype==='admin'){
       res.send('admin');
   }
   });
