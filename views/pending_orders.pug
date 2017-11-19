@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1= title
+  if errors 
+        ul.register-errors
+            for error in errors
+                li.li-errors.animated.flash
+                  i.material-icons error 
+                  != error.msg
+  div.biglist
+    .row
+      .col.s7.offset-s2
+        table.responsive-table.centered
+          thead
+            tr
+              th  Name
+              th  Quantity
+              th  Price
+              th  Name
+          tbody
+              each  order, i  in  pending_list
+                tr(class="tabler-" + (i+1))
+                  td.itemname #{order.name}
+                  td.quan  #{order.quantity}
+                  td.price  $#{order.totaldue}
+                  td
+                    |   #{order.username}
+                form(action="/users/pending_confirm",method="post" class="no-mt")
+                        input(type="hidden" name="_id" value=order._id)
+                        button.btn.btn-primary.btn-actions.sell(type='submit')
+                          i.material-icons.green-text  shopping_basket
+        
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  
+
+
+

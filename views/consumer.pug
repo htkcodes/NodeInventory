@@ -2,6 +2,12 @@ extends layout
 
 block content
   h1= title
+  if errors 
+        ul.register-errors
+            for error in errors
+                li.li-errors.animated.flash
+                  i.material-icons error 
+                  != error.msg
   div.biglist
     .row
       .col.s7.offset-s2

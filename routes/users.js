@@ -34,25 +34,36 @@ router.get('/login', function (req, res) {
   res.render('login', { title: 'Login'});
   req.flash('success_msg',5)
 });
+//Gets pending orders and item list
 router.get('/consumer',ensureAuth,function(req,res){
   
   async.parallel({
     itemlist:function(callback){
-        item.find({}, 'name quantity price sold total',callback);
+        item.find({}, 'name quantity price',callback);
     },
     pending:function(callback){
-        Order.find({username:req.user.name},'_id name quantity totaldue',callback);
+        Order.find({username:req.user.name},'_id name quantity totaldue username',callback);
     }
 }, function(err, results) {
     console.log(results.pending)
-   res.render('consumer',{title:'kek',error:err,data:results})
+   res.render('consumer',{title:'Orders',error:err,data:results})
 });
 });
 router.get('/pending_delete',function(req,res){
     res.sendStatus(403);
-}); 
-router.post('/pending_delete',function(req,res){
-    req.checkBody('_id', 'Item name must exist').notEmpty(); 
+});
+router.get('/pending_confirm',function(req,res){
+    Order.find({}, '_id name quantity totaldue username')
+    .exec(function (err, pending_list) {
+      if (err) { return next(err); }
+      //Successful, so render
+      console.log(pending_list);
+      res.render('pending_orders', { title: 'Pending List', pending_list: pending_list });
+    });
+})
+
+router.post('/pending_*',function(req,res){
+    req.checkBody('_id', 'Item id must exist').notEmpty(); 
     
         var errors = req.validationErrors();
         
