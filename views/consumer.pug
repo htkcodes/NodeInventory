@@ -21,15 +21,19 @@ block content
                   td.price  $#{item.price}
                   td
                     form(action="/users/consumer",method="post" class="no-mt")
-                        input(type="text" name="itemname" value=item.name)
+                        input(type="hidden" name="itemname" value=item.name)
                         input(type="hidden" name="quantity" value="1" placeholder="quantity")
                         input(type="hidden" name="totaldue" value=item.price placeholder="total due")
                         input(type="hidden" name="username" value=user.name)
                         button.btn.btn-primary.btn-actions.sell(type='submit')
                           i.material-icons.green-text  shopping_basket
+                  td
+                    button.add(class="add-"+(i+1))
+                        |   add
                 td
                     |   #{user.name}
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  script(src="/javascripts/consumer.js")
   
 
 

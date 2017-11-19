@@ -10,7 +10,13 @@ var Order=require('../models/orderlist');
 var item=require('../models/item');
 
 
-
+function ensureAuth(req,res,next){
+    if(req.isAuthenticated()){
+      console.log(req.isAuthenticated());
+      return next();
+    }
+    res.redirect('/users/login');
+  }
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.redirect('/users/login');
@@ -26,7 +32,7 @@ router.get('/login', function (req, res) {
   res.render('login', { title: 'Login'});
   req.flash('success_msg',5)
 });
-router.get('/consumer',function(req,res){
+router.get('/consumer',ensureAuth,function(req,res){
     item.find({}, 'name quantity price sold total')
     .exec(function (err, list_items) {
       if (err) { return next(err); }
