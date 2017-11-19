@@ -1,3 +1,4 @@
+//TODO:add admin view to confirm pending orders
 /* jshint node: true */
 var express = require('express');
 var app=express();
@@ -56,7 +57,7 @@ router.post('/pending_delete',function(req,res){
         var errors = req.validationErrors();
         
         if (errors) {
-            res.render('consumer', { title: 'Delete Items', errors: errors});
+            res.render('consumer', { title: 'Pending stuff', errors: errors});
         return;
         }
         else{
