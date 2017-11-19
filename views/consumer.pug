@@ -13,7 +13,7 @@ block content
               th  Price
               th  Name
           tbody
-              each  item, i  in  item_list
+              each  item, i  in  data.itemlist
                 tr(class="tabler-" + (i+1))
                   td.itemname  #{item.name}
                   td.quan  #{item.quantity}
@@ -32,6 +32,14 @@ block content
                           i.material-icons.green-text  shopping_basket
         ul.orders
         div.tot
+        each order in data.pending
+            ul
+                li
+                    |   #{order._id}
+                form(action="/users/pending_delete",method="post" class="no-mt")
+                        input(type="hidden" name="_id" value=order._id)
+                        button.btn.btn-primary.btn-actions.sell(type='submit')
+                          i.material-icons.green-text  security
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
   script(src="/javascripts/consumer.js")
   

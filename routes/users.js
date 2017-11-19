@@ -8,6 +8,7 @@ var moment=require('moment');
 var User = require('../models/users');
 var Order=require('../models/orderlist');
 var item=require('../models/item');
+var async=require('async');
 
 
 function ensureAuth(req,res,next){
@@ -33,15 +34,42 @@ router.get('/login', function (req, res) {
   req.flash('success_msg',5)
 });
 router.get('/consumer',ensureAuth,function(req,res){
-    item.find({}, 'name quantity price sold total')
-    .exec(function (err, list_items) {
-      if (err) { return next(err); }
-      //Successful, so render
-      console.log(list_items);
-      res.render('consumer', { title: 'Item List', item_list: list_items });
-    });
+  
+  async.parallel({
+    itemlist:function(callback){
+        item.find({}, 'name quantity price sold total',callback);
+    },
+    pending:function(callback){
+        Order.find({username:req.user.name},'_id name quantity totaldue',callback);
+    }
+}, function(err, results) {
+    console.log(results.pending)
+   res.render('consumer',{title:'kek',error:err,data:results})
 });
-
+});
+router.get('/pending_delete',function(req,res){
+    res.sendStatus(403);
+}); 
+router.post('/pending_delete',function(req,res){
+    req.checkBody('_id', 'Item name must exist').notEmpty(); 
+    
+        var errors = req.validationErrors();
+        
+        if (errors) {
+            res.render('consumer', { title: 'Delete Items', errors: errors});
+        return;
+        }
+        else{
+            Order.findByIdAndRemove(req.body._id,function deletePending(err){
+                if(err){return next(err);}
+                res.redirect('/users/consumer');
+            });
+    
+        }
+        
+              
+       
+})
 router.post('/consumer',function(req,res){
     var name=req.body.itemname;
     var quantity=req.body.quantity;
