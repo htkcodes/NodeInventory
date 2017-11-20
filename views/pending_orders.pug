@@ -18,7 +18,8 @@ block content
               th  Quantity
               th  Price
               th  Name
-          tbody
+              th  Confirm
+          tbody.lul
               each  order, i  in  pending_list
                 tr(class="tabler-" + (i+1))
                   td.itemname #{order.name}
@@ -26,12 +27,13 @@ block content
                   td.price  $#{order.totaldue}
                   td
                     |   #{order.username}
-                form(action="/users/pending_confirm",method="post" class="no-mt")
-                        input(type="hidden" name="_id" value=order._id)
-                        button.btn.btn-primary.btn-actions.sell(type='submit')
-                          i.material-icons.green-text  shopping_basket
+                  td
+                    input(type="hidden" name="_id" class="nameconfirm" + (i+1) value=order._id)
+                    button.btn.btn-primary.btn-actions.sell(type='submit')
+                      i.material-icons.green-text  shopping_basket
         
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  script(src="/javascripts/pending.js")
   
 
 

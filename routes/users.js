@@ -32,12 +32,12 @@ router.get('/register', function (req, res) {
 // Login
 router.get('/login', function (req, res) {
   res.render('login', { title: 'Login'});
-  req.flash('success_msg',5)
+  //req.flash('success_msg',5)
 });
 //Gets pending orders and item list
 router.get('/consumer',ensureAuth,function(req,res){
   
-  async.parallel({
+  async.series({
     itemlist:function(callback){
         item.find({}, 'name quantity price',callback);
     },
