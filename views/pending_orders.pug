@@ -19,8 +19,8 @@ block content
               th  Price
               th  Name
               th  Confirm
-          tbody.lul
-              each  order, i  in  pending_list
+          tbody.table-body
+              each  order, i  in  data.pending
                 tr(class="tabler-" + (i+1))
                   td.itemname #{order.name}
                   td.quan  #{order.quantity}
@@ -28,9 +28,63 @@ block content
                   td
                     |   #{order.username}
                   td
+                    input(type="hidden" name="name" class="nameorder" + (i+1) value=order.name)
                     input(type="hidden" name="_id" class="nameconfirm" + (i+1) value=order._id)
                     button.btn.btn-primary.btn-actions.sell(type='submit')
                       i.material-icons.green-text  shopping_basket
+        table.responsive-table.centered.hide
+          thead
+            tr
+              th  Name
+              th  Quantity
+              th  Price
+              th  Amount Sold
+              th  Total Sold
+              th  Delete
+              th  Update
+              th  Sell
+              th  id
+          tbody.secondary
+              each  item, i  in  data.itemlist
+                tr(class="tabler-" + (i+1))
+                  td.itemname  #{item.name}
+                  td.quan  #{item.quantity}
+                  td  $#{item.price}
+                  td.sold  #{item.soldupdate-1}
+                  td  $#{item.totalupdate-item.price}
+                  td
+                    div(class="item-" + (i+1))
+                      input(type="hidden" class="namedelete-" + (i+1) value=item._id)
+                      button.delete.btn.btn-primary.btn-actions(type='submit' class="delete-" + (i+1))
+                        i.material-icons.wild-text  delete
+                  td
+                      button(href="#modal1-" +(i+1) class="modal-trigger btn btn-primary btn-actions") 
+                        i.material-icons.prim-text  update
+                      div(id="modal1-" +(i+1) class="modal")
+                        .modal-content
+                          h4
+                            | Update Item
+                          p
+                            //i.material-icons info
+                            | You do not have to fill in the price if it has not changed.
+                          form(action="/inventory/item/update", method="post")
+                            input(type="hidden" name="itemname" value="#{item.name}")
+                            input(type="number" name="quantity" value="" placeholder="quantity" required)
+                            input(type="number" name="price" value=item.price placeholder="price" required)
+                            input(type="hidden", name="_id" value=item._id)
+                            button.update.btn.btn-primary(type='submit') update
+                  td
+                      form(action="/inventory/item/update",method="post" class="no-mt")
+                        input(type="hidden" name="itemname" value=item.name)
+                        input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
+                        input(type="hidden" name="price" value=item.price placeholder="price")
+                        input(type="hidden", name="_id" value=item._id)
+                        input(type="hidden",name="sold" value=item.soldupdate)
+                        input(type="hidden" name="total" value=item.totalupdate)
+                        button.btn.btn-primary.btn-actions.sell(type='submit')
+                          i.material-icons.green-text  shopping_basket 
+                  
+                    
         
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
   script(src="/javascripts/pending.js")

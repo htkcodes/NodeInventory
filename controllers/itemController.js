@@ -41,7 +41,7 @@ exports.item_list = function(req, res, next) {
         }
         )
     } */
-        if(moment().weekday()!=0)
+        if(moment().weekday()!==0)
         {
             item.find({}, 'name quantity price sold total')
             .exec(function (err, list_items) {

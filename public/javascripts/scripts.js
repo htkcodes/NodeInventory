@@ -65,7 +65,7 @@ $( document ).ready(function() {
     }
     else if(!ask){
         Materialize.toast('Deletion Cancelled',3000);
-        location.reload(false);
+       // location.reload(false);
     }
     });
 

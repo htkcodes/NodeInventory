@@ -1,4 +1,4 @@
-//TODO:add admin view to confirm pending orders
+
 /* jshint node: true */
 var express = require('express');
 var app=express();
@@ -45,21 +45,55 @@ router.get('/consumer',ensureAuth,function(req,res){
         Order.find({username:req.user.name},'_id name quantity totaldue username',callback);
     }
 }, function(err, results) {
-    console.log(results.pending)
+   // console.log(results.pending)
    res.render('consumer',{title:'Orders',error:err,data:results})
 });
 });
-router.get('/pending_delete',function(req,res){
+router.get('/pending_delete',ensureAuth,function(req,res){
     res.sendStatus(403);
 });
-router.get('/pending_confirm',function(req,res){
-    Order.find({}, '_id name quantity totaldue username')
-    .exec(function (err, pending_list) {
-      if (err) { return next(err); }
-      //Successful, so render
-      console.log(pending_list);
-      res.render('pending_orders', { title: 'Pending List', pending_list: pending_list });
-    });
+router.get('/pending_confirm',ensureAuth,function(req,res){
+
+    User.getUserType(req.user.username,function(err,name){
+        app.set('sType',name.userType);
+        stype=app.get('sType');
+        if(stype==='admin')
+        {
+            //res.status(403) then res.render('page')
+            res.sendStatus(403);
+        }
+        else if(stype==='user'){
+            console.log('herex')
+
+            async.series({
+                itemlist:function(callback){
+                    item.find({}, 'name quantity price sold total',callback);
+                },
+                pending:function(callback){
+                    Order.find({},'_id name quantity totaldue username',callback);
+                }
+            }, function(err, results) {
+          // console.log(results.itemlist)
+               res.render('pending_orders',{title:'Pending List',error:err,data:results})
+            });
+
+            /* Order.find({}, '_id name quantity totaldue username')
+            .exec(function (err, pending_list) {
+              if (err) { return next(err); }
+              //Successful, so render
+              console.log(pending_list);
+              res.render('pending_orders', { title: 'Pending List', pending_list: pending_list });
+            });
+ */
+
+
+
+
+        }
+        });
+
+
+   
 })
 
 router.post('/pending_*',function(req,res){
