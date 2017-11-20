@@ -10,10 +10,13 @@ $( document ).ready(function() {
     $("table").on("click","tbody>tr",function(event){
         var listorder= $(this).attr('class');
         console.log(listorder)
-       
+      /*   $("."+listorder).find("button.sell").click(function(e){
+            e.stopPropagation();
+        }) */
        // $("table").unbind("mouseover");
         $("."+listorder).find("button.sell").click(function(e){
-           
+            
+            e.stopPropagation();
             var ask=confirm('Are you sure you want to confirm?');
             if(ask)
             {
@@ -45,6 +48,7 @@ $( document ).ready(function() {
     }
     
     });
+    $("."+listorder).find("button.sell").trigger('click');
     
      });
     
