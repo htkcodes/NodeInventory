@@ -350,6 +350,23 @@ transform: translate(36%,-29.5%);
       white-space: nowrap
     }
 }
+.pending-form{
+  position: absolute;
+  left: 30%;
+}
+ul.pending{
+  display: inline-flex !important;
+  li{
+    display: inline-flex !important;
+    font-size: 19px;
+    margin-top: 8px;
+  }
+ button> i{
+    vertical-align: middle;
+  }
+}
+
+
 /* ----------- Non-Retina Screens ----------- */
 @media screen 
 and (min-device-width: 1200px) 

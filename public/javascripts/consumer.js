@@ -1,7 +1,10 @@
 // A $( document ).ready() block.
 /* jshint esversion: 6 */
 $( document ).ready(function() {
+
     
+  $('.tap-target').tapTarget('open');
+  $('.tap-target').tapTarget('close');
 
     var orderlist=[];
     let totaldue=0;
@@ -17,8 +20,7 @@ $( document ).ready(function() {
             console.log(name);
            if(orderlist.indexOf(name)!==-1)
            {
-               console.log("already there");
-              
+               console.log("already there");  
            }
            else
            {

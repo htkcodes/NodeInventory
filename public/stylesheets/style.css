@@ -317,6 +317,19 @@ td, th {
     bottom: 10%;
     transform: translate(-50%, -10%);
     white-space: nowrap; } }
+.pending-form {
+  position: absolute;
+  left: 30%; }
+
+ul.pending {
+  display: inline-flex !important; }
+  ul.pending li {
+    display: inline-flex !important;
+    font-size: 19px;
+    margin-top: 8px; }
+  ul.pending button > i {
+    vertical-align: middle; }
+
 /* ----------- Non-Retina Screens ----------- */
 @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
   .actions {

@@ -30,22 +30,38 @@ block content
                 td
                     |   #{user.name}
         form(action="/users/consumer",method="post" class="no-mt")
-                        input(type="text" name="itemname" value="" class="ordernames")
+                        input(type="hidden" name="itemname" value="" class="ordernames")
                         input(type="hidden" name="quantity" value="1" placeholder="quantity")
-                        input(type="number" name="totaldue" value="" placeholder="total due" class="tot")
+                        input(type="hidden" name="totaldue" value="" placeholder="total due" class="tot")
                         input(type="hidden" name="username" value=user.name)
                         button.btn.btn-primary.btn-actions.sell(type='submit')
                           i.material-icons.green-text  shopping_basket
-        ul.orders
-        div.tot
-        each order in data.pending
-            ul
+      
+        
+        
+        ul.tabs(style="background:black")
+          li.tab.col.s3
+            a(href='#test1') Currently in Cart
+          li.tab.col.s3
+            a.active(href='#test2') Pending Orders
+          li.tab.col.s3.disabled
+            a(href='#test3') Disabled Tab
+          li.tab.col.s3
+            a(href='#test4') Test 4
+        #test1.col.s12
+          ul.orders
+          div.tot
+        #test2.col.s12
+          each order in data.pending
+            ul.pending
                 li
-                    |   #{order._id}
-                form(action="/users/pending_delete",method="post" class="no-mt")
+                    |   #{order.name}
+                form(action="/users/pending_delete",method="post" class="no-mt pending-form")
                         input(type="hidden" name="_id" value=order._id)
-                        button.btn.btn-primary.btn-actions.sell(type='submit')
-                          i.material-icons.green-text  security
+                        button.btn.btn-primary.btn-actions.sell(type='submit')  Cancel Order
+                          i.material-icons.green-text  security1
+        #test3.col.s12 Test 3
+        #test4.col.s12 Test 4
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
   script(src="/javascripts/consumer.js")
   
