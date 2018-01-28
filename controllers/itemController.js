@@ -22,7 +22,7 @@ exports.index = function(req, res) {
         }
     }, function(err, results) {
        // console.log(results.item_total[0].sum)
-        res.render('index', { title: 'CHIPS INVENTORY', error: err, data: results });
+        res.render('index', { title: 'Overview', error: err, data: results });
     });
 };
 

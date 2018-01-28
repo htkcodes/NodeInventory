@@ -2,9 +2,9 @@ extends layout
 
 block content
   h1= title
-  p Welcome #{user.name}.
+  p Logged in as #{user.name}.
 
-  h3 Records Overview
+  h3.highlight-color Inventory Overview
 
   if error
     p Error getting dynamic content.
@@ -15,20 +15,20 @@ block content
       .row
         .col.s6.l3.offset-l2
           .card.primary-reverse
-            .card-content.white-text
+            .card-content.highlight-color
               span.card-title.left-align Inventory Item Count
               li
                 p.money
-                  i.material-icons shopping_cart  
+                  i.material-icons.highlight-color shopping_cart  
                 p.num.count
                   |#{data.item_count}
         .col.s6.l3.offset-l2
           .card.primary-reverse
-            .card-content.white-text
+            .card-content.highlight-color
               span.card-title.left-align Weekly Sales Total
               li
                 p.money
-                  i.material-icons attach_money
+                  i.material-icons.highlight-color attach_money
                 p.num.count
                   if  data.item_total[0]  !=  0
                     |#{data.item_total[0].sum}

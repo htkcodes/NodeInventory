@@ -5,19 +5,41 @@
   -webkit-font-smoothing: antialiased; }
 
 html {
-  background-color: #1C1C25; }
+  background-color: #fff; }
+
+.btn:hover, .btn-large:hover {
+  background-color: #0087fb; }
 
 .green-text {
   color: #00A676 !important; }
 
 .prim-text {
-  color: #FE4B68 !important; }
+  color: #0087fb !important; }
 
 .wild-text {
-  color: #FB46A2 !important; }
+  color: #0087fb !important; }
+
+.highlight-color {
+  color: #0087fb !important; }
 
 .prim-light {
-  background: #FE4B68; }
+  background: #0087fb; }
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #abaeb0; }
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #abaeb0; }
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #abaeb0; }
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #abaeb0; }
 
 body {
   overflow-x: hidden !important; }
@@ -26,25 +48,25 @@ h1 {
   font-family: "Montserrat", sans-serif;
   text-align: center;
   font-weight: 400;
-  color: #fff;
+  color: #858789;
   margin-left: 0.4em; }
 
 h3 {
   font-family: "Montserrat", sans-serif;
   text-align: center;
   font-weight: 400;
-  color: #fff;
+  color: #858789;
   margin-left: 0.4em;
   margin-bottom: 2em; }
 
 h5 {
   font-family: "Montserrat", sans-serif;
   text-align: center;
-  color: #fff; }
+  color: #858789; }
 
 h6 {
   text-align: center;
-  color: #fff;
+  color: #858789;
   font-family: "Montserrat", sans-serif;
   margin-top: 3em; }
 
@@ -53,11 +75,12 @@ h6 {
   .side-nav li a {
     padding: 0 80px;
     font-size: 1.2em;
-    text-transform: inherit; }
+    text-transform: inherit;
+    color: #fff !important; }
 
 p {
   text-align: center;
-  color: #fff;
+  color: #858789;
   font-family: "Roboto", sans-serif; }
 
 .num {
@@ -70,36 +93,10 @@ p {
 
 .primary {
   /* ff3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959));
-  /* safari4+,chrome */
-  background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
-  /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
-  /* opera 11.10+ */
-  /* ie10+ */
-  background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%);
-  /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
-  /* ie6-9 */ }
-
-.primary-reverse {
-  background: -moz-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
-  /* ff3.6+ */
-  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #FB46A2), color-stop(87%, #FE4B68), color-stop(100%, #FE4B68));
-  /* safari4+,chrome */
-  background: -webkit-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
-  /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
-  /* opera 11.10+ */
-  background: -ms-linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
-  /* ie10+ */
-  background: linear-gradient(45deg, #FB46A2 0%, #FE4B68 87%, #FE4B68 100%);
-  /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE4B68', endColorstr='#FB46A2',GradientType=1 );
-  /* ie6-9 */ }
+  background: #0087fb; }
 
 .second {
-  background-color: #1C1C25; }
+  background-color: #fff; }
 
 .container.fluid {
   width: 100%;
@@ -111,7 +108,7 @@ p {
   margin-bottom: 0; }
 
 a {
-  color: #fff !important; }
+  color: #0087fb !important; }
 
 nav {
   -webkit-box-shadow: none;
@@ -159,7 +156,7 @@ nav {
   line-height: normal; }
 
 i {
-  color: #fff !important; }
+  color: #858789 !important; }
 
 input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]) {
   border-bottom: 1px solid #38FAA6;
@@ -172,22 +169,16 @@ textarea.materialize-textarea:focus:not([readonly]) {
   box-shadow: 0 1px 0 0 #FE3959; }
 
 input[type=text], input[type=password], input[type=email], input[type=number] {
-  color: #fff; }
+  color: #858789; }
+
+.loader {
+  background-image: url("/images/loader.gif") !important; }
 
 .btn {
   /* ff3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FB46A2), color-stop(100%, #FE3959));
-  /* safari4+,chrome */
-  background: -webkit-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
-  /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(89deg, #FE3959 0%, #FB46A2 100%);
-  /* opera 11.10+ */
-  /* ie10+ */
-  background: linear-gradient(1deg, #FE3959 0%, #FB46A2 100%);
-  /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB46A2', endColorstr='#FE3959',GradientType=0 );
-  /* ie6-9 */
-  color: #fff; }
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #0087fb; }
 
 .btn-actions {
   background: transparent !important;
@@ -260,11 +251,11 @@ td, th {
   font-weight: 300; }
 
 .modal-content {
-  background: #1C1C25; }
+  background: #fff; }
   .modal-content h4 {
     font-family: "Montserrat", sans-serif;
     text-transform: uppercase !important;
-    color: #fff; }
+    color: #858789; }
     .modal-content h4 i {
       font-size: 0.5em; }
   .modal-content p {
@@ -290,9 +281,32 @@ td, th {
   .ddisabled i {
     color: gray !important; }
 
+/* ----------- iPhone 4 and 4S ----------- */
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+  .move-down {
+    bottom: -6.5%;
+    transform: translate(-50%, 6.5%);
+    margin-bottom: 25px !important;
+    white-space: nowrap; }
+
+  .top-left {
+    margin-left: 1.1em; }
+    .top-left i {
+      font-size: 2.8em; }
+
+  .bottom {
+    display: none; } }
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
+  .move-down {
+    bottom: -58%;
+    transform: translate(-50%, 58%);
+    white-space: nowrap;
+    margin-bottom: 20px !important; } }
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
-/* Portrait and Landscape */
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+/* Portrait*/
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
   .register {
     font-size: 3.5em; }
 
@@ -312,11 +326,60 @@ td, th {
     visibility: hidden; }
 
   .move-down {
-    position: absolute;
-    left: 50%;
     bottom: 10%;
     transform: translate(-50%, -10%);
     white-space: nowrap; } }
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+  .move-down {
+    bottom: -50%;
+    transform: translate(-50%, 50%);
+    white-space: nowrap;
+    margin-bottom: 5px !important; } }
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .bottom {
+    visibility: visible; } }
+/* Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+  .move-down {
+    bottom: -40%;
+    transform: translate(-50%, 40%);
+    white-space: nowrap;
+    margin-bottom: 5px !important; } }
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+/* Portrait */
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation: portrait) {
+  .move-down {
+    bottom: 25%;
+    transform: translate(-50%, -25%);
+    white-space: nowrap;
+    margin-bottom: 25px !important; }
+
+  .bottom {
+    visibility: visible; } }
+/* Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation: landscape) {
+  .move-down {
+    bottom: -30%;
+    transform: translate(-50%, 30%);
+    white-space: nowrap;
+    margin-bottom: 25px !important; }
+
+  .bottom {
+    visibility: hidden; } }
+/* ----------- Galaxy S4, S5 and Note 3 ----------- */
+/* Portrait */
+@media screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation: portrait) {
+  .bottom {
+    visibility: visible; } }
+/* Landscape */
+@media screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation: landscape) {
+  .move-down {
+    bottom: -55%;
+    transform: translate(-50%, 55%);
+    white-space: nowrap;
+    margin-bottom: 25px !important; } }
 /* ----------- Non-Retina Screens ----------- */
 @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
   .actions {
@@ -335,10 +398,7 @@ td, th {
   .actions {
     top: 91.3%;
     left: 2%;
-    transform: translate(-91.3%, -2%); }
-
-  .bottom {
-    visibility: hidden; } }
+    transform: translate(-91.3%, -2%); } }
 .message-wrapper {
   position: absolute;
   top: 50%;
@@ -346,17 +406,17 @@ td, th {
   transform: translate(-50%, -50%); }
 
 .msghead {
-  color: #fff;
+  color: #858789;
   text-transform: uppercase;
   width: 60vw; }
 
 th {
   font-family: "Montserrat", sans-serif;
-  color: #fff; }
+  color: #858789; }
 
 td {
   font-family: "Roboto", sans-serif;
-  color: #fff; }
+  color: #858789; }
 
 .register-btn {
   margin-top: 4em;
@@ -370,5 +430,10 @@ td {
     margin-right: 8px; }
   .register-errors .li-errors {
     color: #FF4073; }
+
+input.valid:not([type]), input.valid:not([type]):focus, input[type="text"].valid:not(.browser-default), input[type="text"].valid:not(.browser-default):focus, input[type="password"].valid:not(.browser-default), input[type="password"].valid:not(.browser-default):focus, input[type="email"].valid:not(.browser-default), input[type="email"].valid:not(.browser-default):focus, input[type="url"].valid:not(.browser-default), input[type="url"].valid:not(.browser-default):focus, input[type="time"].valid:not(.browser-default), input[type="time"].valid:not(.browser-default):focus, input[type="date"].valid:not(.browser-default), input[type="date"].valid:not(.browser-default):focus, input[type="datetime"].valid:not(.browser-default), input[type="datetime"].valid:not(.browser-default):focus, input[type="datetime-local"].valid:not(.browser-default), input[type="datetime-local"].valid:not(.browser-default):focus, input[type="tel"].valid:not(.browser-default), input[type="tel"].valid:not(.browser-default):focus, input[type="number"].valid:not(.browser-default), input[type="number"].valid:not(.browser-default):focus, input[type="search"].valid:not(.browser-default), input[type="search"].valid:not(.browser-default):focus, textarea.materialize-textarea.valid, textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
+  border-bottom: 1px solid #0087fb;
+  -webkit-box-shadow: 0 1px 0 0 #0087fb;
+  box-shadow: 0 1px 0 0 #0087fb; }
 
 /*# sourceMappingURL=style.css.map */
