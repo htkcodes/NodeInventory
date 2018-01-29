@@ -18,7 +18,7 @@ block content
               th  Sell
           tbody
               each  item, i  in  item_list
-                tr(class="tabler-" + (i+1))
+                tr(class="tabler-" + (i+1)+ " table-row-style")
                   td.itemname  #{item.name}
                   td.quan  #{item.quantity}
                   td  $#{item.price}
@@ -26,9 +26,10 @@ block content
                   td  $#{item.totalupdate-item.price}
                   td
                     div(class="item-" + (i+1))
-                      input(type="hidden" class="namedelete-" + (i+1) value=item._id)
+                      input(type="text" name="_id" class="namedelete-" + (i+1) value=item._id)
                       button.delete.btn.btn-primary.btn-actions(type='submit' class="delete-" + (i+1))
                         i.material-icons.wild-text  delete
+                      //input(type="text" class="namedelete-" + (i+1) value=item._id)
                   td
                       button(href="#modal1-" +(i+1) class="modal-trigger btn btn-primary btn-actions") 
                         i.material-icons.prim-text  update
@@ -54,7 +55,8 @@ block content
                         input(type="hidden",name="sold" value=item.soldupdate)
                         input(type="hidden" name="total" value=item.totalupdate)
                         button.btn.btn-primary.btn-actions.sell(type='submit')
-                          i.material-icons.green-text  shopping_basket 
+                          i.material-icons.green-text  shopping_basket
+                 
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
   script.
     if($(".quan").text().trim()<10 && $(".quan").text().trim()>0)

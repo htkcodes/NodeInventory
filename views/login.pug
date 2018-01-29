@@ -9,21 +9,21 @@ block content
  
   p.flash-error.animated.flash
     | #{error}
-    i.material-icons.left.hide error
+    i.material-icons.left.hide.highlight-color error
   p.flash-success.animated.flash
     | #{success_msg}
   form(method="post" action="/users/login" ).col.s12
     .row
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix.highlight-color account_circle
-        input(placeholder='Username', type='text' name="username" id="icon_prefix" class="validate" required="true")
+        input(placeholder='Username', type='text' name="username" id="icon_prefix" class="validate usrname" required="true")
         label(for='icon_prefix' data-error="You actually need to type in a name 😒")
       .input-field.col.s8.offset-s2.l4.offset-l4
         i.material-icons.prefix.highlight-color lock
-        input(type='password' placeholder="Password" name="password" id="icon_prefix" class="validate" required="true")
+        input(type='password' placeholder="Password" name="password" id="icon_prefix" class="validate pwd" required="true")
         label(for='password' data-error="You actually need to type in a password 😒")
-    button.btn.btn-primary.move.btn-large.loader.login(type='submit')
-     span
+    button.btn.btn-primary.move.btn-large.login(type='submit')
+     span.login-text
       |Login
      i.material-icons.right.white-text lock_open
     p.move-down 

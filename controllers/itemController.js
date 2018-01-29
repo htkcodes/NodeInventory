@@ -22,7 +22,7 @@ exports.index = function(req, res) {
         }
     }, function(err, results) {
        // console.log(results.item_total[0].sum)
-        res.render('index', { title: 'Overview', error: err, data: results });
+        res.render('index', { title: 'OVERVIEW', error: err, data: results });
     });
 };
 
@@ -118,7 +118,7 @@ exports.item_delete_get=function(req,res,next){
 };
 // Handle item delete on POST
 exports.item_delete_post = function(req, res) {
-    req.checkBody('_id', 'Item name must exist').notEmpty(); 
+    req.checkBody('_id', 'Item id must exist').notEmpty(); 
 
     var errors = req.validationErrors();
     

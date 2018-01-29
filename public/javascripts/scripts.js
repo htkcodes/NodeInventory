@@ -2,6 +2,9 @@
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
+
+  
+
     $('.modal').modal();
     console.log( "ready!" );
     $(".button-collapse").sideNav();
@@ -29,51 +32,55 @@ $( document ).ready(function() {
         }
     })
     
+    /*-------DELETE FUNCTION ----------*/
+    $(".delete").click(function(){
+        let item_ID=$(this).closest("div").children().filter("input").val();
+        let selectedRow=$(this).closest("tr");
+        let formDate={
+            '_id':item_ID
+        };
+        console.log(JSON.stringify(formDate));
 
-    $("tbody > tr").on("mouseover",function(){
-        var listorder= $(this).attr('class');
-        console.log(listorder)
-        $(this).unbind('mouseover');
-        $("."+listorder).find("button.delete").click(function(e){
-           
-            var ask=confirm('Are you sure you want to delete?');
-            if(ask)
-            {
-
-            
-            console.log('reached')
-            e.preventDefault();
-            var name=$(this).parent().find("input").attr('class');
-            console.log(name);
-            var iName=$("."+name).val();
-            console.log(iName);
-           
-             var formDate={
-                '_id':iName
-            };
-     
-         console.log(JSON.stringify(formDate));
         $.ajax({
-         type:'POST',
+            type:'POST',
          url:'/inventory/item/delete',
          data:JSON.stringify(formDate),
          contentType:'application/json',
          success:function(data){
-        Materialize.toast('Deletion Successful',3000);
-         $("."+listorder).remove();
+             console.log('done');
+             Materialize.toast('Deletion Successful',5000,'toast-custom');
+            selectedRow.remove();
          }
-     })
-    }
-    else if(!ask){
-        Materialize.toast('Deletion Cancelled',3000);
-        location.reload(false);
-    }
+        
     });
+});
 
-     });
+
      
 
+     $(".llogin").on('click',function(){
+        
+       
+       
+        console.log('login button clicked');
+    });
 
+    $(".login").click(function(){
+       // $(".login").empty();
+       if($(".usrname").is(':invalid') || $(".pwd").is(':invalid'))
+       {
+     return;
+       }
+       else
+       {
+    $(".login-text").addClass("hide")
+    $(".login>.white-text").addClass("hide");
+        $(this).addClass("loader");
+       }
+
+       
+    })
      console.log($(".sold").text().trim());
 
+    
 });
