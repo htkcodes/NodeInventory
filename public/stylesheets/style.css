@@ -541,6 +541,7 @@ table {
 
 .toast-custom {
   background-color: #0087fb;
-  color: #fff; }
+  color: #fff;
+  border-radius: 24px; }
 
 /*# sourceMappingURL=style.css.map */

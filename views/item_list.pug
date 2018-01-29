@@ -26,7 +26,7 @@ block content
                   td  $#{item.totalupdate-item.price}
                   td
                     div(class="item-" + (i+1))
-                      input(type="text" name="_id" class="namedelete-" + (i+1) value=item._id)
+                      input(type="hidden" name="_id" class="namedelete-" + (i+1) value=item._id)
                       button.delete.btn.btn-primary.btn-actions(type='submit' class="delete-" + (i+1))
                         i.material-icons.wild-text  delete
                       //input(type="text" class="namedelete-" + (i+1) value=item._id)
