@@ -32,7 +32,7 @@ $( document ).ready(function() {
         }
     })
     
-    /*-------DELETE FUNCTION ----------*/
+    /*-------DELETE AJAX FUNCTION ----------*/
     $(".delete").click(function(){
         let item_ID=$(this).closest("div").children().filter("input").val();
         let selectedRow=$(this).closest("tr");
@@ -55,15 +55,52 @@ $( document ).ready(function() {
     });
 });
 
+/*-------SELL AJAX FUNCTION ------*/
 
-     
+$(".sell").click(function(){
 
-     $(".llogin").on('click',function(){
-        
-       
-       
-        console.log('login button clicked');
-    });
+    let itemname,quantity,price,_id,sold,total;
+    let item_ID=$(this).closest("td").children().filter("input");
+    var qOriginal=$(this).closest("tr").children().filter("td.quan");
+    var quanOriginal=item_ID.eq(1);
+
+   
+    
+
+
+    itemname=item_ID.eq(0).val();
+    quantity=item_ID.eq(1).val();
+    price=item_ID.eq(2).val();
+    _id=item_ID.eq(3).val();
+    sold=item_ID.eq(4).val();
+    total=item_ID.eq(5).val();
+
+let formDate={
+    '_id':_id,
+    'quantity':quantity,
+    'sold':sold,
+    'name':itemname,
+    'total':total,
+    'price':price
+};
+
+
+$.ajax({
+    type:'POST',
+ url:'/inventory/item/update',
+ data:JSON.stringify(formDate),
+ contentType:'application/json',
+ success:function(data){
+
+let temp=qOriginal.text().trim();
+let newQuantity=(temp-1);
+qOriginal.text(newQuantity);
+quanOriginal.val((newQuantity)-1);
+Materialize.toast('Sold',5000,'toast-custom');
+ }
+});
+
+})
 
     $(".login").click(function(){
        // $(".login").empty();
@@ -81,6 +118,6 @@ $( document ).ready(function() {
        
     })
      console.log($(".sold").text().trim());
-
+     $('.tooltipped').tooltip({delay: 50});
     
 });

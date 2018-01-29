@@ -47,33 +47,17 @@ block content
                             input(type="hidden", name="_id" value=item._id)
                             button.update.btn.btn-primary(type='submit') update
                   td
-                      form(action="/inventory/item/update",method="post" class="no-mt")
-                        input(type="hidden" name="itemname" value="#{item.name}")
-                        input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
-                        input(type="hidden" name="price" value=item.price placeholder="price")
-                        input(type="hidden", name="_id" value=item._id)
-                        input(type="hidden",name="sold" value=item.soldupdate)
-                        input(type="hidden" name="total" value=item.totalupdate)
-                        button.btn.btn-primary.btn-actions.sell(type='submit')
-                          i.material-icons.green-text  shopping_basket
-                 
+                      input(type="hidden" name="itemname" value=item.name)
+                      input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
+                      input(type="hidden" name="price" value=item.price placeholder="price")
+                      input(type="hidden", name="_id" value=item._id)
+                      input(type="hidden",name="sold" value=item.soldupdate)
+                      input(type="hidden" name="total" value=item.totalupdate)
+                      button.btn.btn-primary.btn-actions.sell(type='submit')
+                        i.material-icons.green-text shopping_basket
+  
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
-  script.
-    if($(".quan").text().trim()<10 && $(".quan").text().trim()>0)
-    {
-      console.log('LOW');
-      console.log($(".quan").text().trim());
-      var $toastContent=$(".itemname").text().trim();
-      Materialize.toast($toastContent + ' is running low', 6000)
-    }
-    else if($(".quan").text().trim()<1)
-      {
-
-        console.log('OUT')
-        var $toastContent=$(".itemname").text().trim();
-        $(".quan").parent().find(".sell").addClass("ddisabled");
-        Materialize.toast($toastContent + ' is finished,you cannot sell', 6000)
-      }
+  script(src="/javascripts/itemlist.js")
     
 
 
