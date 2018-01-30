@@ -1,5 +1,7 @@
 var item = require('../models/item');
+var express = require('express');
 var moment=require('moment');
+var app=express();
 
 // Display list of all items
 
@@ -11,7 +13,8 @@ exports.index = function(req, res) {
         item_total:function(callback){
             item.aggregate({
                 $group:{
-                    _id:null,sum:{
+                    _id:null,
+                    sum:{
                         $sum:"$total"
                     }
                 }
@@ -45,7 +48,7 @@ exports.item_list = function(req, res, next) {
               if (err) { return next(err); }
               //Successful, so render
               console.log(list_items);
-              res.render('item_list', { title: 'Item List', item_list: list_items });
+              res.render('item_list', { title: 'Products', item_list: list_items });
             });
         }
         else{

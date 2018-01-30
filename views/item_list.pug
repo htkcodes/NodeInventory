@@ -5,7 +5,7 @@ block content
   div.biglist
     .row
       .col.s7.offset-s2
-        table.responsive-table.centered
+        table.centered.responsive-table
           thead
             tr
               th  Name
@@ -24,20 +24,20 @@ block content
                   td  $#{item.price}
                   td.sold  #{item.soldupdate-1}
                   td  $#{item.totalupdate-item.price}
-                  td
+                  td.delete__button
                     div(class="item-" + (i+1))
                       input(type="hidden" name="_id" class="namedelete-" + (i+1) value=item._id)
                       button.delete.btn.btn-primary.btn-actions(type='submit' class="delete-" + (i+1))
                         i.material-icons.wild-text  delete
                       //input(type="text" class="namedelete-" + (i+1) value=item._id)
-                  td
+                  td.update__button
                       button(href="#modal1-" +(i+1) class="modal-trigger btn btn-primary btn-actions") 
                         i.material-icons.prim-text  update
                       div(id="modal1-" +(i+1) class="modal")
                         .modal-content
                           h4
                             | Update Item
-                          p
+                          p.highlight-color
                             //i.material-icons info
                             | You do not have to fill in the price if it has not changed.
                           form(action="/inventory/item/update", method="post")
@@ -46,7 +46,7 @@ block content
                             input(type="number" name="price" value=item.price placeholder="price" required)
                             input(type="hidden", name="_id" value=item._id)
                             button.update.btn.btn-primary(type='submit') update
-                  td
+                  td.sell__button
                       input(type="hidden" name="itemname" value=item.name)
                       input(type="hidden" name="quantity" value=item.quantityupdate placeholder="quantity")
                       input(type="hidden" name="price" value=item.price placeholder="price")

@@ -1,55 +1,33 @@
 extends layout
 
 block content
+  - var expense=30000;
   h1 #{title}
     h2 #{data.item_total[0].sum}
-  canvas#canvas
-  button(onclick="addData()")
-  script.
-    var barChartData = {  
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
-    datasets: [{
-    label: 'Profit',
-    backgroundColor: 'rgb(255, 99, 132)',
-    data: [
-    500,500,500,500,500
-    ]
-    },]
-    };
-    window.onload = function() {
-    var ctx = document.getElementById("canvas").getContext("2d");
-    window.myBar = new Chart(ctx, {
-    type: 'bar',
-    data: barChartData,
-    options: {
-    title:{
-    display:true,
-    text:"Chart.js Bar Chart - Stacked"
-    },
-    tooltips: {
-    mode: 'index',
-    intersect: false
-    },
-    responsive: true,
-    scales: {
-    xAxes: [{
-    stacked: true,
-    }],
-    yAxes: [{
-    stacked: true
-    }]
-    }
-    }
-    });
-    };
-    function addData()
-    {
-    myBar.barChartData.labels.push('new');
-      myBar.barChartData.datasets.forEach((dataset)=>{
-        dataset.data.push(200);
-    })
-    myBar.update();
-    }
+  div.container
+    .row
+    .col.s12
+      ul.tabs
+        li.tab.col.s3
+          a.active(href='#test1') Weekly Sales Total
+        li.tab.col.s3
+          a(href='#test2') Test 2
+        li.tab.col.s3.disabled
+          a(href='#test3') Disabled Tab
+        li.tab.col.s3
+          a(href='#test4') Test 4
+    #test1.col.s12
+     ul.collection
+      li.collection-item.active
+        div.week
+          | Week 1-
+          div.secondary-content(href='#!')
+            | #{expense}
+          
+    #test2.col.s12 Test 2
+    #test3.col.s12 Test 3
+    #test4.col.s12 Test 4
+  
 
     
         

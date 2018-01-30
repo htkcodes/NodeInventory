@@ -76,6 +76,7 @@ app.use(function (req, res, next) {
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
+  res.locals.hi=req.flash('hi');
   next();
 });
 
@@ -85,7 +86,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('*',function(req,res,next){
-res.locals.user=req.user || null;;
+res.locals.user=req.user || null;
 next();
 })
 

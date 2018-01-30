@@ -117,7 +117,19 @@ Materialize.toast('Sold',5000,'toast-custom');
 
        
     })
-     console.log($(".sold").text().trim());
      $('.tooltipped').tooltip({delay: 50});
+
+
+     console.log(
+      
+        moment().weekday(5)
+     );
+     if(top.location.pathname==='/users/profit')
+     {
+         let date=moment().format("MMM Do YY");
+         $(".week").append(date);
+     }
+
+       
     
 });

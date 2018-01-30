@@ -6,8 +6,7 @@ $(document).ready(function(){
 
 let quan_arr=quan.split(' ');
 let item_arr=item_Name.split(' ');
-console.log(quan_arr);
-console.log(item_arr);
+
 
 for(let x=0;x<quan_arr.length;x++)
 {

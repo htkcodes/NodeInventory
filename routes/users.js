@@ -5,13 +5,71 @@ var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
 var moment=require('moment');
 var User = require('../models/users');
-
+var item = require('../models/item');
+var profit=require('../models/profit');
+var async = require('async');
+var moment=require('moment');
 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+   
   res.redirect('/users/login');
+
 });
+
+router.get('/profit',function(req,res){
+    async.series({
+        item_total:function(callback){
+            item.aggregate({
+                $group:{
+                    _id:null,
+                    sum:{
+                        $sum:"$total"
+                    }
+                }
+                },callback)
+        },
+      /*   weekdata:function(callback)
+        {
+            profit.findById
+        } */
+        
+    }, function(err, results) {
+        
+       var weekly=results.item_total[0].sum;
+       var dateid;
+        
+       var newProfit = new profit({
+        week:1,
+        date:moment(),
+        amount:weekly
+    });
+    //finds latest date
+    var latest=profit.find({}).sort({date:-1}).limit(1).exec(function(err,foo){
+        console.log(foo[0]._id);
+       var dateid=foo[0]._id;
+    //Finds previous date
+       profit.find({_id:{$lt:dateid}},'date').sort({_id:-1}).limit(1).exec(function(err,prev){
+        var foobar=moment(prev[0].date).format("MMM Do YY")
+        req.flash('hi','hii')
+       })
+
+    })
+  
+
+ 
+    if(moment().weekday()==3)
+    {
+        newProfit.save(function(err){
+            if(err){return next(err)}
+            console.log('profit saved');
+        });
+    }
+        res.render('profit', { title: 'OVERVIEW', error: err, data: results });
+    });
+});
+
 
  // Register
 router.get('/register', function (req, res) {

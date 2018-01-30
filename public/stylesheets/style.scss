@@ -583,6 +583,22 @@ and (orientation:portrait)
       margin-bottom: 25px !important;
   
     }
+   table{
+     .table-row-style{
+    
+        box-shadow: none !important;
+      
+     }
+   }
+    .delete__button{
+margin-top: -7px !important;
+    }
+    .update__button{
+margin-top: -13px !important;
+    }
+    .sell__button{
+margin-top: -20px !important;
+    }
 }
 
 /* Portrait */
