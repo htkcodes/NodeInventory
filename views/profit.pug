@@ -1,0 +1,55 @@
+extends layout
+
+block content
+  h1 #{title}
+    h2 #{data.item_total[0].sum}
+  canvas#canvas
+  button(onclick="addData()")
+  script.
+    var barChartData = {  
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
+    datasets: [{
+    label: 'Profit',
+    backgroundColor: 'rgb(255, 99, 132)',
+    data: [
+    500,500,500,500,500
+    ]
+    },]
+    };
+    window.onload = function() {
+    var ctx = document.getElementById("canvas").getContext("2d");
+    window.myBar = new Chart(ctx, {
+    type: 'bar',
+    data: barChartData,
+    options: {
+    title:{
+    display:true,
+    text:"Chart.js Bar Chart - Stacked"
+    },
+    tooltips: {
+    mode: 'index',
+    intersect: false
+    },
+    responsive: true,
+    scales: {
+    xAxes: [{
+    stacked: true,
+    }],
+    yAxes: [{
+    stacked: true
+    }]
+    }
+    }
+    });
+    };
+    function addData()
+    {
+    myBar.barChartData.labels.push('new');
+      myBar.barChartData.datasets.forEach((dataset)=>{
+        dataset.data.push(200);
+    })
+    myBar.update();
+    }
+
+    
+        
