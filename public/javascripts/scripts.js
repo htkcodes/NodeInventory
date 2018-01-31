@@ -132,7 +132,13 @@ Materialize.toast('Sold',5000,'toast-custom');
            var sd=  $(this).text();
            var fd=moment(sd).format("MMM Do YY");
            $(this).text(fd)
-         })
+         });
+           $(".gross>span.date").each(function(i){
+            var sd=  $(this).text();
+            var fd=moment(sd).format("MMM Do YY");
+            $(this).text(fd+": ");
+          });  
+
     
      } 
  

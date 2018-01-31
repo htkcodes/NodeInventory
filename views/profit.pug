@@ -8,30 +8,39 @@ block content
     .row
     .col.s12
       ul.tabs
-        li.tab.col.s3
+        li.tab.col.s4
           a.active(href='#test1') Weekly Sales Total
-        li.tab.col.s3
-          a(href='#test2') Test 2
-        li.tab.col.s3.disabled
-          a(href='#test3') Disabled Tab
-        li.tab.col.s3
-          a(href='#test4') Test 4
+        li.tab.col.s4
+          a(href='#test2') Profit/Loss
+        li.tab.col.s4
+          a(href="#test3") Chart
+        
     #test1.col.s12
      ul.collection
       each foo,i in wklySales
-        li.collection-item.teal.lighten-2
-          div.week 
+        li.collection-item.white.list-data
+          div.week.highlight-color
             span.weekdate
               | #{foo.date}
 
-            div.secondary-content(href='#!')
+            div.secondary-content(href='#!').highlight-color
               | #{foo.amount}
 
               
           
-    #test2.col.s12 Test 2
-    #test3.col.s12 Test 3
-    #test4.col.s12 Test 4
+    #test2.col.s12
+      ul.collection
+        each profit,i in wklySales
+          li.collection-item.white.list-data
+            div.gross.highlight-color
+              span.date #{profit.date} 
+              span.profit #{profit.gross_profit}
+              span(data-badge-caption="LOSS").light-red.badge
+    #test3.col.s12
+     
+    
+
+    
   
 
     

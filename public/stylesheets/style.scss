@@ -13,6 +13,7 @@ $green:#00A676;
 $wild:#0087fb;
 $white:#fff;
 $placeholder:#abaeb0;
+$light-red:#FF4073;
 
 
 //Fonts
@@ -74,18 +75,15 @@ background-color: $primary;
 .green-text{
   color: $green !important;
 }
-.prim-text{
- color: $prim-darker !important;
-}
 .wild-text{
   color: $wild !important;
 }
 .highlight-color{
   color: $prim-darker !important;
 }
-.prim-light
+.highlight-bg
 {
-  background:$prim-darker;
+  background:$prim-darker !important;
 }
 
 //Placeholder custom colors
@@ -145,6 +143,9 @@ li{
   }
 }
 }
+.pf-info{
+  color: $text !important;
+}
 p{
   text-align: center;
   color: $text;
@@ -160,6 +161,9 @@ p{
 }
 
 
+.light-red{
+  background: #FF4073;
+}
 
 .primary{ /* ff3.6+ */
 background: $prim-darker;
@@ -784,6 +788,25 @@ table{
   color: $white;
   border-radius: 24px;
 }
-
+span.badge{
+  color: white;
+}
+.collection{
+  border:none;
+  .list-data{
+    -webkit-box-shadow: 1px 7px 17px -6px rgba(133,135,137,0.48);
+    -moz-box-shadow: 1px 7px 17px -6px rgba(133,135,137,0.48);
+    box-shadow: 1px 7px 17px -6px rgba(133,135,137,0.48);
+    border-radius: 8px;
+    margin-bottom: 10px !important;
+  } 
+}
+.tabs .indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: $prim-darker;
+  will-change: left, right
+}
 
 

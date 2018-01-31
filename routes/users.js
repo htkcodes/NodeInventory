@@ -51,7 +51,7 @@ if(moment.weekdays()==5)
 
             profit.find({},'week date amount').exec(function(err,foo){
                 if(err){return next(err);}
-                res.render('profit', { title: 'OVERVIEW', error: err, data: results,wklySales:foo})
+                res.render('profit', { title: 'Profit Table', error: err, data: results,wklySales:foo})
             })
         
         ; 
