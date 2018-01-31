@@ -6,12 +6,14 @@ block content
   div.container
     .row
     .col.s12
+      p.center-align.highlight-color
+        strong  NB:Data for the current week is displayed ONLY on Fridays
       ul.tabs
-        li.tab.col.s4
+        li.tab.col.s4.tooltipped(data-position="top" data-delay="50" data-tooltip="Weekly sales total")
           a.active(href='#test1') Weekly Sales Total
-        li.tab.col.s4
+        li.tab.col.s4.tooltipped(data-position="top" data-delay="50" data-tooltip="Displays profit/loss for the week")
           a(href='#test2') Profit/Loss
-        li.tab.col.s4
+        li.tab.col.s4.tooltipped(data-position="top" data-delay="50" data-tooltip="Visualizes gross profit&expenses for the week")
           a(href="#test3") Chart
         
     #test1.col.s12

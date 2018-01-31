@@ -172,7 +172,7 @@ Materialize.toast('Sold',5000,'toast-custom');
             }]
         };
        
-    
+    //Creates chart
     
             var ctx = document.getElementById("canvas").getContext("2d");
             var myBar = new Chart(ctx, {
@@ -198,13 +198,13 @@ Materialize.toast('Sold',5000,'toast-custom');
                     }
                 }
             });
-
+//Generate chart values
             $("div.gross").each(function(i){
               const expense=30000;
-                $(this).children().filter("span.profit").text();
-            let gross=$(this).children().filter("span.profit").text();
-            gross=Number(gross)+expense;
-            myBar.data.datasets[0].data[i]=gross;
+                
+            let gp=$(this).children().filter("span.profit").eq(0).text().replace('$','');
+           console.log(gp);
+            myBar.data.datasets[0].data[i]=gp;
           myBar.data.labels[i]=  $(this).children().filter("span.date").text();
           myBar.data.datasets[1].data[i]=expense;
               myBar.update();
@@ -217,12 +217,14 @@ let element=$(this).closest("div").children().filter("span.percentage");
 
 let percentage=element.attr('data-badge-caption');
 
-percentage=Math.abs(percentage);
 
-let profit=$(this).closest("div").children().filter("span.profit").text();
+
+let profit=$(this).closest("div").children().filter("span.profit");
+profit=profit.text().replace('$','');
 
 if(profit < 0)
 {
+    console.log('in function');
     element.attr('data-badge-caption',percentage + '% LOSS');
     element.addClass('light-red');
 }
