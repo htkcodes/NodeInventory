@@ -3,7 +3,7 @@ extends layout
 block content
   - var expense=30000;
   h1 #{title}
-    h2 #{data.item_total[0].sum}
+  h2 #{data.item_total[0].sum}
   div.container
     .row
     .col.s12
@@ -18,11 +18,16 @@ block content
           a(href='#test4') Test 4
     #test1.col.s12
      ul.collection
-      li.collection-item.active
-        div.week
-          | Week 1-
-          div.secondary-content(href='#!')
-            | #{expense}
+      each foo,i in wklySales
+        li.collection-item.teal.lighten-2
+          div.week 
+            span.weekdate
+              | #{foo.date}
+
+            div.secondary-content(href='#!')
+              | #{foo.amount}
+
+              
           
     #test2.col.s12 Test 2
     #test3.col.s12 Test 3

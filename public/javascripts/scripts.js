@@ -124,12 +124,18 @@ Materialize.toast('Sold',5000,'toast-custom');
       
         moment().weekday(5)
      );
-     if(top.location.pathname==='/users/profit')
+       if(top.location.pathname==='/users/profit')
      {
-         let date=moment().format("MMM Do YY");
-         $(".week").append(date);
-     }
-
+        /*  let date=moment("Fri Feb 02 2018 21:07:24 GMT-0500 (Eastern Standard Time)").format("MMM Do YY")
+         console.log(date); */
+         $(".week>span").each(function(i){
+           var sd=  $(this).text();
+           var fd=moment(sd).format("MMM Do YY");
+           $(this).text(fd)
+         })
+    
+     } 
+ 
        
     
 });

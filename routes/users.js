@@ -1,85 +1,74 @@
 var express = require('express');
-var app=express();
+var app = express();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
-var moment=require('moment');
+var moment = require('moment');
 var User = require('../models/users');
 var item = require('../models/item');
-var profit=require('../models/profit');
+var profit = require('../models/profit');
 var async = require('async');
-var moment=require('moment');
+var moment = require('moment');
+
+
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-   
-  res.redirect('/users/login');
+router.get('/', function (req, res, next) {
+
+    res.redirect('/users/login');
 
 });
 
-router.get('/profit',function(req,res){
+router.get('/profit', function (req, res) {
     async.series({
-        item_total:function(callback){
+        item_total: function (callback) {
             item.aggregate({
-                $group:{
-                    _id:null,
-                    sum:{
-                        $sum:"$total"
+                $group: {
+                    _id: null,
+                    sum: {
+                        $sum: "$total"
                     }
                 }
-                },callback)
+            }, callback)
         },
-      /*   weekdata:function(callback)
-        {
-            profit.findById
-        } */
-        
-    }, function(err, results) {
-        
-       var weekly=results.item_total[0].sum;
-       var dateid;
-        
-       var newProfit = new profit({
-        week:1,
-        date:moment(),
-        amount:weekly
-    });
-    //finds latest date
-    var latest=profit.find({}).sort({date:-1}).limit(1).exec(function(err,foo){
-        console.log(foo[0]._id);
-       var dateid=foo[0]._id;
-    //Finds previous date
-       profit.find({_id:{$lt:dateid}},'date').sort({_id:-1}).limit(1).exec(function(err,prev){
-        var foobar=moment(prev[0].date).format("MMM Do YY")
-        req.flash('hi','hii')
-       })
 
-    })
-  
 
- 
-    if(moment().weekday()==3)
-    {
-        newProfit.save(function(err){
-            if(err){return next(err)}
-            console.log('profit saved');
+    }, function (err, results) {
+
+        var weekly = results.item_total[0].sum;
+        var newProfit = new profit({
+            week:moment().weeks(),
+            date: moment().isoWeekday("Friday"),
+            amount: weekly
         });
-    }
-        res.render('profit', { title: 'OVERVIEW', error: err, data: results });
+if(moment.weekdays()==5)
+{
+    newProfit.save(function (err) {
+        if (err) { return next(err) }
+    });
+}
+
+            profit.find({},'week date amount').exec(function(err,foo){
+                if(err){return next(err);}
+                res.render('profit', { title: 'OVERVIEW', error: err, data: results,wklySales:foo})
+            })
+        
+        ; 
+
     });
 });
 
 
- // Register
+// Register
 router.get('/register', function (req, res) {
     res.render('register');
 });
 
 // Login
 router.get('/login', function (req, res) {
-  res.render('login', { title: 'Login'});
-  req.flash('success_msg',5)
+    res.render('login', { title: 'Login' });
+    req.flash('success_msg', 5)
 });
 
 // Register User
@@ -89,8 +78,8 @@ router.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.password2;
-    var secret =req.body.secret;
-    var secretconfirm="chipsexec";
+    var secret = req.body.secret;
+    var secretconfirm = "chipsexec";
 
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
@@ -99,11 +88,11 @@ router.post('/register', function (req, res) {
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-    req.checkBody('secret','The secret is incorrect').equals(secretconfirm);
+    req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
 
-		var errors = req.validationErrors();
-		
-	
+    var errors = req.validationErrors();
+
+
 
     if (errors) {
         res.render('register', {
@@ -133,7 +122,7 @@ passport.use(new LocalStrategy(
         User.getUserByUsername(username, function (err, user) {
             if (err) throw err;
             if (!user) {
-              console.log(user);
+                console.log(user);
                 return done(null, false, {
                     message: 'Unknown User'
                 });
@@ -149,7 +138,7 @@ passport.use(new LocalStrategy(
                     });
                 }
             });
-           
+
         });
     }));
 
@@ -164,31 +153,31 @@ passport.deserializeUser(function (id, done) {
 });
 
 router.post('/login',
-    
+
     passport.authenticate('local', {
         //successRedirect: '/inventory',
-       failureRedirect: '/users/login',
-      failureFlash: 'Invalid username or password'
+        failureRedirect: '/users/login',
+        failureFlash: 'Invalid username or password'
     }),
     function (req, res) {
-        name=req.body.username;
-app.set('name',req.body.username);
-User.updateLogin(name,function(err,name){
-    console.log('login logged');
+        name = req.body.username;
+        app.set('name', req.body.username);
+        User.updateLogin(name, function (err, name) {
+            console.log('login logged');
 
-});
-      res.redirect('/inventory');
+        });
+        res.redirect('/inventory');
     });
 
 router.get('/logout', function (req, res) {
-   var name= app.get('name');
-   console.log(name);
+    var name = app.get('name');
+    console.log(name);
     req.logout();
-    User.updateLogout(name,function(err,name){
+    User.updateLogout(name, function (err, name) {
         console.log('log out logged');
     })
     req.flash('success_msg', 'You are logged out');
-   
+
     res.redirect('/users/login');
-}); 
+});
 module.exports = router;
