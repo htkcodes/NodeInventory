@@ -10,6 +10,7 @@ $primary:#fff;
 $text:#858789;
 $prim-darker:#0087fb;
 $green:#00A676;
+$light-green:#38FAA6;
 $wild:#0087fb;
 $white:#fff;
 $placeholder:#abaeb0;
@@ -164,7 +165,9 @@ p{
 .light-red{
   background: #FF4073;
 }
-
+.light-green{
+  background: #38FAA6;
+}
 .primary{ /* ff3.6+ */
 background: $prim-darker;
 }
@@ -802,11 +805,7 @@ span.badge{
   } 
 }
 .tabs .indicator {
-  position: absolute;
-  bottom: 0;
-  height: 2px;
   background-color: $prim-darker;
-  will-change: left, right
 }
 
 

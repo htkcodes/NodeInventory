@@ -40,8 +40,9 @@ router.get('/profit', function (req, res) {
         var newProfit = new profit({
             week:moment().weeks(),
             date: moment().isoWeekday("Friday"),
-            amount: weekly
+            amount: 45000
         });
+       
 if(moment.weekdays()==5)
 {
     newProfit.save(function (err) {

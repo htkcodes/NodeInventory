@@ -21,8 +21,16 @@ var ProfitSchema = Schema({
 ProfitSchema
 .virtual('gross_profit')
 .get(function(){
- let gross=this.amount-expenses;
+const hun=100;
+  let profit=this.amount-expenses;
+  let percentage=(profit/this.amount)*hun;
+let gross={
+  profit:profit,
+  percentage:percentage.toFixed(0)
+}
  return gross;
-})
+});
+
+
 
 module.exports = mongoose.model('Profit', ProfitSchema);

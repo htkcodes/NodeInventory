@@ -3,7 +3,6 @@ extends layout
 block content
   - var expense=30000;
   h1 #{title}
-  h2 #{data.item_total[0].sum}
   div.container
     .row
     .col.s12
@@ -24,7 +23,7 @@ block content
               | #{foo.date}
 
             div.secondary-content(href='#!').highlight-color
-              | #{foo.amount}
+              | $#{foo.amount}.00
 
               
           
@@ -34,9 +33,11 @@ block content
           li.collection-item.white.list-data
             div.gross.highlight-color
               span.date #{profit.date} 
-              span.profit #{profit.gross_profit}
-              span(data-badge-caption="LOSS").light-red.badge
+              span.profit 
+                | $#{profit.gross_profit.profit}.00
+              span.percentage(data-badge-caption=profit.gross_profit.percentage).badge
     #test3.col.s12
+      canvas#canvas
      
     
 

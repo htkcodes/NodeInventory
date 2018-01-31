@@ -139,9 +139,119 @@ Materialize.toast('Sold',5000,'toast-custom');
             $(this).text(fd+": ");
           });  
 
+          window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+
+          var barChartData = {
+            labels: [],
+            datasets: [{
+                label: "Gross Profit",
+                backgroundColor: window.chartColors.red,
+               
+                data: [
+                  
+                ],
+              
+            }, {
+                label: "Expenses",
+                borderColor: window.chartColors.blue,
+                backgroundColor: window.chartColors.blue,
+               
+                data: [
+                   
+                ],
+           
+            }]
+        };
+       
+    
+    
+            var ctx = document.getElementById("canvas").getContext("2d");
+            var myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    title:{
+                        display:true,
+                        text:"Profit and Expense for each week"
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+
+            $("div.gross").each(function(i){
+              const expense=30000;
+                $(this).children().filter("span.profit").text();
+            let gross=$(this).children().filter("span.profit").text();
+            gross=Number(gross)+expense;
+            myBar.data.datasets[0].data[i]=gross;
+          myBar.data.labels[i]=  $(this).children().filter("span.date").text();
+          myBar.data.datasets[1].data[i]=expense;
+              myBar.update();
+            }) 
+            
+
+$(".gross span.profit").each(function(){
+
+let element=$(this).closest("div").children().filter("span.percentage");
+
+let percentage=element.attr('data-badge-caption');
+
+percentage=Math.abs(percentage);
+
+let profit=$(this).closest("div").children().filter("span.profit").text();
+
+if(profit < 0)
+{
+    element.attr('data-badge-caption',percentage + '% LOSS');
+    element.addClass('light-red');
+}
+else
+{
+    element.attr('data-badge-caption',percentage + '% PROFIT');
+    element.addClass('light-green');
+}
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
     
      } 
  
+     
        
     
 });

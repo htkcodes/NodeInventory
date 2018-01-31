@@ -114,6 +114,9 @@ p {
 .light-red {
   background: #FF4073; }
 
+.light-green {
+  background: #38FAA6; }
+
 .primary {
   /* ff3.6+ */
   background: #0087fb; }
@@ -572,10 +575,6 @@ span.badge {
     margin-bottom: 10px !important; }
 
 .tabs .indicator {
-  position: absolute;
-  bottom: 0;
-  height: 2px;
-  background-color: #0087fb;
-  will-change: left, right; }
+  background-color: #0087fb; }
 
 /*# sourceMappingURL=style.css.map */
