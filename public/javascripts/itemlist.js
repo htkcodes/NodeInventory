@@ -21,9 +21,23 @@ for(let x=0;x<quan_arr.length;x++)
         let toastContent=$("tr>td.quan").eq(x).parent().find(".itemname").text();
         Materialize.toast(toastContent + ' is out of stock', 7000,'toast-custom')
         //console.log($(".quan").parent().find(item_arr[x]));
-    
     }
 }
+
+$("td.sell__button").each(function(i) {
+    $(this).children().filter(".sell").click(function(){
+      let children=$(this).parent().children();
+
+      let quantity=children.filter("input[name='quantity']").val();
+      let item_Name=children.filter("input[name='itemname']").val();
+      if(quantity<1)
+      {
+          $(this).addClass("ddisabled");
+          let toastContent=item_Name;
+          Materialize.toast(toastContent + ' is out of stock', 7000,'toast-custom');
+      }
+    })
+})
 
     
   /*   else if($(".quan").text().trim()<1)

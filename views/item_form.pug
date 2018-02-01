@@ -6,20 +6,24 @@ block content
     form(method='POST' action='').col.s12
       .row
         .input-field.col.s8.l4.offset-s2.offset-l4
-          i.material-icons.prefix local_offer
+          i.material-icons.prefix.highlight-color local_offer
           input(type='text', placeholder='Item Name' id="icon_prefx" class="validate" name='name' required='true',value=(undefined===item ? '' : item.name))
           label(for='icon_prefix' data-error="You actually need to type in an item 😒")
         .input-field.col.s8.l4.offset-s2.offset-l4
-          i.material-icons.prefix local_grocery_store
+          i.material-icons.prefix.highlight-color local_grocery_store
           input(type='text', placeholder='Quantity' id="icon_prefx" class="validate" name='quantity' required='true',value=(undefined===item ? '' : item.quantity))
           label(for='icon_prefix' data-error="You actually need to type in the amount of items 😒")
       .row
         .input-field.col.s8.l4.offset-s2.offset-l4
-          i.material-icons.prefix attach_money
+          i.material-icons.prefix.highlight-color attach_money
           input(type='text', placeholder='Price' id="icon_prefx" class="validate" name='price' required='true',value=(undefined===item ? '' : item.price))
           label(for='icon_prefix' data-error="You actually need to type in the price 😒")
-      button.btn.btn-primary.btn-large.move(type='submit') Submit
+      button.btn.btn-primary.move.btn-large.f-reduce.login(type='submit' data-position="bottom" data-delay="50" data-tooltip="")
+        span.login-text
+          |Submit
+        i.material-icons.white-text.right send
+        
   if errors 
     ul
       for error in errors
-        li!= error.msg
+        li != error.msg

@@ -642,8 +642,8 @@ margin-top: -20px !important;
   and (max-device-height: 568px)
   and (orientation: portrait) {
     .move-down{
-      bottom: -6.5%;
-      transform: translate(-50%,6.5%);
+      bottom: 5.5%;
+      transform: translate(-50%,-5.5%);
       margin-bottom: 25px !important;
       white-space: nowrap;
       
@@ -809,6 +809,15 @@ span.badge{
 }
 .tabs .indicator {
   background-color: $prim-darker;
+}
+
+.f-reduce{
+  font-size: 0.99rem;
+i{
+  font-size:1.1rem !important;
+  margin-left: 0;
+  margin-top: 0.4px;
+}
 }
 
 

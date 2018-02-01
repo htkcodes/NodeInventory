@@ -118,12 +118,6 @@ Materialize.toast('Sold',5000,'toast-custom');
        
     })
      $('.tooltipped').tooltip({delay: 50});
-
-
-     console.log(
-      
-        moment().weekday(5)
-     );
        if(top.location.pathname==='/users/profit')
      {
         /*  let date=moment("Fri Feb 02 2018 21:07:24 GMT-0500 (Eastern Standard Time)").format("MMM Do YY")

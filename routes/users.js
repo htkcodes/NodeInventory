@@ -36,19 +36,66 @@ router.get('/profit', function (req, res) {
 
     }, function (err, results) {
 
-        var weekly = results.item_total[0].sum;
+      
+       
+
+
+profit.count(function (err,count) {
+
+    var weekly = results.item_total[0].sum;
         var newProfit = new profit({
             week:moment().weeks(),
             date: moment().isoWeekday("Friday"),
-            amount: 45000
+            amount: 45000,
         });
-       
-if(moment.weekdays()==5)
-{
+  
+    if(!err&&count===0)
+    {
+
     newProfit.save(function (err) {
-        if (err) { return next(err) }
+        if (err) { return (err) }
     });
-}
+
+    }
+    else if(!err && count !==0){
+
+        newProfit.save(function (err) {
+            if (err) { return next(err) }
+
+    //Find Latest date then assigns id to dateid
+    var latest=profit.find({}).sort({date:-1}).limit(1).exec(function(err,foo){
+        var dateid=foo[0]._id;
+ 
+        console.log(dateid + " lastest id");
+     //Finds previous document based on the id from dateid
+        profit.find({_id:{$lt:dateid}}).sort({date:-1}).limit(1).exec(function(err,prev){
+            //Removes the document from the database if the week is the same
+        
+          if(foo[0].week==prev[0].week)
+         {
+             profit.remove({_id:foo[0]._id}).exec(function(err) {
+                 if(err){
+                     return err;
+                 }
+             });
+         }
+         else{
+            return;
+         } 
+ 
+        }) 
+ 
+     })
+        });
+
+
+   
+        
+    }
+    
+})
+
+
 
             profit.find({},'week date amount').exec(function(err,foo){
                 if(err){return next(err);}

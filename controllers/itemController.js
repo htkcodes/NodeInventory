@@ -79,7 +79,7 @@ exports.item_create_get = function(req, res) {
 // Handle item create on POST
 exports.item_create_post = function(req, res,next) {
     req.checkBody('name', 'Item name must be specified.').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
-    req.checkBody('quantit', 'Quantity must not be empty').isEmpty();
+    req.checkBody('quantity', 'Quantity must not be empty').isEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
     
