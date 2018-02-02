@@ -97,6 +97,9 @@ let newQuantity=(temp-1);
 qOriginal.text(newQuantity);
 quanOriginal.val((newQuantity)-1);
 Materialize.toast('Sold',5000,'toast-custom');
+ },
+ error:function (jqXHR,exception) {
+     console.log('err');
  }
 });
 
@@ -118,6 +121,46 @@ Materialize.toast('Sold',5000,'toast-custom');
        
     })
      $('.tooltipped').tooltip({delay: 50});
+
+     if(top.location.pathname==='/inventory/items')
+     {
+        $(".sell").attrchange({
+            trackValues: true, 
+            callback: function (e) {
+              //event.attributeName - Attribute Name
+              //event.oldValue - Prev Value
+              //event.newValue - New Value
+
+              function getDifference(a, b)
+{
+    var i = 0;
+    var j = 0;
+    var result = "";
+    
+    while (j < b.length)
+    {
+        if (a[i] != b[j] || i == a.length)
+            result += b[j];
+        else
+            i++;
+        j++;
+    }
+    return result;
+}
+
+              console.log(e.oldValue)
+              console.log(e.newValue + "NEW");
+        let changedAttr=getDifference(e.oldValue,e.newValue);
+
+
+    
+
+
+            }
+          });
+     }
+
+     
        if(top.location.pathname==='/users/profit')
      {
         /*  let date=moment("Fri Feb 02 2018 21:07:24 GMT-0500 (Eastern Standard Time)").format("MMM Do YY")

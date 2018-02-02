@@ -11,7 +11,7 @@ block content
           label(for='icon_prefix' data-error="You actually need to type in an item 😒")
         .input-field.col.s8.l4.offset-s2.offset-l4
           i.material-icons.prefix.highlight-color local_grocery_store
-          input(type='text', placeholder='Quantity' id="icon_prefx" class="validate" name='quantity' required='true',value=(undefined===item ? '' : item.quantity))
+          input(type='text', placeholder='Quantity' id="icon_prefx" class="validate" name='quantit' required='true',value=(undefined===item ? '' : item.quantity))
           label(for='icon_prefix' data-error="You actually need to type in the amount of items 😒")
       .row
         .input-field.col.s8.l4.offset-s2.offset-l4
@@ -26,4 +26,4 @@ block content
   if errors 
     ul
       for error in errors
-        li != error.msg
+        li!= error.msg

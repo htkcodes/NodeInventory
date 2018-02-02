@@ -30,17 +30,7 @@ exports.index = function(req, res) {
 };
 
 exports.item_list = function(req, res, next) {
-  /*   if(moment().weekday()==1)
-    {
-        item.findOneAndUpdate({total:{$gt:0}},
-        {
-            $set:{total:0}
-        },
-        {
-            multi:true
-        }
-        )
-    } */
+ 
         if(moment().weekday()!=0)
         {
             item.find({}, 'name quantity price sold total')
@@ -79,7 +69,7 @@ exports.item_create_get = function(req, res) {
 // Handle item create on POST
 exports.item_create_post = function(req, res,next) {
     req.checkBody('name', 'Item name must be specified.').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
-    req.checkBody('quantity', 'Quantity must not be empty').isEmpty();
+   // req.checkBody('quantit', 'Quantity must not be empty').isEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
     
@@ -87,7 +77,7 @@ exports.item_create_post = function(req, res,next) {
     req.sanitize('quantity').escape();
     req.sanitize('price').escape();
     req.sanitize('name').trim();     
-    req.sanitize('quantity').trim();
+    req.sanitize('quantit').trim();
     req.sanitize('price').trim();
 
 
@@ -95,7 +85,7 @@ exports.item_create_post = function(req, res,next) {
     
     var items = new item(
       { name: req.body.name, 
-        quantity: req.body.quantity, 
+        quantity: req.body.quantit, 
         price: req.body.price,
         sold:0,
         total:0
@@ -147,10 +137,15 @@ exports.item_update_get = function(req, res) {
 
 // Handle item update on POST
 exports.item_update_post = function(req, res,next) {
-    req.checkBody('quantit', 'Quantity must not be empty').isEmpty();
+
+    req.checkBody('quantity', 'Quantity must not be empty').notEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
-    
+
+    if(req.body.quantity < 0 )
+    {
+
+    }
     req.sanitize('quantity').trim();
     req.sanitize('quantity').escape();
    
