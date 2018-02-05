@@ -31,7 +31,7 @@ exports.index = function(req, res) {
 
 exports.item_list = function(req, res, next) {
  
-        if(moment().weekday()!=0)
+        if(moment().weekday()!=2)
         {
             item.find({}, 'name quantity price sold total')
             .exec(function (err, list_items) {
@@ -54,7 +54,7 @@ exports.item_list = function(req, res, next) {
                     if(err){
                         return next(err);
                     }
-                    res.send('Done');
+                    res.send('Reset complete');
                 })
         }
        
@@ -138,14 +138,19 @@ exports.item_update_get = function(req, res) {
 // Handle item update on POST
 exports.item_update_post = function(req, res,next) {
 
+  
+
+
+    if(req.body.quantity < 0 || req.body.price < 0 || req.body.total < 0 || req.body.sold < 0)
+    {
+req.body.quantity=null;
+req.body.price=null;
+res.send('no');
+    }
+
     req.checkBody('quantity', 'Quantity must not be empty').notEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
-
-    if(req.body.quantity < 0 )
-    {
-
-    }
     req.sanitize('quantity').trim();
     req.sanitize('quantity').escape();
    
