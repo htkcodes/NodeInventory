@@ -294,6 +294,10 @@ color: $text;
   background-image: url('/images/loader.gif') !important;
   
 }
+table.centered tbody tr td {
+  text-align: center;
+  width: 70px;
+}
 
 
 .btn{ /* ff3.6+ */

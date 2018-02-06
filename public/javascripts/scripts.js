@@ -146,6 +146,7 @@ if(top.location.pathname == "/inventory/item/create")
       data:JSON.stringify(formData),
       contentType:'application/json',
       success:function(data){
+          console.log(data);
       if(data==true)
       {
          $(".login-text").removeClass("hide")
@@ -155,6 +156,9 @@ if(top.location.pathname == "/inventory/item/create")
           $(".name").focus();
       }
       else  if(typeof data === "object"){
+        $(".login-text").removeClass("hide")
+        $(".login>.white-text").removeClass("hide");
+            $(".login").removeClass("loader");
         Object.keys(data).forEach(function(key) {
 
             $(".init").prepend(` <p class="flash-error animated flash">`+data[key].msg+` <i class="material-icons left highlight-color">error</i></p><br>`);

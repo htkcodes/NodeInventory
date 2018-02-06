@@ -10,7 +10,7 @@ router.get('/',ensureAuth, item_controller.index);
 router.get('/item/create', item_controller.item_create_get);
 
 /* POST request for creating item. */
-router.post('/item/create', item_controller.item_create_post);
+router.post('/item/create', ensureAuth,item_controller.item_create_post);
 
 router.get('/item/delete',ensureAuth,item_controller.item_delete_get);
 

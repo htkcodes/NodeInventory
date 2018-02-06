@@ -19,7 +19,7 @@ block content
           tbody
               each  item, i  in  item_list
                 tr(class="tabler-" + (i+1)+ " table-row-style")
-                  td.itemname  #{item.name}
+                  td.itemname.truncate  #{item.name}
                   td.quan  #{item.quantity}
                   td  $#{item.price}
                   td.sold  #{item.soldupdate-1}

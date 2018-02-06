@@ -91,7 +91,11 @@ exports.item_create_post = function(req, res,next) {
 
     }
 
-    req.checkBody('name', 'Item name must be specified.').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
+    req.checkBody('name', 'Item name must be specified.').notEmpty();
+    req.checkBody('name','Item name is too long').isLength({min:3,max:15}); 
+    //req.checkBody('name','Blacklisted word detected').matches()
+    
+    //We won't force Alphanumeric, because people might have spaces.
     req.checkBody('quantity', 'Quantity must not be empty').notEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
@@ -99,8 +103,8 @@ exports.item_create_post = function(req, res,next) {
     req.sanitize('name').escape();
     req.sanitize('quantity').escape();
     req.sanitize('price').escape();
-    req.sanitize('name').trim();     
-    req.sanitize('quantit').trim();
+    req.sanitize('name').trim(); 
+    req.sanitize('quantity').trim();
     req.sanitize('price').trim();
 
 var current_item=req.body.name;
