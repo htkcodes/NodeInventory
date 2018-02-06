@@ -54,7 +54,7 @@ exports.item_list = function(req, res, next) {
                     if(err){
                         return next(err);
                     }
-                    res.send('Reset complete');
+                    res.send('Reset complete,come back tomorrow,we\'ll back up tomorrow');
                 })
         }
        

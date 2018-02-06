@@ -13,7 +13,7 @@ var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1/chipsinv',{
+mongoose.connect('mongodb://root:chipsroot@ds225028.mlab.com:25028/chipsinventory',{
   useMongoClient:true
 });
 var db=mongoose.connection;
@@ -102,6 +102,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {

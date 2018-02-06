@@ -121,6 +121,29 @@ router.get('/login', function (req, res) {
 
 // Register User
 router.post('/register', function (req, res) {
+    
+    var hasOwnProperty=Object.prototype.hasOwnProperty;
+
+    function isEmpty(obj) {
+        
+        if(obj==null) return true;
+
+        if(obj.length > 0) return false;
+
+        if(obj.length ===0 ) return true;
+
+        if(typeof obj !== "object") return true;
+
+
+        for(var key in obj){
+            if(hasOwnProperty.call(obj,key)) return false;
+        }
+
+        return true;
+
+
+    }
+
     var name = req.body.name;
     var email = req.body.email;
     var username = req.body.username;
@@ -138,30 +161,58 @@ router.post('/register', function (req, res) {
     req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
     req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
 
+
+
     var errors = req.validationErrors();
-
-
 
     if (errors) {
         res.render('register', {
             errors: errors
         });
     } else {
-        var newUser = new User({
-            name: name,
-            email: email,
-            username: username,
-            password: password
-        });
+        console.log("ELSE USER")
+          //Checks if the item thats being added doesn't exist in the database
+          User.find({username:req.body.username}).limit(1).exec(function(err,username_exists){
+            console.log("FIND USER")
+            if(err){
+                throw err;
+            }
+        
+           if(isEmpty(username_exists) == false)
+           {
+            console.log("USER NAME EXISTS")
+            var user_exists=true;
 
-        User.createUser(newUser, function (err, user) {
+            let errors="Username Already Exists";
+
+            res.render('register', {user_exist:errors});
+           }
+           else 
+           { 
+            console.log("USER NAMEDOESNT EXISTS")
+            var newUser = new User({
+                name: name,
+                email: email,
+                username: username,
+                password: password
+            });
+            User.createUser(newUser, function (err, user) {
             if (err) throw err;
             console.log(user);
         });
-
         req.flash('success_msg', 'You are registered and can now login');
-
         res.redirect('/users/login');
+           }
+            
+        })
+
+        
+
+        
+
+     
+
+
     }
 });
 

@@ -10,6 +10,10 @@ block content
                 li.li-errors.animated.flash
                   i.material-icons error 
                   != error.msg
+  if user_exist
+        p.flash-error.animated.flash.move-up
+          | Username is taken
+          i.material-icons.left.highlight-color error
   h6 Fill out the fields down below
   form(method="POST" id="reg" action="/users/register").col.s12
     .row
