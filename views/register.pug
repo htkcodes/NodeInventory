@@ -5,10 +5,10 @@ block content
  .row
   h1.register REGISTER
   if errors 
-        ul.register-errors
+        ul.register-errors.move-up
             for error in errors
                 li.li-errors.animated.flash
-                  i.material-icons error 
+                  i.material-icons.highlight-color error 
                   != error.msg
   if user_exist
         p.flash-error.animated.flash.move-up
