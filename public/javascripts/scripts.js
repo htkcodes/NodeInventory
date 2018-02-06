@@ -1,5 +1,4 @@
 
-
 // A $( document ).ready() block.
 $( document ).ready(function() {
 
@@ -39,7 +38,6 @@ $( document ).ready(function() {
         let formDate={
             '_id':item_ID
         };
-        console.log(JSON.stringify(formDate));
 
         $.ajax({
             type:'POST',
@@ -105,21 +103,133 @@ Materialize.toast('Sold',5000,'toast-custom');
 
 })
 
-    $(".login").click(function(){
-       // $(".login").empty();
-       if($(".usrname").is(':invalid') || $(".pwd").is(':invalid'))
-       {
-     return;
-       }
-       else
-       {
-    $(".login-text").addClass("hide")
-    $(".login>.white-text").addClass("hide");
-        $(this).addClass("loader");
-       }
+/*-------ADD ITEM AJAX FUNCTION ------*/
 
+
+if(top.location.pathname == "/inventory/item/create")
+{
+    $("button").click(function(){
+
+        if($(".quantity").is(':invalid') || $(".price").is(':invalid') || $(".name").is(':invalid'))
+        {
+            console.log('first func');
+      return;
+        }
+        else
+        {
+            console.log('inside function');
+            console.log($(".login-text"));
+     $(".login-text").addClass("hide")
+     $(".login>.white-text").addClass("hide");
+         $(this).addClass("loader");
+
+         let itemname,quantity,price;
        
+         console.log('clicked');
+ price=$(".price").val();
+ itemname=$(".name").val();
+ quantity=$(".quantity").val(); 
+ 
+ 
+     
+     let formData={
+         'quantity':quantity,
+         'name':itemname,
+         'price':price
+     };
+ console.log(formData);
+ 
+     
+     
+      $.ajax({
+         type:'POST',
+      url:'/inventory/item/create',
+      data:JSON.stringify(formData),
+      contentType:'application/json',
+      success:function(data){
+      if(data==true)
+      {
+         $(".login-text").removeClass("hide")
+         $(".login>.white-text").removeClass("hide");
+             $(".login").removeClass("loader");
+          $(".init").prepend(`<p class="flash-error animated flash">The item you're trying to add already exists<i class="material-icons left highlight-color">error</i></p>`);
+          $(".name").focus();
+      }
+      else  if(typeof data === "object"){
+        Object.keys(data).forEach(function(key) {
+
+            $(".init").prepend(` <p class="flash-error animated flash">`+data[key].msg+` <i class="material-icons left highlight-color">error</i></p><br>`);
+    
+          
+          });
+     
+    }
+ else{  
+     $("p.flash-error").remove();
+     $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully added you'll be redirected in <span id="500" class="time" ></span> <i class="material-icons left highlight-color">done</i></p>`);
+    
+   
+     function c(){
+         var n=$('.time').attr('id');
+         var c=n;
+         $('.time').text(c);
+         setInterval(function(){
+             c--;
+             if(c>=0){
+                 $('.time').text(c);
+             }
+             if(c==1){
+                 $(location).attr('href', window.location.protocol+'//'+window.location.host+'/inventory/items');
+             
+             }
+         },1000);
+     }
+     // Start
+     c();
+     // Loop
+     setInterval(function(){
+         c();
+     },5000);
+ }
+
+      },
+      error:function (jqXHR,exception) {
+          console.log('err');
+      }
+     }); 
+         
+        }
+
+   
+    
     })
+}
+
+
+
+if(top.location.pathname=="/users/login")
+{
+
+    $(".login").click(function(){
+        // $(".login").empty();
+        if($(".usrname").is(':invalid') || $(".pwd").is(':invalid'))
+        {
+      return;
+        }
+        else
+        {
+     $(".login-text").addClass("hide")
+     $(".login>.white-text").addClass("hide");
+         $(this).addClass("loader");
+        }
+ 
+        
+     })
+
+}
+
+
+  
      $('.tooltipped').tooltip({delay: 50});
 
      if(top.location.pathname==='/inventory/items')

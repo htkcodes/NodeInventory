@@ -143,6 +143,9 @@ p {
   text-align: left;
   position: absolute; }
 
+.light-red-text {
+  color: #FF4073; }
+
 .light-red {
   background: #FF4073; }
 
@@ -184,7 +187,7 @@ nav {
 .main-wrap {
   height: 100vh;
   margin: 0; }
-  .main-wrap form {
+  .main-wrap .form {
     margin-top: 3em; }
 
 .card {
@@ -253,6 +256,9 @@ td, th {
 .no-mt {
   margin-top: 0 !important; }
 
+.btn:focus, .btn-large:focus, .btn-floating:focus {
+  background-color: #0087fb; }
+
 .flash-error {
   color: #FF4073;
   position: absolute;
@@ -266,6 +272,12 @@ td, th {
   min-width: 218px; }
   .flash-error i {
     margin-top: -3px; }
+
+.center-horizontal {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%); }
 
 .flash-success {
   color: #00A676;

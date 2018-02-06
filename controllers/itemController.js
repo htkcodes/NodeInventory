@@ -31,7 +31,7 @@ exports.index = function(req, res) {
 
 exports.item_list = function(req, res, next) {
  
-        if(moment().weekday()!=2)
+        if(moment().weekday()!=0)
         {
             item.find({}, 'name quantity price sold total')
             .exec(function (err, list_items) {
@@ -68,8 +68,31 @@ exports.item_create_get = function(req, res) {
 };
 // Handle item create on POST
 exports.item_create_post = function(req, res,next) {
+
+    var hasOwnProperty=Object.prototype.hasOwnProperty;
+
+    function isEmpty(obj) {
+        
+        if(obj==null) return true;
+
+        if(obj.length > 0) return false;
+
+        if(obj.length ===0 ) return true;
+
+        if(typeof obj !== "object") return true;
+
+
+        for(var key in obj){
+            if(hasOwnProperty.call(obj,key)) return false;
+        }
+
+        return true;
+
+
+    }
+
     req.checkBody('name', 'Item name must be specified.').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
-   // req.checkBody('quantit', 'Quantity must not be empty').isEmpty();
+    req.checkBody('quantity', 'Quantity must not be empty').notEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
     
@@ -80,30 +103,56 @@ exports.item_create_post = function(req, res,next) {
     req.sanitize('quantit').trim();
     req.sanitize('price').trim();
 
-
+var current_item=req.body.name;
     var errors = req.validationErrors();
+    const zero=0;
     
     var items = new item(
       { name: req.body.name, 
-        quantity: req.body.quantit, 
+        quantity: req.body.quantity, 
         price: req.body.price,
-        sold:0,
-        total:0
+        sold:zero,
+        total:zero
        });
        
     if (errors) {
-        res.render('item_form', { title: 'Item', item: items, errors: errors});
+        res.send(errors);
     return;
     } 
     else {
-    // Data from form is valid
-    
+            //Checks if the item thats being added doesn't exist in the database
+            item.find({name:current_item}).limit(1).exec(function(err,name_exists){
+                if(err){
+                    throw err;
+                }
+            
+               if(isEmpty(name_exists) == false)
+               {
+                var item_exists=true;
+
+                res.send(item_exists);
+               }
+               else 
+               {
+                  
+                    //Saves if it doesnt exists
+                items.save(function (err) {
+                    if (err) { return next(err); }
+                    res.send(false);
+                    }); 
+                    
+                   
+               }
+                
+            })
+        }
+
+   /*  // Data from form is valid
         items.save(function (err) {
             if (err) { return next(err); }
                //successful - redirect to new iem record.
                res.redirect('/inventory/items');
-            });
-    }
+            }); */ 
 
 };
 exports.item_delete_get=function(req,res,next){
@@ -137,9 +186,6 @@ exports.item_update_get = function(req, res) {
 
 // Handle item update on POST
 exports.item_update_post = function(req, res,next) {
-
-  
-
 
     if(req.body.quantity < 0 || req.body.price < 0 || req.body.total < 0 || req.body.sold < 0)
     {

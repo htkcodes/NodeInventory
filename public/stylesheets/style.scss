@@ -198,8 +198,9 @@ p{
  text-align: left;
  position: absolute;
 }
-
-
+.light-red-text{
+color: $light-red;
+}
 .light-red{
   background: #FF4073;
 }
@@ -233,7 +234,7 @@ line-height: 0px;
 .main-wrap{
 height: 100vh;
 margin: 0;
-form{
+.form{
 margin-top:3em;
 }
 }
@@ -286,6 +287,7 @@ input[type=text],input[type=password],input[type=email],input[type=number]{
 color: $text;
 }
 
+
 //Spinner
 
 .loader{
@@ -316,6 +318,11 @@ td,th{
   margin-top: 0 !important;
 }
 
+.btn:focus, .btn-large:focus, .btn-floating:focus{
+  background-color: $prim-darker;
+}
+
+
 .flash-error{
 color:#FF4073;
 position: absolute;
@@ -330,6 +337,12 @@ i{
 font-family: $robo;
 white-space: normal;
 min-width: 218px;
+}
+.center-horizontal{
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 .flash-success{
   color:$green;
