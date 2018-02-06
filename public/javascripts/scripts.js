@@ -62,42 +62,41 @@ $(".sell").click(function(){
     var qOriginal=$(this).closest("tr").children().filter("td.quan");
     var quanOriginal=item_ID.eq(1);
 
-   
-    
-
-
-    itemname=item_ID.eq(0).val();
-    quantity=item_ID.eq(1).val();
-    price=item_ID.eq(2).val();
     _id=item_ID.eq(3).val();
-    sold=item_ID.eq(4).val();
-    total=item_ID.eq(5).val();
 
-let formDate={
+let formData={
     '_id':_id,
-    'quantity':quantity,
-    'sold':sold,
-    'name':itemname,
-    'total':total,
-    'price':price
 };
 
 
 $.ajax({
     type:'POST',
- url:'/inventory/item/update',
- data:JSON.stringify(formDate),
+ url:'/inventory/item/sell',
+ data:JSON.stringify(formData),
  contentType:'application/json',
  success:function(data){
 
-let temp=qOriginal.text().trim();
+
+
+if(typeof data === "string"){
+    Materialize.toast(data,5000,'toast-custom');
+    setTimeout(function(){
+        window.location.reload(1);
+     }, 4000);
+}
+else if(data===true)
+{
+    Materialize.toast('Sold',5000,'toast-custom'); 
+    let temp=qOriginal.text().trim();
 let newQuantity=(temp-1);
 qOriginal.text(newQuantity);
 quanOriginal.val((newQuantity)-1);
-Materialize.toast('Sold',5000,'toast-custom');
+}
+
  },
  error:function (jqXHR,exception) {
      console.log('err');
+     Materialize.toast('An Error Occured',5000,'toast-custom');
  }
 });
 

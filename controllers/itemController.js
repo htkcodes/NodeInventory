@@ -228,3 +228,41 @@ res.send('TODO COMMIT');
 
     }
 };
+
+// Handle item sell on POST
+exports.item_sell_post = function(req, res,next) {
+
+    req.checkBody('_id', 'id not found').notEmpty();
+   
+    
+    var errors = req.validationErrors();
+
+    if (errors) {
+       res.send(errors);
+    }
+    else{
+        item.findById(req.body._id,function(err,product){
+            try{
+                var updatedProduct = new item(
+                    { name: product.name, 
+                      quantity: product.quantityupdate, 
+                      price: product.price,
+                      _id:product._id,
+                      sold:product.soldupdate,
+                      total:product.totalupdate
+                     }); 
+    
+                     item.findByIdAndUpdate(product._id,updatedProduct,function updateItem(err){
+                        if(err){return next(err);}
+                        res.send(true);
+                    });
+            }
+            catch(err){
+res.send("the ID was tampered with");
+            }
+                
+        });
+
+    }
+};
+

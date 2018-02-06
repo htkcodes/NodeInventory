@@ -23,6 +23,8 @@ router.get('/item/update',ensureAuth, item_controller.item_update_get);
 
 // POST request to update item
 router.post('/item/update',ensureAuth, item_controller.item_update_post);
+//Post Request to sell item
+router.post('/item/sell',ensureAuth,item_controller.item_sell_post);
 
 /* GET request for list of all items. */
 router.get('/items',ensureAuth, item_controller.item_list);
