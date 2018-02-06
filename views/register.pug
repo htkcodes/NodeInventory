@@ -5,9 +5,9 @@ block content
  .row
   h1.register REGISTER
   if errors 
-        ul.register-errors.move-up
+        ul.register-errors
             for error in errors
-                li.li-errors.animated.flash
+                li.li-errors.animated.flash.move-up
                   i.material-icons.highlight-color error 
                   != error.msg
   if user_exist
