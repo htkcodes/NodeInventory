@@ -191,7 +191,7 @@ exports.item_update_post = function(req, res,next) {
     {
 req.body.quantity=null;
 req.body.price=null;
-res.send('no');
+res.send('TODO COMMIT');
     }
 
     req.checkBody('quantity', 'Quantity must not be empty').notEmpty();
