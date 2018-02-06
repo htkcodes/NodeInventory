@@ -166,7 +166,7 @@ if(top.location.pathname == "/inventory/item/create")
     }
  else{  
      $("p.flash-error").remove();
-     $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully added you'll be redirected in <span id="500" class="time" ></span> <i class="material-icons left highlight-color">done</i></p>`);
+     $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully added you'll be redirected in <span id="5" class="time" ></span> <i class="material-icons left highlight-color">done</i></p>`);
     
    
      function c(){
@@ -234,6 +234,7 @@ if(top.location.pathname=="/users/login")
 
      if(top.location.pathname==='/inventory/items')
      {
+
         $(".sell").attrchange({
             trackValues: true, 
             callback: function (e) {
