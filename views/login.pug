@@ -7,10 +7,10 @@ block content
   h6  Enter your credentials to login
   br
  
-  p.flash-error.animated.flash
+  p.flash-error.animated.flash.move-up
     | #{error}
     i.material-icons.left.hide.highlight-color error
-  p.flash-success.animated.flash
+  p.flash-success.animated.flash.move-up
     | #{success_msg}
   form(method="post" action="/users/login" ).col.s12
     .row

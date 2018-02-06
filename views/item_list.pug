@@ -2,6 +2,14 @@ extends layout
 
 block content
   h1= title
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
   div.biglist
     .row
       .col.s7.offset-s2
@@ -55,6 +63,7 @@ block content
                       input(type="hidden" name="total" value=item.totalupdate)
                       button.btn.btn-primary.btn-actions.sell(type='submit')
                         i.material-icons.green-text shopping_basket
+
   
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
   script(src="/javascripts/itemlist.js")

@@ -735,6 +735,28 @@ and (-webkit-min-device-pixel-ratio: 1) {
     transform:translate(-26.5%,-36.9%);
   }
 }
+@media screen 
+and (min-device-width: 1920px) 
+and (max-device-height: 1200px) 
+ {
+  .actions{
+    top:26.5%;
+    right: 36.9%;
+    transform:translate(-26.5%,-36.9%);
+  }
+  .move-up{
+    top:13%;
+  }
+}
+@media screen 
+and (min-device-width: 1920px) 
+and (max-device-height: 1080px) 
+ {
+
+  .move-up{
+    top:15%;
+  }
+}
 
 @media screen
 and(min-device-width:769px)
@@ -876,4 +898,9 @@ i{
 }
 }
 
+.middle-left{
+  bottom:50vh;
+  left:20px;
+  position: fixed;
+}
 
