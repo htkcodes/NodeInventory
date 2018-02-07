@@ -12,8 +12,8 @@ var LocalStrategy=require('passport-local');
 var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
-
-mongoose.connect('mongodb://root:chipsroot@ds225028.mlab.com:25028/chipsinventory',{
+//mongodb://127.0.0.1/chipsinv -localhost db
+mongoose.connect('mongodb://root:bn33bn33@ds225028.mlab.com:25028/chipsinventory',{
   useMongoClient:true
 });
 var db=mongoose.connection;
@@ -102,7 +102,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 
 // error handler
 app.use(function(err, req, res, next) {

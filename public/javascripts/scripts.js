@@ -60,7 +60,10 @@ $(".sell").click(function(){
     let itemname,quantity,price,_id,sold,total;
     let item_ID=$(this).closest("td").children().filter("input");
     var qOriginal=$(this).closest("tr").children().filter("td.quan");
+    var pOriginal=$(this).closest("tr").children().filter("td.price");
+    var tOriginal=$(this).closest("tr").children().filter("td.total");
     var quanOriginal=item_ID.eq(1);
+
 
     _id=item_ID.eq(3).val();
 
@@ -87,9 +90,20 @@ if(typeof data === "string"){
 else if(data===true)
 {
     Materialize.toast('Sold',5000,'toast-custom'); 
-    let temp=qOriginal.text().trim();
+let temp=qOriginal.text().trim();
+let tempT=tOriginal.text().trim();
+let price=pOriginal.text().trim();
+tempT=tempT.replace("$",'');
+price=price.replace("$",'');
+console.log("PREVIOUS " + tempT + " :" + price);
+tempT=parseInt(tempT);
+price=parseInt(price);
+console.log(tempT + "temp t");
+console.log(price + "price");
 let newQuantity=(temp-1);
-qOriginal.text(newQuantity);
+let newTotal=(tempT+price);
+tOriginal.text("$"+newTotal);
+qOriginal.text("$"+newQuantity);
 quanOriginal.val((newQuantity)-1);
 }
 
@@ -152,7 +166,8 @@ if(top.location.pathname == "/inventory/item/create")
          $(".login-text").removeClass("hide")
          $(".login>.white-text").removeClass("hide");
              $(".login").removeClass("loader");
-          $(".init").prepend(`<p class="flash-error animated flash">The item you're trying to add already exists<i class="material-icons left highlight-color">error</i></p>`);
+             $("div.init").empty();
+          $("div.init").append(`<p class="flash-error animated flash">The item you're trying to add already exists<i class="material-icons left highlight-color">error</i></p>`);
           $(".name").focus();
       }
       else  if(typeof data === "object"){
@@ -160,8 +175,8 @@ if(top.location.pathname == "/inventory/item/create")
          $(".login>.white-text").removeClass("hide");
              $(".login").removeClass("loader");
         Object.keys(data).forEach(function(key) {
-
-            $(".init").prepend(` <p class="flash-error animated flash">`+data[key].msg+` <i class="material-icons left highlight-color">error</i></p><br>`);
+            $("div.init").empty();
+            $("div.init").append(` <p class="flash-error animated flash">`+data[key].msg+` <i class="material-icons left highlight-color">error</i></p><br>`);
     
           
           });
@@ -383,9 +398,11 @@ else
     
      } 
  
-     
-       
-     $('.tap-target').tapTarget('open');
-  $('.tap-target').tapTarget('close');
         
+  if(top.location.pathname == "/inventory/items")
+  {
+      $(".bottom").addClass("hide");
+      console.log("here path")
+  }
+  
 });

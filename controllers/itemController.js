@@ -92,7 +92,8 @@ exports.item_create_post = function(req, res,next) {
     }
 
     req.checkBody('name', 'Item name must be specified.').notEmpty();
-    req.checkBody('name','Item name is too long').isLength({min:3,max:15}); 
+    req.checkBody('name','Item name is too long').isLength({max:30}); 
+    req.checkBody('name','Item name is short long').isLength({min:3}); 
     //req.checkBody('name','Blacklisted word detected').matches()
     
     //We won't force Alphanumeric, because people might have spaces.
