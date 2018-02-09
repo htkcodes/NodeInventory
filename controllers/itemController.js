@@ -27,35 +27,23 @@ exports.index = function(req, res) {
        // console.log(results.item_total[0].sum)
         res.render('index', { title: 'OVERVIEW', error: err, data: results });
     });
+
 };
 
 exports.item_list = function(req, res, next) {
  
-        if(moment().weekday()!=0)
+        if(moment().weekday()!=6)
         {
             item.find({}, 'name quantity price sold total')
             .exec(function (err, list_items) {
               if (err) { return next(err); }
               //Successful, so render
-              console.log(list_items);
+
               res.render('item_list', { title: 'Products', item_list: list_items });
             });
         }
         else{
-            item.findOneAndUpdate({total:{$gt:0}},
-                {
-                    $set:{total:0}
-                },
-                {
-                    multi:true
-                }
-                )
-                .exec(function(err,list_items){
-                    if(err){
-                        return next(err);
-                    }
-                    res.send('Reset complete,come back tomorrow,we\'ll back up tomorrow');
-                })
+           
         }
        
      

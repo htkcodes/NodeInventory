@@ -404,5 +404,11 @@ else
       $(".bottom").addClass("hide");
       console.log("here path")
   }
-  
+  if(top.location.pathname=="/users/cleanup")
+  {
+    setTimeout(function(){ 
+$(".progress").remove();
+$(".msg").removeClass("hide");
+     }, 5000);
+  }
 });

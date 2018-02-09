@@ -16,7 +16,10 @@ var moment = require('moment');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
 
-    res.redirect('/users/login');
+    
+    
+        res.redirect('/users/login');
+   
 
 });
 
@@ -107,6 +110,9 @@ profit.count(function (err,count) {
     });
 });
 
+router.get('/cleanup',function(req,res,next){
+    res.render('reset',{title:'Cleanup'});
+})
 
 // Register
 router.get('/register', function (req, res) {
@@ -115,8 +121,16 @@ router.get('/register', function (req, res) {
 
 // Login
 router.get('/login', function (req, res) {
+    //Sunday Login
+if(moment().weekday()==0)
+{
+    res.redirect('cleanup');
+}
+else{
     res.render('login', { title: 'Login' });
     req.flash('success_msg', 5)
+}
+ 
 });
 
 // Register User

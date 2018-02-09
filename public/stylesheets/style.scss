@@ -298,7 +298,21 @@ color: $text;
   
 }
 
-
+.mt-60{
+  margin-top:30vh;
+}
+.msg{
+  p{
+    color: $prim-darker;
+  }
+}
+.progress 
+{
+  background-color:lighten($prim-darker,40);
+.indeterminate {
+  background-color: $prim-darker;
+}
+}
 
 .btn{ /* ff3.6+ */
   width:140.567px;

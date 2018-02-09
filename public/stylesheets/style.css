@@ -238,6 +238,17 @@ input[type=text], input[type=password], input[type=email], input[type=number] {
 .loader {
   background-image: url("/images/loader.gif") !important; }
 
+.mt-60 {
+  margin-top: 30vh; }
+
+.msg p {
+  color: #0087fb; }
+
+.progress {
+  background-color: #c8e6ff; }
+  .progress .indeterminate {
+    background-color: #0087fb; }
+
 .btn {
   /* ff3.6+ */
   width: 140.567px;
