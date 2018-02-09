@@ -32,8 +32,6 @@ exports.index = function(req, res) {
 
 exports.item_list = function(req, res, next) {
  
-        if(moment().weekday()!=6)
-        {
             item.find({}, 'name quantity price sold total')
             .exec(function (err, list_items) {
               if (err) { return next(err); }
@@ -41,13 +39,7 @@ exports.item_list = function(req, res, next) {
 
               res.render('item_list', { title: 'Products', item_list: list_items });
             });
-        }
-        else{
-           
-        }
-       
-     
-        
+  
     };
 
 // Display item create form on GET
