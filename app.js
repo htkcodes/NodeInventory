@@ -13,7 +13,8 @@ var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
 //mongodb://127.0.0.1/chipsinv -localhost db
-mongoose.connect('mongodb://<database>/chipsinventory',{
+//mongodb://root:bn33bn33@ds225028.mlab.com:25028/chipsinventory
+mongoose.connect('mongodb://root:D4T5b*u%3@ds225028.mlab.com:25028/chipsinventory',{
   useMongoClient:true
 });
 var db=mongoose.connection;
