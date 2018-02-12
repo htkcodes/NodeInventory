@@ -3,17 +3,15 @@ var router = express.Router();
 var moment=require('moment');
 var item_controller = require('../controllers/itemController');
 
-
 router.get('/',ensureAuth, item_controller.index);
 
 /* GET request for creating item. NOTE This must come before route for id (i.e. display item) */
-router.get('/item/create', item_controller.item_create_get);
+router.get('/item/create',ensureAuth, item_controller.item_create_get);
 
 /* POST request for creating item. */
 router.post('/item/create', ensureAuth,item_controller.item_create_post);
 
 router.get('/item/delete',ensureAuth,item_controller.item_delete_get);
-
 
 // POST request to delete item
 router.post('/item/delete', ensureAuth,item_controller.item_delete_post);

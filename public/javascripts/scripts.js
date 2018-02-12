@@ -2,8 +2,6 @@
 // A $( document ).ready() block.
 $( document ).ready(function() {
 
-  
-
     $('.modal').modal();
     console.log( "ready!" );
     $(".button-collapse").sideNav();
@@ -121,7 +119,8 @@ quanOriginal.val((newQuantity)-1);
 
 if(top.location.pathname == "/inventory/item/create")
 {
-    $("button").click(function(){
+  
+       $("button").click(function(){
 
         if($(".quantity").is(':invalid') || $(".price").is(':invalid') || $(".name").is(':invalid'))
         {
@@ -150,9 +149,7 @@ if(top.location.pathname == "/inventory/item/create")
          'name':itemname,
          'price':price
      };
- console.log(formData);
  
-     
      
       $.ajax({
          type:'POST',
@@ -160,7 +157,6 @@ if(top.location.pathname == "/inventory/item/create")
       data:JSON.stringify(formData),
       contentType:'application/json',
       success:function(data){
-          console.log(data);
       if(data==true)
       {
          $(".login-text").removeClass("hide")
@@ -182,33 +178,51 @@ if(top.location.pathname == "/inventory/item/create")
           });
      
     }
- else{  
-     $("p.flash-error").remove();
-     $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully added you'll be redirected in <span id="5" class="time" ></span> <i class="material-icons left highlight-color">done</i></p>`);
-    
-   
-     function c(){
-         var n=$('.time').attr('id');
-         var c=n;
-         $('.time').text(c);
-         setInterval(function(){
-             c--;
-             if(c>=0){
-                 $('.time').text(c);
-             }
-             if(c==1){
-                 $(location).attr('href', window.location.protocol+'//'+window.location.host+'/inventory/items');
-             
-             }
-         },1000);
-     }
-     // Start
-     c();
-     // Loop
-     setInterval(function(){
-         c();
-     },5000);
- }
+ else{
+    let isToggled = function() {
+        var n = $( "input:checked" ).length;
+        //If checked
+        if(n===1)
+        {
+
+            $("p.flash-error").remove();
+            $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully added you'll be redirected in <span id="5" class="time" ></span> <i class="material-icons left highlight-color">done</i></p>`);
+           
+          
+            function c(){
+                var n=$('.time').attr('id');
+                var c=n;
+                $('.time').text(c);
+                setInterval(function(){
+                    c--;
+                    if(c>=0){
+                        $('.time').text(c);
+                    }
+                    if(c==1){
+                        $(location).attr('href', window.location.protocol+'//'+window.location.host+'/inventory/items');
+                    
+                    }
+                },1000);
+            }
+            // Start
+            c();
+            // Loop
+            setInterval(function(){
+                c();
+            },5000);
+        }
+        else{
+            $(".login-text").removeClass("hide")
+            $(".login>.white-text").removeClass("hide");
+                $(".login").removeClass("loader");
+            $("p.flash-error").remove();
+            $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully added</span><i class="material-icons left highlight-color">done</i></p>`); 
+        }
+      };
+      isToggled();
+      $( "input[type=checkbox]" ).on( "click", isToggled );
+ 
+ }  
 
       },
       error:function (jqXHR,exception) {

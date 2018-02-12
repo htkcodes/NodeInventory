@@ -7,6 +7,15 @@ block content
   .row
     div.form.col.s12
       .row
+
+        .switch.center.highlight-color
+          | Toggle Redirect
+          br
+          label
+            | Off
+            input.toggleR(type='checkbox')
+            span.lever
+            |       On
         .input-field.col.s8.l4.offset-s2.offset-l4
           i.material-icons.prefix.highlight-color local_offer
           input(type='text', placeholder='Item Name' id="icon_prefx" class="validate name" name='name' required='true',value=(undefined===item ? '' : item.name))
