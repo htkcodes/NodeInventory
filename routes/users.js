@@ -16,10 +16,10 @@ var moment = require('moment');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
 
-    
-    
-        res.redirect('/users/login');
-   
+
+
+    res.redirect('/users/login');
+
 
 });
 
@@ -39,79 +39,94 @@ router.get('/profit', function (req, res) {
 
     }, function (err, results) {
 
-      
-       
+        profit.count(function (err, count) {
+
+            var weekly = results.item_total[0].sum;
+            var newProfit = new profit({
+                week: moment().weeks(),
+                date: moment().isoWeekday("Friday"),
+                amount: 45000,
+            });
+
+            if (!err && count === 0) {
+
+                newProfit.save(function (err) {
+                    if (err) {
+                        return (err)
+                    }
+                });
+
+            } else if (!err && count !== 0) {
+
+                newProfit.save(function (err) {
+                    if (err) {
+                        return next(err)
+                    }
+
+                    //Find Latest date then assigns id to dateid
+                    var latest = profit.find({}).sort({
+                        date: -1
+                    }).limit(1).exec(function (err, foo) {
+                        var dateid = foo[0]._id;
+
+                        console.log(dateid + " lastest id");
+                        //Finds previous document based on the id from dateid
+                        profit.find({
+                            _id: {
+                                $lt: dateid
+                            }
+                        }).sort({
+                            date: -1
+                        }).limit(1).exec(function (err, prev) {
+                            //Removes the document from the database if the week is the same
+
+                            if (foo[0].week == prev[0].week) {
+                                profit.remove({
+                                    _id: foo[0]._id
+                                }).exec(function (err) {
+                                    if (err) {
+                                        return err;
+                                    }
+                                });
+                            } else {
+                                return;
+                            }
+
+                        })
+
+                    })
+                });
 
 
-profit.count(function (err,count) {
-
-    var weekly = results.item_total[0].sum;
-        var newProfit = new profit({
-            week:moment().weeks(),
-            date: moment().isoWeekday("Friday"),
-            amount: 45000,
-        });
-  
-    if(!err&&count===0)
-    {
-
-    newProfit.save(function (err) {
-        if (err) { return (err) }
-    });
-
-    }
-    else if(!err && count !==0){
-
-        newProfit.save(function (err) {
-            if (err) { return next(err) }
-
-    //Find Latest date then assigns id to dateid
-    var latest=profit.find({}).sort({date:-1}).limit(1).exec(function(err,foo){
-        var dateid=foo[0]._id;
- 
-        console.log(dateid + " lastest id");
-     //Finds previous document based on the id from dateid
-        profit.find({_id:{$lt:dateid}}).sort({date:-1}).limit(1).exec(function(err,prev){
-            //Removes the document from the database if the week is the same
-        
-          if(foo[0].week==prev[0].week)
-         {
-             profit.remove({_id:foo[0]._id}).exec(function(err) {
-                 if(err){
-                     return err;
-                 }
-             });
-         }
-         else{
-            return;
-         } 
- 
-        }) 
- 
-     })
-        });
 
 
-   
-        
-    }
-    
-})
+            }
+
+        })
 
 
 
-            profit.find({},'week date amount').exec(function(err,foo){
-                if(err){return next(err);}
-                res.render('profit', { title: 'Profit Table', error: err, data: results,wklySales:foo})
+        profit.find({}, 'week date amount').exec(function (err, foo) {
+            if (err) {
+                return next(err);
+            }
+            res.render('profit', {
+                title: 'Profit Table',
+                error: err,
+                data: results,
+                wklySales: foo
             })
-        
-        ; 
+        })
+
+        ;
 
     });
 });
 
-router.get('/cleanup',function(req,res,next){
-    res.render('reset',{title:'Cleanup'});
+router.get('/cleanup', function (req, res, next) {
+    res.render('reset', {
+        title: 'Cleanup'
+    });
 })
 
 // Register
@@ -122,35 +137,35 @@ router.get('/register', function (req, res) {
 // Login
 router.get('/login', function (req, res) {
     //Sunday Login
-if(moment().weekday()==0)
-{
-    res.redirect('cleanup');
-}
-else{
-    res.render('login', { title: 'Login' });
-    req.flash('success_msg', 5)
-}
- 
+    if (moment().weekday() == 0) {
+        res.redirect('cleanup');
+    } else {
+        res.render('login', {
+            title: 'Login'
+        });
+        req.flash('success_msg', 5)
+    }
+
 });
 
 // Register User
 router.post('/register', function (req, res) {
-    
-    var hasOwnProperty=Object.prototype.hasOwnProperty;
+
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
 
     function isEmpty(obj) {
-        
-        if(obj==null) return true;
 
-        if(obj.length > 0) return false;
+        if (obj == null) return true;
 
-        if(obj.length ===0 ) return true;
+        if (obj.length > 0) return false;
 
-        if(typeof obj !== "object") return true;
+        if (obj.length === 0) return true;
+
+        if (typeof obj !== "object") return true;
 
 
-        for(var key in obj){
-            if(hasOwnProperty.call(obj,key)) return false;
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
         }
 
         return true;
@@ -185,48 +200,41 @@ router.post('/register', function (req, res) {
         });
     } else {
         console.log("ELSE USER")
-          //Checks if the item thats being added doesn't exist in the database
-          User.find({username:req.body.username}).limit(1).exec(function(err,username_exists){
+        //Checks if the item thats being added doesn't exist in the database
+        User.find({
+            username: req.body.username
+        }).limit(1).exec(function (err, username_exists) {
             console.log("FIND USER")
-            if(err){
+            if (err) {
                 throw err;
             }
-        
-           if(isEmpty(username_exists) == false)
-           {
-            console.log("USER NAME EXISTS")
-            var user_exists=true;
 
-            let errors="Username Already Exists";
+            if (isEmpty(username_exists) == false) {
+                console.log("USER NAME EXISTS")
+                var user_exists = true;
 
-            res.render('register', {user_exist:errors});
-           }
-           else 
-           { 
-            console.log("USER NAMEDOESNT EXISTS")
-            var newUser = new User({
-                name: name,
-                email: email,
-                username: username,
-                password: password
-            });
-            User.createUser(newUser, function (err, user) {
-            if (err) throw err;
-            console.log(user);
-        });
-        req.flash('success_msg', 'You are registered and can now login');
-        res.redirect('/users/login');
-           }
-            
+                let errors = "Username Already Exists";
+
+                res.render('register', {
+                    user_exist: errors
+                });
+            } else {
+                console.log("USER NAMEDOESNT EXISTS")
+                var newUser = new User({
+                    name: name,
+                    email: email,
+                    username: username,
+                    password: password
+                });
+                User.createUser(newUser, function (err, user) {
+                    if (err) throw err;
+                    console.log(user);
+                });
+                req.flash('success_msg', 'You are registered and can now login');
+                res.redirect('/users/login');
+            }
+
         })
-
-        
-
-        
-
-     
-
-
     }
 });
 
