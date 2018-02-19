@@ -59,6 +59,7 @@ $(".sell").click(function(){
     let item_ID=$(this).closest("td").children().filter("input");
     var qOriginal=$(this).closest("tr").children().filter("td.quan");
     var pOriginal=$(this).closest("tr").children().filter("td.price");
+    var soldOriginal=$(this).closest("tr").children().filter("td.sold");
     var tOriginal=$(this).closest("tr").children().filter("td.total");
     var quanOriginal=item_ID.eq(1);
 
@@ -88,6 +89,7 @@ if(typeof data === "string"){
 else if(data===true)
 {
     Materialize.toast('Sold',5000,'toast-custom'); 
+let sold=soldOriginal.text().trim();
 let temp=qOriginal.text().trim();
 let tempT=tOriginal.text().trim();
 let price=pOriginal.text().trim();
@@ -96,10 +98,13 @@ price=price.replace("$",'');
 console.log("PREVIOUS " + tempT + " :" + price);
 tempT=parseInt(tempT);
 price=parseInt(price);
+tSold=parseInt(sold);
 console.log(tempT + "temp t");
 console.log(price + "price");
 let newQuantity=(temp-1);
 let newTotal=(tempT+price);
+let updateSold=(tSold+1);
+soldOriginal.text(updateSold);
 tOriginal.text("$"+newTotal);
 qOriginal.text(newQuantity);
 quanOriginal.val((newQuantity)-1);
