@@ -15,12 +15,8 @@ var moment = require('moment');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-
-
-
+    
     res.redirect('/users/login');
-
-
 });
 
 router.get('/profit', function (req, res) {
@@ -137,6 +133,8 @@ router.get('/register', function (req, res) {
 // Login
 router.get('/login', function (req, res) {
     //Sunday Login
+    
+    console.log( req.app.get('env') );
     if (moment().weekday() == 0) {
         res.redirect('cleanup');
     } else {
