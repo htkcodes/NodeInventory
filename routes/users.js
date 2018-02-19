@@ -200,14 +200,14 @@ router.post('/register', function (req, res) {
         console.log("ELSE USER")
         //Checks if the item thats being added doesn't exist in the database
         User.find({
-            username: req.body.username
-        }).limit(1).exec(function (err, username_exists) {
+            email:email
+        }).limit(1).exec(function (err, email_exist) {
             console.log("FIND USER")
             if (err) {
                 throw err;
             }
 
-            if (isEmpty(username_exists) == false) {
+            if (isEmpty(email_exist) == false) {
                 console.log("USER NAME EXISTS")
                 var user_exists = true;
 
@@ -237,8 +237,11 @@ router.post('/register', function (req, res) {
 });
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.getUserByUsername(username, function (err, user) {
+    {
+        usernameField: 'email',
+    },
+    function (email, password, done) {
+        User.getUserByEmail(email, function (err, user) {
             if (err) throw err;
             if (!user) {
                 console.log(user);

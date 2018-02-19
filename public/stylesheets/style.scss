@@ -258,7 +258,7 @@ left: 50%;
         transform: translateX(-50%);
 }
 .move-up{
-  top:12%;
+  top:14%;
 }
 .move-down{
   position: absolute;
@@ -366,7 +366,6 @@ min-width: 218px;
   color:$green;
   position: absolute;
   left: 50%;
-  top:21%;
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
