@@ -101,7 +101,7 @@ console.log(price + "price");
 let newQuantity=(temp-1);
 let newTotal=(tempT+price);
 tOriginal.text("$"+newTotal);
-qOriginal.text("$"+newQuantity);
+qOriginal.text(newQuantity);
 quanOriginal.val((newQuantity)-1);
 }
 
