@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var session=require('express-session');
 var passport=require('passport');
 var LocalStrategy=require('passport-local');
+var MongoStore=require('connect-mongo')(session)
 
 var flash=require('connect-flash');
 var mongo=require('mongodb');
@@ -46,7 +47,8 @@ app.use(session({
   resave:true,
   cookie:{
     maxAge:6000000
-  }
+  },
+  store:new MongoStore({url:'mongodb://root:F62y^HSq@ds225028.mlab.com:25028/chipsinventory',autoReconnect:true})
 }));
 
 app.use(passport.initialize());

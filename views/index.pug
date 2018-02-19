@@ -22,7 +22,7 @@ block content
                 p.money
                   i.material-icons.highlight-color shopping_cart  
                 p.num.count
-                  |#{data.item_count}
+                  | #{data.item_count}
         .col.s6.l3.offset-l2
           .card.primary-reverse
             .card-content.highlight-color
@@ -31,8 +31,9 @@ block content
                 p.money
                   i.material-icons.highlight-color attach_money
                 p.num.count
-                  if  data.item_total[0]  !=  0
-                    |#{data.item_total[0].sum}
+                    
+                  if  data.item_total[0]  !=  null
+                    | #{data.item_total[0].sum}
                   else
                     | 0
   script.

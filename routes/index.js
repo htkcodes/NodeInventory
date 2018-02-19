@@ -9,7 +9,7 @@ router.get('/',ensureAuth, function(req, res) {
 function ensureAuth(req,res,next){
   if(req.isAuthenticated()){
     console.log(req.isAuthenticated());
-    return next();
+    res.redirect('/inventory');
   }
   res.redirect('/users/login');
 }
