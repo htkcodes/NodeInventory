@@ -13,7 +13,14 @@ for(let x=0;x<quan_arr.length;x++)
     if(quan_arr[x] < 10 && quan_arr[x]>1 )
     {
         var $toastContent=item_arr[x];
-        Materialize.toast($toastContent + ' is running low', 6000,'toast-custom');
+        if($toastContent == undefined)
+        {
+            return;
+        }
+        else{
+            Materialize.toast($toastContent + ' is running low', 6000,'toast-custom');
+        }
+       
     }
     else if(quan_arr[x]<1)
     {
