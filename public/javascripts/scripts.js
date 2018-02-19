@@ -31,92 +31,114 @@ $( document ).ready(function() {
     
     /*-------DELETE AJAX FUNCTION ----------*/
     $(".delete").click(function(){
-        let item_ID=$(this).closest("div").children().filter("input").val();
-        let selectedRow=$(this).closest("tr");
-        let formDate={
-            '_id':item_ID
-        };
+        let sure=confirm("Are you sure?");
 
-        $.ajax({
-            type:'POST',
-         url:'/inventory/item/delete',
-         data:JSON.stringify(formDate),
-         contentType:'application/json',
-         success:function(data){
-             console.log('done');
-             Materialize.toast('Deletion Successful',5000,'toast-custom');
-            selectedRow.remove();
-         }
+        if(sure==true)
+        {
+            let item_ID=$(this).closest("div").children().filter("input").val();
+            let selectedRow=$(this).closest("tr");
+            let formDate={
+                '_id':item_ID
+            };
+    
+            $.ajax({
+                type:'POST',
+             url:'/inventory/item/delete',
+             data:JSON.stringify(formDate),
+             contentType:'application/json',
+             success:function(data){
+                 console.log('done');
+                 Materialize.toast('Deletion Successful',5000,'toast-custom');
+                selectedRow.remove();
+             }
+            
+        });
+        }
+        else{
+            Materialize.toast('Delete Cancelled',5000,'toast-custom')
+        }
         
-    });
 });
 
 /*-------SELL AJAX FUNCTION ------*/
 
 $(".sell").click(function(){
 
-    let itemname,quantity,price,_id,sold,total;
-    let item_ID=$(this).closest("td").children().filter("input");
-    var qOriginal=$(this).closest("tr").children().filter("td.quan");
-    var pOriginal=$(this).closest("tr").children().filter("td.price");
-    var soldOriginal=$(this).closest("tr").children().filter("td.sold");
-    var tOriginal=$(this).closest("tr").children().filter("td.total");
-    var quanOriginal=item_ID.eq(1);
+    let sure=confirm("Are you sure?");
+
+    if(sure==true)
+    {
+        
+        let itemname,quantity,price,_id,sold,total;
+        let item_ID=$(this).closest("td").children().filter("input");
+        var qOriginal=$(this).closest("tr").children().filter("td.quan");
+        var pOriginal=$(this).closest("tr").children().filter("td.price");
+        var soldOriginal=$(this).closest("tr").children().filter("td.sold");
+        var tOriginal=$(this).closest("tr").children().filter("td.total");
+        var quanOriginal=item_ID.eq(1);
+    
+    
+        _id=item_ID.eq(3).val();
+    
+    let formData={
+        '_id':_id,
+    };
+    
+    
+    $.ajax({
+        type:'POST',
+     url:'/inventory/item/sell',
+     data:JSON.stringify(formData),
+     contentType:'application/json',
+     success:function(data){
+    
+    
+    
+    if(typeof data === "string"){
+        Materialize.toast(data,5000,'toast-custom');
+        setTimeout(function(){
+            window.location.reload(1);
+         }, 4000);
+    }
+    else if(data===true)
+    {
+        Materialize.toast('Sold',5000,'toast-custom'); 
+    let sold=soldOriginal.text().trim();
+    let temp=qOriginal.text().trim();
+    let tempT=tOriginal.text().trim();
+    let price=pOriginal.text().trim();
+    tempT=tempT.replace("$",'');
+    price=price.replace("$",'');
+    console.log("PREVIOUS " + tempT + " :" + price);
+    tempT=parseInt(tempT);
+    price=parseInt(price);
+    tSold=parseInt(sold);
+    console.log(tempT + "temp t");
+    console.log(price + "price");
+    let newQuantity=(temp-1);
+    let newTotal=(tempT+price);
+    let updateSold=(tSold+1);
+    soldOriginal.text(updateSold);
+    tOriginal.text("$"+newTotal);
+    qOriginal.text(newQuantity);
+    quanOriginal.val((newQuantity)-1);
+    }
+    
+     },
+     error:function (jqXHR,exception) {
+         console.log('err');
+         Materialize.toast('An Error Occured',5000,'toast-custom');
+     }
+    });
+    
 
 
-    _id=item_ID.eq(3).val();
+    }
+    else{
+        Materialize.toast('Cancelled',5000,'toast-custom')
+    }
 
-let formData={
-    '_id':_id,
-};
-
-
-$.ajax({
-    type:'POST',
- url:'/inventory/item/sell',
- data:JSON.stringify(formData),
- contentType:'application/json',
- success:function(data){
-
-
-
-if(typeof data === "string"){
-    Materialize.toast(data,5000,'toast-custom');
-    setTimeout(function(){
-        window.location.reload(1);
-     }, 4000);
-}
-else if(data===true)
-{
-    Materialize.toast('Sold',5000,'toast-custom'); 
-let sold=soldOriginal.text().trim();
-let temp=qOriginal.text().trim();
-let tempT=tOriginal.text().trim();
-let price=pOriginal.text().trim();
-tempT=tempT.replace("$",'');
-price=price.replace("$",'');
-console.log("PREVIOUS " + tempT + " :" + price);
-tempT=parseInt(tempT);
-price=parseInt(price);
-tSold=parseInt(sold);
-console.log(tempT + "temp t");
-console.log(price + "price");
-let newQuantity=(temp-1);
-let newTotal=(tempT+price);
-let updateSold=(tSold+1);
-soldOriginal.text(updateSold);
-tOriginal.text("$"+newTotal);
-qOriginal.text(newQuantity);
-quanOriginal.val((newQuantity)-1);
-}
-
- },
- error:function (jqXHR,exception) {
-     console.log('err');
-     Materialize.toast('An Error Occured',5000,'toast-custom');
- }
-});
-
+   
 })
 
 /*-------ADD ITEM AJAX FUNCTION ------*/
