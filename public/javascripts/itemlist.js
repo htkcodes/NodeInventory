@@ -19,7 +19,13 @@ for(let x=0;x<quan_arr.length;x++)
     {
         $("tr>td.quan").eq(x).parent().find(".sell").addClass("ddisabled");
         let toastContent=$("tr>td.quan").eq(x).parent().find(".itemname").text();
-        Materialize.toast(toastContent + ' is out of stock', 7000,'toast-custom')
+        if (toastContent == '')
+        {
+            return;
+        }
+       else{
+        Materialize.toast(toastContent + 'is out of stock', 7000,'toast-custom')
+       }
         //console.log($(".quan").parent().find(item_arr[x]));
     }
 }
