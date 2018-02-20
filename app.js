@@ -13,9 +13,10 @@ var MongoStore=require('connect-mongo')(session)
 var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
+var secret=require('./config/secret');
 //mongodb://127.0.0.1/chipsinv -localhost db
 //mongodb://root:bn33bn33@ds225028.mlab.com:25028/chipsinventory
-mongoose.connect('mongodb://root:F62y^HSq@ds225028.mlab.com:25028/chipsinventory',{
+mongoose.connect(secret.database,{
   useMongoClient:true
 });
 var db=mongoose.connection;
@@ -42,13 +43,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.use(session({
-  secret:'secret',
+  secret:secret.secretKey,
   saveUninitialized:true,
   resave:true,
   cookie:{
     maxAge:6000000
   },
-  store:new MongoStore({url:'mongodb://root:F62y^HSq@ds225028.mlab.com:25028/chipsinventory',autoReconnect:true})
+  store:new MongoStore({url:secret.database,autoReconnect:true})
 }));
 
 app.use(passport.initialize());
