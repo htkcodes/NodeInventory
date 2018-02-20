@@ -186,7 +186,7 @@ li{
   color: $text !important;
 }
 p{
-  text-align: center;
+ // text-align: center;
   color: $text;
   font-family: $robo;
 }
@@ -198,6 +198,33 @@ p{
  text-align: left;
  position: absolute;
 }
+
+.collection .collection-item.avatar{
+  padding-left:6px !important;
+}
+.collection .collection-item{
+ // box-shadow: 1px 0px 25px -1px rgba(133,135,137,0.3);
+border-bottom:none;
+background:$white;
+
+p.indent{
+  margin-left: 15px;
+  font-size: 13px;
+  i{
+    font-size: 16px;
+    position: relative;
+    top:3px;
+  }
+}
+}
+.secondary-content{
+  p.price{
+  font-size: 1.7em;
+      padding-top:1rem;
+    
+  }
+}
+
 .light-red-text{
 color: $light-red;
 }

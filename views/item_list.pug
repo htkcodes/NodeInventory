@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu")
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
     i.material-icons.white-text add
   div.tap-target(data-activate="menu")
     div.tap-target-content
@@ -10,7 +10,7 @@ block content
         | ok
       p
         | ok
-  div.biglist
+  div.biglist(style="display:none")
     .row
       .col.s7.offset-s2
         table.centered.responsive-table
@@ -63,6 +63,57 @@ block content
                       input(type="hidden" name="total" value=item.totalupdate)
                       button.btn.btn-primary.btn-actions.sell(type='submit')
                         i.material-icons.green-text shopping_basket
+  .row
+    .col.s12.l6.offset-l3
+      ul.collection
+        li.collection-item.avatar
+          span.title Bun
+          
+          .secondary-content(href='#!')
+            p.price
+              | $80
+        li.collection-item.avatar
+          span.title Title
+          p
+            | First Line 
+            br
+            |          Second Line
+          a.secondary-content(href='#!')
+            
+        li.collection-item.avatar
+          
+          span.title Title
+          span.title.right $80
+          p.indent
+            i.material-icons info_outline
+            span  Quantity :
+              span  5
+          p.indent
+            i.material-icons info_outline
+            span  Amount Sold :
+              span  5
+          p.indent
+            i.material-icons info_outline
+            span  Total Sold :
+              span  5
+          
+          
+            
+          
+
+
+          a.secondary-content(href='#!')
+            
+        li.collection-item.avatar
+          
+          span.title Title
+          p
+            | First Line 
+            br
+            |          Second Line
+          a.secondary-content(href='#!')
+            i.material-icons grade
+
 
   
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
