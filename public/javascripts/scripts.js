@@ -69,19 +69,24 @@ $(".sell").click(function(){
     if(sure==true)
     {
         
-        let itemname,quantity,price,_id,sold,total;
-        let item_ID=$(this).closest("td").children().filter("input");
-        var qOriginal=$(this).closest("tr").children().filter("td.quan");
-        var pOriginal=$(this).closest("tr").children().filter("td.price");
-        var soldOriginal=$(this).closest("tr").children().filter("td.sold");
-        var tOriginal=$(this).closest("tr").children().filter("td.total");
-        var quanOriginal=item_ID.eq(1);
+        let parent=$(this).parent();
+        let item_ID=parent.children("button.sell").find("input").val();
+        let quantityOriginal=parent.children("p").find("span.quan");
+        let soldOriginal=parent.children("p").find("span.sold");
+        let totalOriginal=parent.children("p").find("span.total");
+        let price=parent.children("span").filter("span.price").text();
+
+
+        replacedTotalOriginal=totalOriginal.text().replace('$','');
+        price=price.replace('$','');
+        parsedTotalOriginal=parseInt(replacedTotalOriginal);
+        parsedPrice=parseInt(price);
+        parsedQuantityOriginal=parseInt(quantityOriginal.text());
+        parsedSoldOriginal=parseInt(soldOriginal.text());
     
-    
-        _id=item_ID.eq(3).val();
     
     let formData={
-        '_id':_id,
+        '_id':item_ID,
     };
     
     
@@ -92,8 +97,6 @@ $(".sell").click(function(){
      contentType:'application/json',
      success:function(data){
     
-    
-    
     if(typeof data === "string"){
         Materialize.toast(data,5000,'toast-custom');
         setTimeout(function(){
@@ -103,25 +106,13 @@ $(".sell").click(function(){
     else if(data===true)
     {
         Materialize.toast('Sold',5000,'toast-custom'); 
-    let sold=soldOriginal.text().trim();
-    let temp=qOriginal.text().trim();
-    let tempT=tOriginal.text().trim();
-    let price=pOriginal.text().trim();
-    tempT=tempT.replace("$",'');
-    price=price.replace("$",'');
-    console.log("PREVIOUS " + tempT + " :" + price);
-    tempT=parseInt(tempT);
-    price=parseInt(price);
-    tSold=parseInt(sold);
-    console.log(tempT + "temp t");
-    console.log(price + "price");
-    let newQuantity=(temp-1);
-    let newTotal=(tempT+price);
-    let updateSold=(tSold+1);
+
+    let newQuantity=parsedQuantityOriginal-1;
+    let newTotal=parsedTotalOriginal+parsedPrice;
+    let updateSold=parsedSoldOriginal+1;
     soldOriginal.text(updateSold);
-    tOriginal.text("$"+newTotal);
-    qOriginal.text(newQuantity);
-    quanOriginal.val((newQuantity)-1);
+    totalOriginal.text("$"+newTotal);
+    quantityOriginal.text(newQuantity);
     }
     
      },
@@ -131,8 +122,6 @@ $(".sell").click(function(){
      }
     });
     
-
-
     }
     else{
         Materialize.toast('Cancelled',5000,'toast-custom')
@@ -141,7 +130,7 @@ $(".sell").click(function(){
    
 })
 
-/*-------ADD ITEM AJAX FUNCTION ------*/
+/*-------UPdATE AJAX FUNCTION ------*/
 
 if(top.location.name == "/inventory/item/create")
 {

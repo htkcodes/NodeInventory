@@ -75,23 +75,24 @@ block content
               div(class="item-" + (i+1))
                       input(type="hidden" name="_id" class="namedelete-" + (i+1) value=item._id)
               
-            a.waves-effect.waves-light.btn.link-list.btn-actions
+            button.waves-effect.waves-light.btn.link-list.btn-actions.sell
               i.material-icons.right.green-text shopping_basket
-            i.material-icons  
+              input(type="hidden", name="_id" value=item._id)
+              
             span.title #{item.name}
-            span.title.right.highlight-color $#{item.price}
+            span.title.right.price.highlight-color $#{item.price}
             p.indent
               i.material-icons info_outline
               span  Quantity :
-                span  #{item.quantity}
+                span.quan  #{item.quantity}
             p.indent
               i.material-icons info_outline
-              span  Amount Sold :
-                span  #{item.soldupdate-1}
+              span Amount Sold :
+                span.sold  #{item.soldupdate-1}
             p.indent
               i.material-icons info_outline
               span  Total Sold :
-                span  $#{item.totalupdate-item.price}
+                span.total  $#{item.totalupdate-item.price}
 
 
   

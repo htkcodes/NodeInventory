@@ -401,12 +401,14 @@ td, th {
   top: 29.5%;
   transform: translate(36%, -29.5%); }
 
-.ddisabled {
+/* .ddisabled{
   background-color: none !important;
-  pointer-events: none; }
-  .ddisabled i {
-    color: gray !important; }
-
+  pointer-events: none;
+ i{
+  color: gray !important;
+ }
+}
+ */
 /* ----------- iPhone 4 and 4S ----------- */
 /* Portrait */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {

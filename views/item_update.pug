@@ -19,7 +19,7 @@ block content
         .input-field.col.s8.l4.offset-s2.offset-l4
           i.material-icons.prefix.highlight-color local_offer
           input(type='text', placeholder='Item Name' id="icon_prefx" class="validate name" name='name' required='true',value=(undefined===item ? '' : item.name))
-          input(type="hidden", name="hidden_id" class="hidden_id" value=(undefined=== item ? '' :item._id))
+          input(type="hidden", name="hidden_id" class="hidden_id" value=(undefined===item ? '' :item._id))
           label(for='icon_prefix' data-error="You actually need to type in an item 😒")
         .input-field.col.s8.l4.offset-s2.offset-l4
           i.material-icons.prefix.highlight-color local_grocery_store
