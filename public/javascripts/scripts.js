@@ -32,7 +32,7 @@ $( document ).ready(function() {
     /*-------DELETE AJAX FUNCTION ----------*/
     $(".delete").click(function(){
         let sure=confirm("Are you sure?");
-
+        Materialize.toast('Working...',20000,'toast-custom');
         if(sure==true)
         {
             console.log()
@@ -49,12 +49,18 @@ $( document ).ready(function() {
              contentType:'application/json',
              success:function(data){
                 selectedRow.remove();
+                var toastElement = $('.toast').first()[0];
+                var toastInstance = toastElement.M_Toast;
+                toastInstance.remove();
                 Materialize.toast('Deletion Successful',5000,'toast-custom');
              }
             
         }); 
         }
         else{
+            var toastElement = $('.toast').first()[0];
+            var toastInstance = toastElement.M_Toast;
+            toastInstance.remove();
             Materialize.toast('Delete Cancelled',5000,'toast-custom')
         }
         
@@ -65,7 +71,7 @@ $( document ).ready(function() {
 $(".sell").click(function(){
 
     let sure=confirm("Are you sure?");
-
+    Materialize.toast('Working...',20000,'toast-custom');
     if(sure==true)
     {
         
@@ -105,6 +111,9 @@ $(".sell").click(function(){
     }
     else if(data===true)
     {
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
         Materialize.toast('Sold',5000,'toast-custom'); 
 
     let newQuantity=parsedQuantityOriginal-1;
@@ -117,6 +126,9 @@ $(".sell").click(function(){
     
      },
      error:function (jqXHR,exception) {
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
          console.log('err');
          Materialize.toast('An Error Occured',5000,'toast-custom');
      }
@@ -555,4 +567,10 @@ $(".progress").remove();
 $(".msg").removeClass("hide");
      }, 5000);
   }
+
+  function adjustMenu()
+  {
+ 
+  }
+
 });

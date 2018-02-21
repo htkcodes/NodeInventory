@@ -236,11 +236,11 @@ bottom: -1px;
 left: 5px;
 &:nth-child(1)
 {
-  left:8rem;
+  left:35vw;
 }
 &:nth-child(2)
 {
-  left:16rem;
+  left:70vw;
 }
 }
   
@@ -880,7 +880,6 @@ and(-webkit-min-device-pixel-ratio:1){
 
 }
 
-
 .message-wrapper{
   @include centerer;
 }
@@ -931,6 +930,65 @@ td{
 
 }
 }
+
+
+@media all and (max-width: 1199px) { } 
+@media only screen and (min-width: 993px) {
+
+  .collection .collection-item.avatar{
+    .link-list{
+left:3vw;
+    &:nth-child(1)
+    {
+      left:45vw;
+    }
+    &:nth-child(2)
+    {
+      left:87vw;
+    }
+    }
+      
+ }
+} 
+@media all and (min-width: 768px) {
+
+  .collection .collection-item.avatar{
+    .link-list{
+
+    &:nth-child(1)
+    {
+      left:43vw;
+    }
+    &:nth-child(2)
+    {
+      left:85vw;
+    }
+    }
+      
+ }
+
+} 
+
+
+ @media all and(max-width: 425px) {
+
+  .collection .collection-item.avatar{
+    .link-list{
+
+    &:nth-child(1)
+    {
+      left:35vw;
+    }
+    &:nth-child(2)
+    {
+      left:70vw;
+    }
+    }
+      
+ }
+
+}
+ 
 
 
 
