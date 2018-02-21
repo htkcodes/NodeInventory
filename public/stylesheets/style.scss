@@ -60,6 +60,26 @@ $lato:'Lato',sans-serif;
 $fred:'Fredoka One', cursive;
 
 /* ------------Mixins -----------*/
+
+@mixin even(){
+  &:nth-child(even) {
+    @content;
+  }
+}
+
+
+@mixin odd(){
+  &:nth-child(odd) {
+    @content;
+  }
+}
+
+@mixin each($num) {
+  &:nth-child(#{$num}n) {
+    @content;
+  }
+}
+
 @mixin centerer {
   position: absolute;
   top: 50%;
@@ -94,6 +114,9 @@ $fred:'Fredoka One', cursive;
     scrollbar-track-color: $background-color;
   }
 }
+
+
+
 /* ------------Mixins END -----------*/
 
 @include scrollbars(.5em, $prim-darker);
@@ -200,18 +223,54 @@ p{
 }
 
 .collection .collection-item.avatar{
+min-height: 130px;  
   padding-left:6px !important;
+  margin-bottom: 0;
+  //border-bottom: 1px solid $prim-darker;
+.btn{
+  width: 45px;
+}
+.link-list{
+  position: absolute;
+bottom: -1px;
+left: 5px;
+&:nth-child(1)
+{
+  left:8rem;
+}
+&:nth-child(2)
+{
+  left:16rem;
+}
+}
+  
+@include odd()
+{
+  border-left:4px solid $prim-darker;
+}
+@include even()
+{
+  border-left: 4px solid $light-green;
+}
+
+@include each(4)
+{
+  border-left: 4px solid $light-red;
+}
+.title{
+  padding-left: 0.5rem;
+}
 }
 .collection .collection-item{
  // box-shadow: 1px 0px 25px -1px rgba(133,135,137,0.3);
 border-bottom:none;
 background:$white;
-
+margin-bottom: 1px;
 p.indent{
-  margin-left: 15px;
-  font-size: 13px;
+  margin-left: 0.5rem;
+  font-size: 12px;
   i{
-    font-size: 16px;
+    font-size: 15px;
     position: relative;
     top:3px;
   }
@@ -226,7 +285,7 @@ p.indent{
 }
 
 .light-red-text{
-color: $light-red;
+color: $light-red !important;
 }
 .light-red{
   background: #FF4073;
@@ -366,8 +425,9 @@ td,th{
 .btn:focus, .btn-large:focus, .btn-floating:focus{
   background-color: $prim-darker;
 }
-
-
+.min-width-300{
+  min-width: 280px !important
+}
 .flash-error{
 color:#FF4073;
 position: absolute;
@@ -381,7 +441,7 @@ i{
 }
 font-family: $robo;
 white-space: normal;
-min-width: 218px;
+min-width: 220px;
 }
 .center-horizontal{
   left: 50%;

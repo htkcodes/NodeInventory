@@ -35,8 +35,9 @@ $( document ).ready(function() {
 
         if(sure==true)
         {
-            let item_ID=$(this).closest("div").children().filter("input").val();
-            let selectedRow=$(this).closest("tr");
+            console.log()
+             let item_ID=$(this).find("div").children().filter("input").val();
+            let selectedRow=$(this).closest("li");
             let formDate={
                 '_id':item_ID
             };
@@ -47,12 +48,11 @@ $( document ).ready(function() {
              data:JSON.stringify(formDate),
              contentType:'application/json',
              success:function(data){
-                 console.log('done');
-                 Materialize.toast('Deletion Successful',5000,'toast-custom');
                 selectedRow.remove();
+                Materialize.toast('Deletion Successful',5000,'toast-custom');
              }
             
-        });
+        }); 
         }
         else{
             Materialize.toast('Delete Cancelled',5000,'toast-custom')
@@ -143,8 +143,7 @@ $(".sell").click(function(){
 
 /*-------ADD ITEM AJAX FUNCTION ------*/
 
-
-if(top.location.pathname == "/inventory/item/create")
+if(top.location.name == "/inventory/item/create")
 {
   
        $("button").click(function(){
@@ -176,7 +175,6 @@ if(top.location.pathname == "/inventory/item/create")
          'name':itemname,
          'price':price
      };
- 
      
       $.ajax({
          type:'POST',
@@ -264,6 +262,122 @@ if(top.location.pathname == "/inventory/item/create")
     })
 }
 
+
+/*-------ADD ITEM AJAX FUNCTION ------*/
+var locationn=top.location.pathname;
+var isUpdatePage=locationn.includes("/inventory/item/update/")
+if(isUpdatePage)
+{
+  console.log("in update function")
+       $("button").click(function(){
+
+        if($(".quantity").is(':invalid') || $(".price").is(':invalid') || $(".name").is(':invalid'))
+        {
+            console.log('first func');
+      return;
+        }
+        else
+        {
+            console.log('inside function');
+            console.log($(".login-text"));
+     $(".login-text").addClass("hide")
+     $(".login>.white-text").addClass("hide");
+         $(this).addClass("loader");
+
+         let itemname,quantity,price;
+       
+         console.log('clicked');
+ price=$(".price").val();
+ itemname=$(".name").val();
+ quantity=$(".quantity").val(); 
+ item_id=$(".hidden_id").val()
+ 
+ 
+     
+     let formData={
+         'quantity':quantity,
+         'name':itemname,
+         'price':price,
+         '_id':item_id
+     };
+     
+      $.ajax({
+         type:'POST',
+      url:'/inventory/item/update',
+      data:JSON.stringify(formData),
+      contentType:'application/json',
+      success:function(data){
+      if(data==true)
+      {
+         $(".login-text").removeClass("hide")
+         $(".login>.white-text").removeClass("hide");
+             $(".login").removeClass("loader");
+             $("div.init").empty();
+      /*     $("div.init").append(`<p class="flash-error animated flash">Item successfully updated<i class="material-icons left highlight-color">error</i></p>`) */;
+          let isToggled = function() {
+            var n = $( "input:checked" ).length;
+            //If checked
+            if(n===1)
+            {
+    
+                $("p.flash-error").remove();
+                $(".init").prepend(`<p class="flash-error min-width-300 animated flash green-text">Item updated,you'll be redirected in <span id="5" class="time" ></span> <i class="material-icons left highlight-color">done</i></p>`);
+               
+              
+                function c(){
+                    var n=$('.time').attr('id');
+                    var c=n;
+                    $('.time').text(c);
+                    setInterval(function(){
+                        c--;
+                        if(c>=0){
+                            $('.time').text(c);
+                        }
+                        if(c==1){
+                            $(location).attr('href', window.location.protocol+'//'+window.location.host+'/inventory/items');
+                        
+                        }
+                    },1000);
+                }
+                // Start
+                c();
+                // Loop
+                setInterval(function(){
+                    c();
+                },5000);
+            }
+            else{
+                $(".login-text").removeClass("hide")
+                $(".login>.white-text").removeClass("hide");
+                    $(".login").removeClass("loader");
+                $("p.flash-error").remove();
+                $(".init").prepend(`<p class="flash-error animated flash green-text">Item was successfully updated</span><i class="material-icons left highlight-color">done</i></p>`); 
+            }
+          };
+          $( "input[type=checkbox]" ).on( "click", isToggled );
+          isToggled();
+
+      }
+      else  if(typeof data === "object"){
+          $(".login-text").removeClass("hide")
+         $(".login>.white-text").removeClass("hide");
+             $(".login").removeClass("loader");
+        Object.keys(data).forEach(function(key) {
+            $("div.init").empty();
+            $("div.init").append(` <p class="flash-error animated flash">`+data[key].msg+` <i class="material-icons left highlight-color">error</i></p><br>`);
+          });
+     
+    }
+      },
+      error:function (jqXHR,exception) {
+          console.log('err');
+          Materialize.toast(exception,5000);
+      }
+     }); 
+         
+        }
+    })
+}
 
 
 if(top.location.pathname=="/users/login")

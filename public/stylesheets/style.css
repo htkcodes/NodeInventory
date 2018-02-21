@@ -143,16 +143,37 @@ p {
   position: absolute; }
 
 .collection .collection-item.avatar {
-  padding-left: 6px !important; }
+  min-height: 130px;
+  padding-left: 6px !important;
+  margin-bottom: 0; }
+  .collection .collection-item.avatar .btn {
+    width: 45px; }
+  .collection .collection-item.avatar .link-list {
+    position: absolute;
+    bottom: -1px;
+    left: 5px; }
+    .collection .collection-item.avatar .link-list:nth-child(1) {
+      left: 8rem; }
+    .collection .collection-item.avatar .link-list:nth-child(2) {
+      left: 16rem; }
+  .collection .collection-item.avatar:nth-child(odd) {
+    border-left: 4px solid #0087fb; }
+  .collection .collection-item.avatar:nth-child(even) {
+    border-left: 4px solid #38FAA6; }
+  .collection .collection-item.avatar:nth-child(4n) {
+    border-left: 4px solid #FF4073; }
+  .collection .collection-item.avatar .title {
+    padding-left: 0.5rem; }
 
 .collection .collection-item {
   border-bottom: none;
-  background: #fff; }
+  background: #fff;
+  margin-bottom: 1px; }
   .collection .collection-item p.indent {
-    margin-left: 15px;
-    font-size: 13px; }
+    margin-left: 0.5rem;
+    font-size: 12px; }
     .collection .collection-item p.indent i {
-      font-size: 16px;
+      font-size: 15px;
       position: relative;
       top: 3px; }
 
@@ -161,7 +182,7 @@ p {
   padding-top: 1rem; }
 
 .light-red-text {
-  color: #FF4073; }
+  color: #FF4073 !important; }
 
 .light-red {
   background: #FF4073; }
@@ -290,6 +311,9 @@ td, th {
 .btn:focus, .btn-large:focus, .btn-floating:focus {
   background-color: #0087fb; }
 
+.min-width-300 {
+  min-width: 280px !important; }
+
 .flash-error {
   color: #FF4073;
   position: absolute;
@@ -300,7 +324,7 @@ td, th {
   height: 20px;
   font-family: "Roboto", sans-serif;
   white-space: normal;
-  min-width: 218px; }
+  min-width: 220px; }
   .flash-error i {
     margin-top: -3px; }
 

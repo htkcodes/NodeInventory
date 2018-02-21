@@ -1,0 +1,37 @@
+extends layout
+
+
+block content
+  h1  Update Item
+  div.init
+  .row
+    div.form.col.s12
+      .row
+
+        .switch.center.highlight-color
+          | Toggle Redirect
+          br
+          label
+            | Off
+            input.toggleR(type='checkbox' checked="checked")
+            span.lever
+            |       On
+        .input-field.col.s8.l4.offset-s2.offset-l4
+          i.material-icons.prefix.highlight-color local_offer
+          input(type='text', placeholder='Item Name' id="icon_prefx" class="validate name" name='name' required='true',value=(undefined===item ? '' : item.name))
+          input(type="hidden", name="hidden_id" class="hidden_id" value=(undefined=== item ? '' :item._id))
+          label(for='icon_prefix' data-error="You actually need to type in an item 😒")
+        .input-field.col.s8.l4.offset-s2.offset-l4
+          i.material-icons.prefix.highlight-color local_grocery_store
+          input(type='number', placeholder='Quantity' id="icon_prefx" class="validate quantity" name='quantity',value=(undefined===item ? '' : item.quantity) required)
+          label(for='icon_prefix' data-error="You actually need to type in the amount of items 😒")
+      .row
+        .input-field.col.s8.l4.offset-s2.offset-l4
+          i.material-icons.prefix.highlight-color attach_money
+          input(type='number', placeholder='Price' id="icon_prefx" class="validate price" name='price' required value=(undefined===item ? '' : item.price))
+          label(for='icon_prefix' data-error="You actually need to type in the price 😒")
+      button.btn.btn-primary.move.btn-large.f-reduce.login(type='submit' data-position="bottom" data-delay="50" data-tooltip="")
+        span.login-text
+          |Submit
+        i.material-icons.white-text.right send
+        

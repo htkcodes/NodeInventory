@@ -165,50 +165,65 @@ exports.item_delete_post = function(req, res) {
    
 };
 // Display item update form on GET
-exports.item_update_get = function(req, res) {
-    res.render('item_update',{title:'Update Item'});
+exports.item_update_get = function(req, res,next) {
+    console.log('ok ke3l');
+    item.findById(req.params.id,function updateItem(err,found_item){
+        if(err){return next(err);}
+        else{
+            res.render('item_update', { title: 'Update Items',item:found_item});
+        }
+    })
 };
 
 // Handle item update on POST
 exports.item_update_post = function(req, res,next) {
-
-    if(req.body.quantity < 0 || req.body.price < 0 || req.body.total < 0 || req.body.sold < 0)
-    {
-req.body.quantity=null;
-req.body.price=null;
-res.send('TODO COMMIT');
-    }
-
+   
+    
+    req.checkBody('name', 'Item name must be specified.').notEmpty();
+    req.checkBody('name','Item name is too long').isLength({max:30}); 
+    req.checkBody('name','Item name is short long').isLength({min:3}); 
+    //req.checkBody('name','Blacklisted word detected').matches()
+    
+    //We won't force Alphanumeric, because people might have spaces.
     req.checkBody('quantity', 'Quantity must not be empty').notEmpty();
     req.checkBody('price', 'Price must not be empty').notEmpty();
 
-    req.sanitize('quantity').trim();
+    
+    req.sanitize('name').escape();
     req.sanitize('quantity').escape();
-   
-    req.sanitize('price').escape();    
-  
+    req.sanitize('price').escape();
+    req.sanitize('name').trim(); 
+    req.sanitize('quantity').trim();
     req.sanitize('price').trim();
-
-    var items = new item(
-        {  name: req.body.name, 
-          quantity: req.body.quantity, 
-          price: req.body.price,
-          _id:req.body._id,
-          sold:req.body.sold,
-          total:req.body.total
-         });
+    
+   
     
     var errors = req.validationErrors();
- 
-     
+
     if (errors) {
-        res.render('item_update', { title: 'Update Items',item:items, errors: errors});
-    return;
+       res.send(errors);
     }
     else{
-        item.findByIdAndUpdate(req.body._id,items,function updateItem(err){
-            if(err){return next(err);}
-            res.redirect('/inventory/items');
+        item.findById(req.body._id,function(err,product){
+            try{
+                var updatedProduct = new item(
+                    { name: req.body.name, 
+                      quantity: req.body.quantity, 
+                      price: req.body.price,
+                      _id:product._id,
+                      sold:product.sold,
+                      total:product.total
+                     }); 
+    
+                     item.findByIdAndUpdate(product._id,updatedProduct,function updateItem(err){
+                        if(err){return next(err);}
+                        res.send(true);
+                    });
+            }
+            catch(err){
+res.send(err);
+            }
+                
         });
 
     }

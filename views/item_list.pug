@@ -66,53 +66,32 @@ block content
   .row
     .col.s12.l6.offset-l3
       ul.collection
-        li.collection-item.avatar
-          span.title Bun
-          
-          .secondary-content(href='#!')
-            p.price
-              | $80
-        li.collection-item.avatar
-          span.title Title
-          p
-            | First Line 
-            br
-            |          Second Line
-          a.secondary-content(href='#!')
-            
-        li.collection-item.avatar
-          
-          span.title Title
-          span.title.right $80
-          p.indent
-            i.material-icons info_outline
-            span  Quantity :
-              span  5
-          p.indent
-            i.material-icons info_outline
-            span  Amount Sold :
-              span  5
-          p.indent
-            i.material-icons info_outline
-            span  Total Sold :
-              span  5
-          
-          
-            
-          
-
-
-          a.secondary-content(href='#!')
-            
-        li.collection-item.avatar
-          
-          span.title Title
-          p
-            | First Line 
-            br
-            |          Second Line
-          a.secondary-content(href='#!')
-            i.material-icons grade
+        each  item, i  in  item_list
+          li.collection-item.avatar
+            a.waves-effect.waves-light.btn.link-list.btn-actions(href="item/update/"+item._id)
+              i.material-icons.right.wild-text update
+            button.waves-effect.waves-light.btn.link-list.btn-actions.delete
+              i.material-icons.right.light-red-text delete
+              div(class="item-" + (i+1))
+                      input(type="hidden" name="_id" class="namedelete-" + (i+1) value=item._id)
+              
+            a.waves-effect.waves-light.btn.link-list.btn-actions
+              i.material-icons.right.green-text shopping_basket
+            i.material-icons  
+            span.title #{item.name}
+            span.title.right.highlight-color $#{item.price}
+            p.indent
+              i.material-icons info_outline
+              span  Quantity :
+                span  #{item.quantity}
+            p.indent
+              i.material-icons info_outline
+              span  Amount Sold :
+                span  #{item.soldupdate-1}
+            p.indent
+              i.material-icons info_outline
+              span  Total Sold :
+                span  $#{item.totalupdate-item.price}
 
 
   
