@@ -131,20 +131,59 @@ h6 {
   color: #858789 !important; }
 
 p {
-  text-align: center;
   color: #858789;
   font-family: "Roboto", sans-serif; }
 
 .num {
-  font-size: 5em;
+  padding-top: 1vh;
+  font-size: 4em;
   font-family: "Montserrat", sans-serif; }
 
 .money {
   text-align: left;
   position: absolute; }
 
+.collection .collection-item.avatar {
+  min-height: 130px;
+  padding-left: 6px !important;
+  margin-bottom: 0; }
+  .collection .collection-item.avatar .btn {
+    width: 45px; }
+  .collection .collection-item.avatar .link-list {
+    position: absolute;
+    bottom: -1px;
+    left: 5px; }
+    .collection .collection-item.avatar .link-list:nth-child(1) {
+      left: 35vw; }
+    .collection .collection-item.avatar .link-list:nth-child(2) {
+      left: 70vw; }
+  .collection .collection-item.avatar:nth-child(odd) {
+    border-left: 4px solid #0087fb; }
+  .collection .collection-item.avatar:nth-child(even) {
+    border-left: 4px solid #38FAA6; }
+  .collection .collection-item.avatar:nth-child(4n) {
+    border-left: 4px solid #FF4073; }
+  .collection .collection-item.avatar .title {
+    padding-left: 0.5rem; }
+
+.collection .collection-item {
+  border-bottom: none;
+  background: #fff;
+  margin-bottom: 1px; }
+  .collection .collection-item p.indent {
+    margin-left: 0.5rem;
+    font-size: 12px; }
+    .collection .collection-item p.indent i {
+      font-size: 15px;
+      position: relative;
+      top: 3px; }
+
+.secondary-content p.price {
+  font-size: 1.7em;
+  padding-top: 1rem; }
+
 .light-red-text {
-  color: #FF4073; }
+  color: #FF4073 !important; }
 
 .light-red {
   background: #FF4073; }
@@ -273,6 +312,9 @@ td, th {
 .btn:focus, .btn-large:focus, .btn-floating:focus {
   background-color: #0087fb; }
 
+.min-width-300 {
+  min-width: 280px !important; }
+
 .flash-error {
   color: #FF4073;
   position: absolute;
@@ -283,7 +325,7 @@ td, th {
   height: 20px;
   font-family: "Roboto", sans-serif;
   white-space: normal;
-  min-width: 218px; }
+  min-width: 220px; }
   .flash-error i {
     margin-top: -3px; }
 
@@ -360,12 +402,14 @@ td, th {
   top: 29.5%;
   transform: translate(36%, -29.5%); }
 
-.ddisabled {
+/* .ddisabled{
   background-color: none !important;
-  pointer-events: none; }
-  .ddisabled i {
-    color: gray !important; }
-
+  pointer-events: none;
+ i{
+  color: gray !important;
+ }
+}
+ */
 /* ----------- iPhone 4 and 4S ----------- */
 /* Portrait */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
@@ -605,6 +649,23 @@ td {
     transform: translate(-50%, -5%);
     white-space: nowrap;
     margin-bottom: 25px !important; } }
+@media only screen and (min-width: 993px) {
+  .collection .collection-item.avatar .link-list {
+    left: 3vw; }
+    .collection .collection-item.avatar .link-list:nth-child(1) {
+      left: 45vw; }
+    .collection .collection-item.avatar .link-list:nth-child(2) {
+      left: 87vw; } }
+@media all and (min-width: 768px) {
+  .collection .collection-item.avatar .link-list:nth-child(1) {
+    left: 43vw; }
+  .collection .collection-item.avatar .link-list:nth-child(2) {
+    left: 85vw; } }
+@media all and (max-width: 425px) {
+  .collection .collection-item.avatar .link-list:nth-child(1) {
+    left: 35vw; }
+  .collection .collection-item.avatar .link-list:nth-child(2) {
+    left: 70vw; } }
 input.valid:not([type]), input.valid:not([type]):focus, input[type="text"].valid:not(.browser-default), input[type="text"].valid:not(.browser-default):focus, input[type="password"].valid:not(.browser-default), input[type="password"].valid:not(.browser-default):focus, input[type="email"].valid:not(.browser-default), input[type="email"].valid:not(.browser-default):focus, input[type="url"].valid:not(.browser-default), input[type="url"].valid:not(.browser-default):focus, input[type="time"].valid:not(.browser-default), input[type="time"].valid:not(.browser-default):focus, input[type="date"].valid:not(.browser-default), input[type="date"].valid:not(.browser-default):focus, input[type="datetime"].valid:not(.browser-default), input[type="datetime"].valid:not(.browser-default):focus, input[type="datetime-local"].valid:not(.browser-default), input[type="datetime-local"].valid:not(.browser-default):focus, input[type="tel"].valid:not(.browser-default), input[type="tel"].valid:not(.browser-default):focus, input[type="number"].valid:not(.browser-default), input[type="number"].valid:not(.browser-default):focus, input[type="search"].valid:not(.browser-default), input[type="search"].valid:not(.browser-default):focus, textarea.materialize-textarea.valid, textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
   border-bottom: 1px solid #0087fb;
   -webkit-box-shadow: 0 1px 0 0 #0087fb;
