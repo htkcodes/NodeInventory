@@ -17,7 +17,7 @@ router.get('/item/delete',ensureAuth,item_controller.item_delete_get);
 router.post('/item/delete', ensureAuth,item_controller.item_delete_post);
 
 /* GET request to update item. */
-router.get('/item/update',ensureAuth, item_controller.item_update_get);
+router.get('/item/update/:id',ensureAuth, item_controller.item_update_get);
 
 // POST request to update item
 router.post('/item/update',ensureAuth, item_controller.item_update_post);
