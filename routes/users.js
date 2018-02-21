@@ -11,8 +11,6 @@ var async = require('async');
 var moment = require('moment');
 
 
-
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
 
@@ -326,6 +324,15 @@ router.get('/consumer',function(req,res,next){
 
       res.render('consumer', { title: 'Products', item_list: list_items });
     });
+})
+
+router.post('/addtocart',function(req,res,next){
+    app.set('user_id',req.user._id);
+    item.findById(req.body._id,function addItemToCart(err,found_item){
+        User.findById(app.get('user_id'),function store(err,found_item){
+            console.log(found_item);
+       })
+    })
 
 })
 module.exports = router;

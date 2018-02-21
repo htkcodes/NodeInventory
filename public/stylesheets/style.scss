@@ -974,6 +974,7 @@ left:3vw;
  @media all and(max-width: 425px) {
 
   .collection .collection-item.avatar{
+
     .link-list{
 
     &:nth-child(1)
@@ -1058,5 +1059,12 @@ i{
   bottom:50vh;
   left:20px;
   position: fixed;
+}
+.consumer-list{
+  padding-bottom: 3.55rem !important;
+}
+.add-to-cart{
+  left:20vw !important;
+  width: 180.5px !important;
 }
 

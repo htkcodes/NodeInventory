@@ -719,4 +719,11 @@ span.badge {
   left: 20px;
   position: fixed; }
 
+.consumer-list {
+  padding-bottom: 3.55rem !important; }
+
+.add-to-cart {
+  left: 20vw !important;
+  width: 180.5px !important; }
+
 /*# sourceMappingURL=style.css.map */

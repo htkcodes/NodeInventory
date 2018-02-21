@@ -142,6 +142,58 @@ $(".sell").click(function(){
    
 })
 
+/*-------add to card AJAX FUNCTION ------*/
+
+$(".add-to-cart").click(function(){
+
+    let sure=confirm("Are you sure?");
+    Materialize.toast('Working...',20000,'toast-custom');
+    if(sure==true)
+    {
+        
+        let parent=$(this).parent();
+        let item_ID=parent.children("button.add-to-cart").find("input").val();
+
+    console.log(item_ID);
+    let formData={
+        '_id':item_ID,
+    };
+    
+    $.ajax({
+        type:'POST',
+     url:'addtocart',
+     data:JSON.stringify(formData),
+     contentType:'application/json',
+     success:function(data){
+    
+    if(typeof data === "string"){
+        Materialize.toast(data,5000,'toast-custom');
+        setTimeout(function(){
+            window.location.reload(1);
+         }, 4000);
+    }
+    else if(data===true)
+    {
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
+        Materialize.toast('Done',5000,'toast-custom'); 
+    }
+    
+     },
+     error:function (jqXHR,exception) {
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
+         console.log('err');
+         Materialize.toast('An Error Occured',5000,'toast-custom');
+     }
+    });
+    
+    }
+})
+
+
 /*-------UPdATE AJAX FUNCTION ------*/
 
 if(top.location.name == "/inventory/item/create")
@@ -537,24 +589,7 @@ else
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
-    
-     } 
- 
-        
+     }      
   if(top.location.pathname == "/inventory/items")
   {
       $(".bottom").addClass("hide");

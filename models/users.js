@@ -7,7 +7,9 @@
 var bcrypt=require('bcrypt');
 
 // User Schema
-var UserSchema = mongoose.Schema({
+
+let Schema=mongoose.Schema;
+var UserSchema = Schema({
 	username: {
 		type: String,
 		index:true
@@ -30,7 +32,10 @@ var UserSchema = mongoose.Schema({
 	},
 	userType:{
 		type:String
-	}
+	},
+	cart:[{
+		item:{type:Schema.Types.ObjectId,ref:'Item'}
+	}]
 });
 
 

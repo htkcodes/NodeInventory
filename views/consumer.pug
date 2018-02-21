@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  h1= title
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
+  .row
+    .col.s12.l12.m12
+      ul.collection
+        each  item, i  in  item_list
+          li.collection-item.avatar.consumer-list
+            button.waves-effect.waves-light.btn.link-list.add-to-cart
+              i.material-icons.left.white-text add_shopping_cart
+              input(type="hidden", name="_id" value=item._id)
+              input(type="hidden" name="user_id" value=user.name);
+              | ADD TO CART
+              
+            span.title #{item.name}
+            span.title.right.price.highlight-color $#{item.price}
+            p.indent
+              i.material-icons info_outline
+              span  Quantity :
+                span.quan  #{item.quantity}
+            p.indent
+              i.material-icons info_outline
+              span Amount Sold :
+                span.sold  #{item.soldupdate-1}
+            p.indent
+              i.material-icons info_outline
+              span  Total Sold :
+                span.total  $#{item.totalupdate-item.price}
+
+
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  script(src="/javascripts/itemlist.js")
+    
+
+
+
