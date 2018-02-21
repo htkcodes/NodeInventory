@@ -27,8 +27,6 @@ router.post('/item/sell',ensureAuth,item_controller.item_sell_post);
 /* GET request for list of all items. */
 router.get('/items',ensureAuth, item_controller.item_list);
 
-/*GET request for profit/expenses */
-
 
 
 

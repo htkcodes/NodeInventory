@@ -15,7 +15,7 @@ var moment = require('moment');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    
+
     res.redirect('/users/login');
 });
 
@@ -133,8 +133,7 @@ router.get('/register', function (req, res) {
 // Login
 router.get('/login', function (req, res) {
     //Sunday Login
-    
-    console.log( req.app.get('env') );
+
     if (moment().weekday() == 0) {
         res.redirect('cleanup');
     } else {
@@ -176,12 +175,14 @@ router.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.password2;
+    var userType = req.body.userType;
     var secret = req.body.secret;
-    var secretconfirm = "chipsexec";
+    var secretconfirm = "copperexplaintruck";
 
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
+    req.checkBody('userType', 'User Type is Required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
@@ -197,18 +198,16 @@ router.post('/register', function (req, res) {
             errors: errors
         });
     } else {
-        console.log("ELSE USER")
         //Checks if the item thats being added doesn't exist in the database
         User.find({
-            email:email
+            email: email
         }).limit(1).exec(function (err, email_exist) {
-            console.log("FIND USER")
             if (err) {
                 throw err;
             }
 
             if (isEmpty(email_exist) == false) {
-                console.log("USER NAME EXISTS")
+              
                 var user_exists = true;
 
                 let errors = "Username Already Exists";
@@ -217,13 +216,14 @@ router.post('/register', function (req, res) {
                     user_exist: errors
                 });
             } else {
-                console.log("USER NAMEDOESNT EXISTS")
                 var newUser = new User({
                     name: name,
                     email: email,
                     username: username,
-                    password: password
+                    password: password,
+                    userType:userType
                 });
+
                 User.createUser(newUser, function (err, user) {
                     if (err) throw err;
                     console.log(user);
@@ -236,8 +236,8 @@ router.post('/register', function (req, res) {
     }
 });
 
-passport.use(new LocalStrategy(
-    {
+//Passport Strategy
+passport.use(new LocalStrategy({
         usernameField: 'email',
     },
     function (email, password, done) {
@@ -275,20 +275,35 @@ passport.deserializeUser(function (id, done) {
 });
 
 router.post('/login',
-
     passport.authenticate('local', {
         //successRedirect: '/inventory',
         failureRedirect: '/users/login',
         failureFlash: 'Invalid username or password'
     }),
     function (req, res) {
-        name = req.body.username;
-        app.set('name', req.body.username);
-        User.updateLogin(name, function (err, name) {
-            console.log('login logged');
+        app.set('name', req.body.email);
+        User.updateLogin(app.get('name'), function (err, name) {
+        });
+
+        User.getUserByEmail(req.body.email, function (err, user) {
+            if (err) throw err;
+            if (!user) {
+                console.log(user);
+                return done(null, false, {
+                    message: 'Unknown User'
+                });
+            }
+            else if(user.userType === "admin"){
+                console.log('admin')
+                res.redirect('/inventory');
+            }
+            else{
+                res.redirect(
+                    'consumer'
+                );
+            }
 
         });
-        res.redirect('/inventory');
     });
 
 router.get('/logout', function (req, res) {
@@ -302,4 +317,15 @@ router.get('/logout', function (req, res) {
 
     res.redirect('/users/login');
 });
+
+router.get('/consumer',function(req,res,next){
+    item.find({}, 'name quantity price sold total')
+    .exec(function (err, list_items) {
+      if (err) { return next(err); }
+      //Successful, so render
+
+      res.render('consumer', { title: 'Products', item_list: list_items });
+    });
+
+})
 module.exports = router;

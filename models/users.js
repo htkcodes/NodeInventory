@@ -16,7 +16,8 @@ var UserSchema = mongoose.Schema({
 		type: String,bcrypt:true,required:true
 	},
 	email: {
-		type: String
+		type: String,
+		unique:true
 	},
 	name: {
 		type: String
@@ -26,7 +27,10 @@ var UserSchema = mongoose.Schema({
     },
     logout:{
         type:Date
-    }
+	},
+	userType:{
+		type:String
+	}
 });
 
 
