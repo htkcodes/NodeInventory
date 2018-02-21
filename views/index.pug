@@ -3,14 +3,14 @@ extends layout
 block content
   h1= title
   h3= hi
-  p.highlight-color Logged in as #{user.name}.
+  p.highlight-color.center Logged in as #{user.name}.
 
   h3.highlight-color Inventory Overview
 
   if error
     p Error getting dynamic content.
   else
-    p The Inventory has the following record counts:
+    p.center The Inventory has the following record counts:
 
     ul.overview
       .row

@@ -135,7 +135,8 @@ p {
   font-family: "Roboto", sans-serif; }
 
 .num {
-  font-size: 5em;
+  padding-top: 1vh;
+  font-size: 4em;
   font-family: "Montserrat", sans-serif; }
 
 .money {
