@@ -224,6 +224,9 @@ p{
 }
 
 .collection .collection-item.avatar{
+
+
+
 min-height: 130px;  
   padding-left:6px !important;
   margin-bottom: 0;
@@ -1062,9 +1065,16 @@ i{
 }
 .consumer-list{
   padding-bottom: 3.55rem !important;
+  .addtoquantity{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px !important;
+    margin:0 0 0 16px !important;
+  }
 }
 .add-to-cart{
-  left:20vw !important;
+  left:30vw !important;
   width: 180.5px !important;
 }
 

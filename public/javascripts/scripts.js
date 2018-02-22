@@ -153,13 +153,16 @@ $(".add-to-cart").click(function(){
         
         let parent=$(this).parent();
         let item_ID=parent.children("button.add-to-cart").find("input").val();
+        let quantity=parent.children("input").filter("input.addtoquantity").val();
+
+        console.log(quantity);
 
     console.log(item_ID);
     let formData={
         '_id':item_ID,
     };
     
-    $.ajax({
+    /* $.ajax({
         type:'POST',
      url:'addtocart',
      data:JSON.stringify(formData),
@@ -188,7 +191,7 @@ $(".add-to-cart").click(function(){
          console.log('err');
          Materialize.toast('An Error Occured',5000,'toast-custom');
      }
-    });
+    }); */
     
     }
 })

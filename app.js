@@ -93,6 +93,8 @@ res.locals.user=req.user || null;
 next();
 })
 
+
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/inventory',inventory);

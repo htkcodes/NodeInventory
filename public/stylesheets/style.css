@@ -721,9 +721,15 @@ span.badge {
 
 .consumer-list {
   padding-bottom: 3.55rem !important; }
+  .consumer-list .addtoquantity {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px !important;
+    margin: 0 0 0 16px !important; }
 
 .add-to-cart {
-  left: 20vw !important;
+  left: 30vw !important;
   width: 180.5px !important; }
 
 /*# sourceMappingURL=style.css.map */

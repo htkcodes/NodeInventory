@@ -327,12 +327,87 @@ router.get('/consumer',function(req,res,next){
 })
 
 router.post('/addtocart',function(req,res,next){
-    app.set('user_id',req.user._id);
-    item.findById(req.body._id,function addItemToCart(err,found_item){
-        User.findById(app.get('user_id'),function store(err,found_item){
-            console.log(found_item);
-       })
-    })
+    var hasOwnProperty=Object.prototype.hasOwnProperty;
+    function isEmpty(obj) {
+        
+        if(obj==null) return true;
+
+        if(obj.length > 0) return false;
+
+        if(obj.length ===0 ) return true;
+
+        if(typeof obj !== "object") return true;
+
+
+        for(var key in obj){
+            if(hasOwnProperty.call(obj,key)) return false;
+        }
+
+        return true;
+
+    }
+
+    let _id=req.body._id;
+    let quantity=req.body.quantity;
+    req.checkBody('_id', 'ID is Required').notEmpty();
+    req.checkBody('quantity','Quantity Should not be empty').notEmpty();
+    req.checkBody('quantity','Quantity Should be a Number').isNumeric();
+
+    var errors = req.validationErrors();
+
+    if(errors)
+    {
+        res.send(errors)
+    }
+    else{
+        app.set('user_id',req.user._id);
+        async.waterfall([
+            function(callback){
+                item.findById(req.body._id,function addItemToCart(err,found_item){
+                    callback(err,found_item);
+                })
+            },
+            function(found_item,callback)
+            {
+                User.findById(app.get('user_id'),function store(err,found_User){
+                    User.find({_id:found_User._id})
+                    .populate('cart.item')
+                    .exec(function(err,cart_exists){
+                        if(err){
+                            throw err;
+                        }
+                            User.update({
+                                _id:req.user._id
+                            },{
+                                $addToSet:{
+                                    'cart.item':found_item._id
+                                }
+                            },function(err,count){
+                               if(count.nModified ===0)
+                               {
+                                   res.send("Item Already in cart");
+                               }
+                               else{
+                                res.send(true)
+                               }
+                               
+                            })
+                        
+                    })
+                   
+               })
+            }
+        ])
+    }
+
+
+ 
+   
+   
+
+
+
+   
 
 })
 module.exports = router;
