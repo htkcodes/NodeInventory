@@ -180,7 +180,7 @@ router.post('/register', function (req, res) {
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('userType', 'User Type is Required').notEmpty();
+  //  req.checkBody('userType', 'User Type is Required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
@@ -371,7 +371,8 @@ router.post('/addtocart',function(req,res,next){
             {
                 User.findById(app.get('user_id'),function store(err,found_User){
                     User.find({_id:found_User._id})
-                    .populate('cart.item')
+                    .populate('cart.itemQuantity.item')
+                    .populate('cart.itemQuantity.quantity')
                     .exec(function(err,cart_exists){
                         if(err){
                             throw err;
@@ -380,7 +381,10 @@ router.post('/addtocart',function(req,res,next){
                                 _id:req.user._id
                             },{
                                 $addToSet:{
-                                    'cart.item':found_item._id
+                                    'cart.item':found_item._id,
+                                },
+                                $push:{
+                                    'cart.quantity':quantity
                                 }
                             },function(err,count){
                                if(count.nModified ===0)

@@ -160,9 +160,10 @@ $(".add-to-cart").click(function(){
     console.log(item_ID);
     let formData={
         '_id':item_ID,
+        'quantity':quantity
     };
     
-    /* $.ajax({
+     $.ajax({
         type:'POST',
      url:'addtocart',
      data:JSON.stringify(formData),
@@ -170,10 +171,11 @@ $(".add-to-cart").click(function(){
      success:function(data){
     
     if(typeof data === "string"){
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
         Materialize.toast(data,5000,'toast-custom');
-        setTimeout(function(){
-            window.location.reload(1);
-         }, 4000);
+       
     }
     else if(data===true)
     {
@@ -182,6 +184,16 @@ $(".add-to-cart").click(function(){
         toastInstance.remove();
         Materialize.toast('Done',5000,'toast-custom'); 
     }
+    else  if(typeof data === "object"){
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
+      Object.keys(data).forEach(function(key) {
+       
+    Materialize.toast(data[key].msg,5000,'toast-custom');
+        });
+   
+  }
     
      },
      error:function (jqXHR,exception) {
@@ -191,7 +203,7 @@ $(".add-to-cart").click(function(){
          console.log('err');
          Materialize.toast('An Error Occured',5000,'toast-custom');
      }
-    }); */
+    }); 
     
     }
 })
@@ -203,7 +215,7 @@ if(top.location.name == "/inventory/item/create")
 {
   
        $("button").click(function(){
-
+console.log("clciked");
         if($(".quantity").is(':invalid') || $(".price").is(':invalid') || $(".name").is(':invalid'))
         {
             console.log('first func');
