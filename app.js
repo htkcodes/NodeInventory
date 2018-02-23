@@ -46,9 +46,7 @@ app.use(session({
   secret:secret.secretKey,
   saveUninitialized:true,
   resave:true,
-  cookie:{
-    maxAge:6000000
-  },
+
   store:new MongoStore({url:secret.database,autoReconnect:true})
 }));
 

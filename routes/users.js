@@ -180,7 +180,7 @@ router.post('/register', function (req, res) {
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
-  //  req.checkBody('userType', 'User Type is Required').notEmpty();
+    //  req.checkBody('userType', 'User Type is Required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
@@ -205,7 +205,7 @@ router.post('/register', function (req, res) {
             }
 
             if (isEmpty(email_exist) == false) {
-              
+
                 var user_exists = true;
 
                 let errors = "Username Already Exists";
@@ -219,7 +219,7 @@ router.post('/register', function (req, res) {
                     email: email,
                     username: username,
                     password: password,
-                    userType:userType
+                    userType: userType
                 });
 
                 User.createUser(newUser, function (err, user) {
@@ -280,8 +280,7 @@ router.post('/login',
     }),
     function (req, res) {
         app.set('name', req.body.email);
-        User.updateLogin(app.get('name'), function (err, name) {
-        });
+        User.updateLogin(app.get('name'), function (err, name) {});
 
         User.getUserByEmail(req.body.email, function (err, user) {
             if (err) throw err;
@@ -290,12 +289,10 @@ router.post('/login',
                 return done(null, false, {
                     message: 'Unknown User'
                 });
-            }
-            else if(user.userType === "admin"){
+            } else if (user.userType === "admin") {
                 console.log('admin')
                 res.redirect('/inventory');
-            }
-            else{
+            } else {
                 res.redirect(
                     'consumer'
                 );
@@ -316,106 +313,149 @@ router.get('/logout', function (req, res) {
     res.redirect('/users/login');
 });
 
-router.get('/consumer',function(req,res,next){
+router.get('/consumer', function (req, res, next) {
     item.find({}, 'name quantity price sold total')
-    .exec(function (err, list_items) {
-      if (err) { return next(err); }
-      //Successful, so render
+        .exec(function (err, list_items) {
+            if (err) {
+                return next(err);
+            }
+            //Successful, so render
 
-      res.render('consumer', { title: 'Products', item_list: list_items });
-    });
+            res.render('consumer', {
+                title: 'Products',
+                item_list: list_items
+            });
+        });
 })
 
-router.post('/addtocart',function(req,res,next){
-    var hasOwnProperty=Object.prototype.hasOwnProperty;
+router.post('/addtocart', function (req, res, next) {
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+
     function isEmpty(obj) {
-        
-        if(obj==null) return true;
 
-        if(obj.length > 0) return false;
+        if (obj == null) return true;
 
-        if(obj.length ===0 ) return true;
+        if (obj.length > 0) return false;
 
-        if(typeof obj !== "object") return true;
+        if (obj.length === 0) return true;
+
+        if (typeof obj !== "object") return true;
 
 
-        for(var key in obj){
-            if(hasOwnProperty.call(obj,key)) return false;
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
         }
 
         return true;
 
     }
 
-    let _id=req.body._id;
-    let quantity=req.body.quantity;
+    let _id = req.body._id;
+    let quantity = req.body.quantity;
     req.checkBody('_id', 'ID is Required').notEmpty();
-    req.checkBody('quantity','Quantity Should not be empty').notEmpty();
-    req.checkBody('quantity','Quantity Should be a Number').isNumeric();
+    req.checkBody('quantity', 'Quantity Should not be empty').notEmpty();
+    req.checkBody('quantity', 'Quantity Should be a Number').isNumeric();
 
     var errors = req.validationErrors();
 
-    if(errors)
-    {
+    if (errors) {
         res.send(errors)
-    }
-    else{
-        app.set('user_id',req.user._id);
+    } else {
+        app.set('user_id', req.user._id);
         async.waterfall([
-            function(callback){
-                item.findById(req.body._id,function addItemToCart(err,found_item){
-                    callback(err,found_item);
+            function (callback) {
+                item.findById(req.body._id, function addItemToCart(err, found_item) {
+                    callback(err, found_item);
                 })
             },
-            function(found_item,callback)
-            {
-                User.findById(app.get('user_id'),function store(err,found_User){
-                    User.find({_id:found_User._id})
-                    .populate('cart.item')
-                   
-                    .exec(function(err,cart_exists){
-                        var cart={
-                            item:found_item._id,
-                            quantity:quantity
-                        }
-                        console.log(found_User);
-                        if(err){
-                            throw err;
-                        }
-                            User.update({
-                                _id:req.user._id
-                            },{
-                            
-                                $addToSet:{
-                                   cart:cart
-                                }
-                            },function(err,count){
-                                if(err){throw err;}
-                               if(count.nModified ===0)
-                               {
-                                   res.send("Item Already in cart");
-                               }
-                               else{
-                                res.send(true)
-                               }
-                               
-                            })
+            function (found_item, callback) {
+                User.findById(app.get('user_id'), function store(err, found_User) {
+                    User.find({
+                            _id: found_User._id
+                        })
+                        .populate('cart.item')
+                        .exec(function (err, cart_exists) {
+                            var cart = {
+                                item: found_item._id,
+                                quantity: quantity
+                            }
+                            if (err) {
+                                throw err;
+                            }
+                            User.find({
+                                "cart.item":cart.item
+                            },function (err, count) {
+                             
+                                if(!isEmpty(count))
+                                {
+                                    let updateCart={
+                                        item:cart.item,
+                                        quantity:1
+                                    }
+                                    User.findOneAndUpdate({
+                                        "cart.item":cart.item
+                                       /*  cart: {
+                                            $elemMatch: {
+                                                item: cart.item,
+                                                quantity: {
+                                                    $gte: 1
+                                                }
+                                            }
+                                        } */
+                                    }, {
+                                        $inc: {
+                                        "cart.$.quantity":1
+                                        }
+                                    },function(err, results) {
                         
-                    })
-                   
-               })
+                                        if (err) {
+                                            throw err
+                                        }
+                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated") 
+                                    })
+
+                                }
+                                else{
+                                   User.findOneAndUpdate({
+                                       _id:req.user._id
+                                   },{
+                                       $push:{
+                                           cart:cart
+                                       }
+                                   },function(err){
+                                       if(err){throw err;}
+                                       res.send(true);
+                                   })
+                                }
+                              
+                            
+
+                            })
+
+                        })
+
+                })
             }
         ])
     }
 
 
- 
-   
-   
 
 
 
-   
+
+
+
+
 
 })
+
+function ensureAuth(req, res, next) {
+    if (req.isAuthenticated()) {
+        console.log(req.isAuthenticated());
+        res.redirect('/inventory');
+    }
+    res.redirect('/users/login');
+}
+
 module.exports = router;

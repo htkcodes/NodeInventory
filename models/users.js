@@ -33,12 +33,13 @@ var UserSchema = Schema({
 	userType:{
 		type:String
 	},
-	cart:{
+	cart:[{
 			item:{type:Schema.Types.ObjectId,ref:'Item'},
 			quantity:{type:Number}
-	}
+	}]
 	
 });
+
 
 
 

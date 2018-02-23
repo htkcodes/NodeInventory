@@ -1,4 +1,4 @@
 module.exports={
-    database:'mongodb://root:F62y^HSq@ds225028.mlab.com:25028/chipsinventory',
+    database:'mongodb://127.0.0.1/chipsinv',
     secretKey:'backyard_animals',
 }
