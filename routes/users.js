@@ -371,22 +371,26 @@ router.post('/addtocart',function(req,res,next){
             {
                 User.findById(app.get('user_id'),function store(err,found_User){
                     User.find({_id:found_User._id})
-                    .populate('cart.itemQuantity.item')
-                    .populate('cart.itemQuantity.quantity')
+                    .populate('cart.item')
+                   
                     .exec(function(err,cart_exists){
+                        var cart={
+                            item:found_item._id,
+                            quantity:quantity
+                        }
+                        console.log(found_User);
                         if(err){
                             throw err;
                         }
                             User.update({
                                 _id:req.user._id
                             },{
+                            
                                 $addToSet:{
-                                    'cart.item':found_item._id,
-                                },
-                                $push:{
-                                    'cart.quantity':quantity
+                                   cart:cart
                                 }
                             },function(err,count){
+                                if(err){throw err;}
                                if(count.nModified ===0)
                                {
                                    res.send("Item Already in cart");

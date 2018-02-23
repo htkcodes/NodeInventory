@@ -211,7 +211,7 @@ $(".add-to-cart").click(function(){
 
 /*-------UPdATE AJAX FUNCTION ------*/
 
-if(top.location.name == "/inventory/item/create")
+if(top.location.pathname == "/inventory/item/create")
 {
   
        $("button").click(function(){
