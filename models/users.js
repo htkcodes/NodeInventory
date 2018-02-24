@@ -36,6 +36,15 @@ var UserSchema = Schema({
 	cart:[{
 			item:{type:Schema.Types.ObjectId,ref:'Item'},
 			quantity:{type:Number}
+	}],
+	pending:[{
+		item:{type:Schema.Types.ObjectId,ref:'Item'},
+			quantity:{type:Number},
+			ready:Boolean
+	}],
+	order_history:[{
+		item:String,
+		date:Date
 	}]
 	
 });

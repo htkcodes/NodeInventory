@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ItemSchema = Schema({
-   name: {type: String, required: true, max: 100},
+   name: {type: String, required: true, max: 255},
     quantity: {type: Number, required: true, max: 1000},
-   price:{type:Number},
+   price:{type:Number,required:true},
    sold:{type:Number},
    total:{
      type:Number

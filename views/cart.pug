@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h1=title
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
+  .row
+    .col.s12.l12.m12
+      ul.collection
+          li.collection-item.avatar.consumer-list
+            button.waves-effect.waves-light.btn.link-list.add-to-cart.red
+              i.material-icons.left.white-text delete
+              input(type="hidden", name="_id" value)
+              
+              | DELETE
+            button.waves-effect.waves-light.btn.addtoquantity
+              i.material-icons.left.white-text delete
+              input(type="hidden", name="_id" value)
+              
+              | DELETE
+              
+            span.title Bun
+            span.title.right.price.highlight-color  300
+            
+
+
+
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  script(src="/javascripts/itemlist.js")
+    
+
+
+

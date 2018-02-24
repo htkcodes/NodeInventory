@@ -328,6 +328,16 @@ router.get('/consumer', function (req, res, next) {
         });
 })
 
+router.get('/cart',function(req,res,next){
+    User.findById({_id:req.user._id},'cart')
+    .populate("cart.item")
+    .exec(function(err,result){
+       // console.log(result.cart[0])
+       if(err){throw err;}
+       res.render('cart',{title:"My Cart",cart:result})
+    })
+})
+
 router.post('/addtocart', function (req, res, next) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -374,7 +384,6 @@ router.post('/addtocart', function (req, res, next) {
                     User.find({
                             _id: found_User._id
                         })
-                        .populate('cart.item')
                         .exec(function (err, cart_exists) {
                             var cart = {
                                 item: found_item._id,
@@ -408,6 +417,7 @@ router.post('/addtocart', function (req, res, next) {
                                         if (err) {
                                             throw err
                                         }
+                                     
                                         res.send("This item was already in your cart" + `<br>` + "Quantity has been updated to:"+(results.cart[0].quantity+1)) 
                                     })
 
@@ -425,8 +435,7 @@ router.post('/addtocart', function (req, res, next) {
                                    })
                                 }
                               
-                            
-
+                        
                             })
 
                         })
