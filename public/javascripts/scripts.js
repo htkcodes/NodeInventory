@@ -147,15 +147,18 @@ $(".sell").click(function(){
 $(".add-to-cart").click(function(){
 
     let sure=confirm("Are you sure?");
-    Materialize.toast('Working...',20000,'toast-custom');
+    
     if(sure==true)
     {
-        
+        Materialize.toast('Working...',20000,'toast-custom');
         let parent=$(this).parent();
         let item_ID=parent.children("button.add-to-cart").find("input").val();
-        let quantity=parent.children("input").filter("input.addtoquantity").val();
+        let quantity=parent.children("select").filter("select#quantitySelect").find(":selected").text()
 
+        quantity=parseInt(quantity);
         console.log(quantity);
+        
+
 
     console.log(item_ID);
     let formData={
@@ -163,7 +166,7 @@ $(".add-to-cart").click(function(){
         'quantity':quantity
     };
     
-     $.ajax({
+      $.ajax({
         type:'POST',
      url:'addtocart',
      data:JSON.stringify(formData),

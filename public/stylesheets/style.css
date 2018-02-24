@@ -146,7 +146,7 @@ p {
 .collection .collection-item.avatar {
   min-height: 130px;
   padding-left: 6px !important;
-  margin-bottom: 0; }
+  margin-bottom: 4px; }
   .collection .collection-item.avatar .btn {
     width: 45px; }
   .collection .collection-item.avatar .link-list {
@@ -725,7 +725,8 @@ span.badge {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 40px !important;
+    width: 60px !important;
+    height: 36px;
     margin: 0 0 0 16px !important; }
 
 .add-to-cart {

@@ -15,7 +15,12 @@ block content
       ul.collection
         each  item, i  in  item_list
           li.collection-item.avatar.consumer-list
-            input(type="number", name="quantity" class="addtoquantity" placeholder="Qty" min="1" max=item.quantity required)
+            select(class="browser-default addtoquantity" id="quantitySelect")
+              - var n=0;
+                option(value='', selected='' disabled ) Qty
+              while n<item.quantity
+                option(value=n++) #{n} 
+            //input(type="number", name="quantity" class="addtoquantity" placeholder="Qty" min="1" max=item.quantity required)
             button.waves-effect.waves-light.btn.link-list.add-to-cart
               i.material-icons.left.white-text add_shopping_cart
               input(type="hidden", name="_id" value=item._id)
@@ -36,6 +41,7 @@ block content
               i.material-icons info_outline
               span  Total Sold :
                 span.total  $#{item.totalupdate-item.price}
+
 
 
   

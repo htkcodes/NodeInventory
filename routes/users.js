@@ -351,7 +351,8 @@ router.post('/addtocart', function (req, res, next) {
     }
 
     let _id = req.body._id;
-    let quantity = req.body.quantity;
+    let quantity =req.body.quantity
+    app.set('quantity',quantity);
     req.checkBody('_id', 'ID is Required').notEmpty();
     req.checkBody('quantity', 'Quantity Should not be empty').notEmpty();
     req.checkBody('quantity', 'Quantity Should be a Number').isNumeric();
@@ -385,13 +386,10 @@ router.post('/addtocart', function (req, res, next) {
                             User.find({
                                 "cart.item":cart.item
                             },function (err, count) {
-                             
+                               
                                 if(!isEmpty(count))
                                 {
-                                    let updateCart={
-                                        item:cart.item,
-                                        quantity:1
-                                    }
+                                 
                                     User.findOneAndUpdate({
                                         "cart.item":cart.item
                                        /*  cart: {
@@ -404,14 +402,13 @@ router.post('/addtocart', function (req, res, next) {
                                         } */
                                     }, {
                                         $inc: {
-                                        "cart.$.quantity":1
+                                        "cart.$.quantity":app.get('quantity')
                                         }
                                     },function(err, results) {
-                        
                                         if (err) {
                                             throw err
                                         }
-                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated") 
+                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated to:"+(results.cart[0].quantity+1)) 
                                     })
 
                                 }
