@@ -90,10 +90,6 @@ router.get('/profit', function (req, res) {
 
                     })
                 });
-
-
-
-
             }
 
         })
@@ -332,7 +328,12 @@ router.get('/cart',function(req,res,next){
     User.findById({_id:req.user._id},'cart')
     .populate("cart.item")
     .exec(function(err,result){
-       // console.log(result.cart[0])
+       let cart_total=0;
+      for(let i=0;i<result.cart.length;i++)
+      {
+          cart_total+=result.cart[i].item.price*result.cart[i].quantity;
+      }
+      console.log("CART TOTAL" + cart_total)
        if(err){throw err;}
        res.render('cart',{title:"My Cart",cart:result})
     })
