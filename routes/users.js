@@ -324,51 +324,111 @@ router.get('/consumer', function (req, res, next) {
         });
 })
 
-router.get('/cart',function(req,res,next){
-    User.findById({_id:req.user._id},'cart')
-    .populate("cart.item")
-    .exec(function(err,result){
-        console.log(result)
-       let cart_total=0;
-      for(let i=0;i<result.cart.length;i++)
-      {
-          cart_total+=result.cart[i].item.price*result.cart[i].quantity;
-      }
-       if(err){throw err;}
-       res.render('cart',{title:"My Cart",cart:result,cart_total:cart_total})
-    })
-})
-router.post('/cart',function(req,res,next){
-    let id=req.body._id;
-    let quantity=req.body.quantity;
-    req.checkBody('_id', 'ID is Required').notEmpty();
-    req.checkBody('quantity','Quantity hasn\'t changed').notEmpty();
-    req.checkBody('quantity','Must be  a number').isNumeric();
-quantity=parseInt(quantity);
-    var errors = req.validationErrors();
-    if(errors)
-    {
-        User.findById({_id:req.user._id},'cart')
+router.get('/cart', function (req, res, next) {
+    User.findById({
+            _id: req.user._id
+        }, 'cart')
         .populate("cart.item")
-        .exec(function(err,result){
-           let cart_total=0;
-          for(let i=0;i<result.cart.length;i++)
-          {
-              cart_total+=result.cart[i].item.price*result.cart[i].quantity;
-          }
-           if(err){throw err;}
-           res.render('cart',{title:"My Cart",cart:result,cart_total:cart_total,errors:errors})
+        .exec(function (err, result) {
+            console.log(result)
+            let cart_total = 0;
+            for (let i = 0; i < result.cart.length; i++) {
+                cart_total += result.cart[i].item.price * result.cart[i].quantity;
+            }
+            if (err) {
+                throw err;
+            }
+            res.render('cart', {
+                title: "My Cart",
+                cart: result,
+                cart_total: cart_total
+            })
         })
-    }
-    else{
-       User.update( {_id:req.user._id, "cart._id" : id } , 
-        {$set : {"cart.$.quantity" :(quantity) +1} },function(err,result){
+})
+router.post('/cart', function (req, res, next) {
+    let id = req.body._id;
+    let quantity = req.body.quantity;
+    req.checkBody('_id', 'ID is Required').notEmpty();
+    req.checkBody('quantity', 'Quantity hasn\'t changed').notEmpty();
+    req.checkBody('quantity', 'Must be  a number').isNumeric();
+    quantity = parseInt(quantity);
+    var errors = req.validationErrors();
+    if (errors) {
+        User.findById({
+                _id: req.user._id
+            }, 'cart')
+            .populate("cart.item")
+            .exec(function (err, result) {
+                let cart_total = 0;
+                for (let i = 0; i < result.cart.length; i++) {
+                    
+                   cart_total += result.cart[i].item.price * result.cart[i].quantity;
+                }
+                if (err) {
+                    throw err;
+                }
+                res.render('cart', {
+                    title: "My Cart",
+                    cart: result,
+                    cart_total: cart_total,
+                    errors: errors
+                })
+            })
+    } else {
+        User.update({
+            _id: req.user._id,
+            "cart._id": id
+        }, {
+            $set: {
+                "cart.$.quantity": (quantity) + 1
+            }
+        }, function (err, result) {
             console.log(result);
-            res.redirect('cart')        });
+            res.redirect('cart')
+        });
     }
 })
 
+router.get('/cart/delete', function (req, res, next) {
+    let id =  "5a924c97767a1c45bcaefb25";
+   // req.checkBody('_id', 'ID is Required').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        console.log("here errors")
+        User.findById({
+                _id: req.user._id
+            }, 'cart')
+            .populate("cart.item")
+            .exec(function (err, result) {
+                let cart_total = 0;
+                for (let i = 0; i < result.cart.length; i++) {
+                    cart_total += result.cart[i].item.price * result.cart[i].quantity;
+                }
+                if (err) {
+                    throw err;
+                }
+                res.render('cart', {
+                    title: "My Cart",
+                    cart: result,
+                    cart_total: cart_total,
+                    errors: errors
+                })
+            })
+    } else {
+        User.update({
+            _id: req.user._id,
+            "cart._id": id
+        }, {
 
+            $unset: {
+                "cart.$":1 /*FIXME:SETS ARRAY TO NULL FIX PLS*/
+                     }
+        }, function (err, result) {
+            if(err){throw err;}
+            res.send("done")
+        });
+    }
+})
 
 router.post('/addtocart', function (req, res, next) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -393,8 +453,8 @@ router.post('/addtocart', function (req, res, next) {
     }
 
     let _id = req.body._id;
-    let quantity =req.body.quantity
-    app.set('quantity',quantity);
+    let quantity = req.body.quantity
+    app.set('quantity', quantity);
     req.checkBody('_id', 'ID is Required').notEmpty();
     req.checkBody('quantity', 'Quantity Should not be empty').notEmpty();
     req.checkBody('quantity', 'Quantity Should be a Number').isNumeric();
@@ -425,49 +485,49 @@ router.post('/addtocart', function (req, res, next) {
                                 throw err;
                             }
                             User.find({
-                                "cart.item":cart.item
-                            },function (err, count) {
-                               
-                                if(!isEmpty(count))
-                                {
-                                 
+                                "cart.item": cart.item
+                            }, function (err, count) {
+
+                                if (!isEmpty(count)) {
+
                                     User.findOneAndUpdate({
-                                        "cart.item":cart.item
-                                       /*  cart: {
-                                            $elemMatch: {
-                                                item: cart.item,
-                                                quantity: {
-                                                    $gte: 1
-                                                }
-                                            }
-                                        } */
+                                        "cart.item": cart.item
+                                        /*  cart: {
+                                             $elemMatch: {
+                                                 item: cart.item,
+                                                 quantity: {
+                                                     $gte: 1
+                                                 }
+                                             }
+                                         } */
                                     }, {
                                         $inc: {
-                                        "cart.$.quantity":app.get('quantity')
+                                            "cart.$.quantity": app.get('quantity')
                                         }
-                                    },function(err, results) {
+                                    }, function (err, results) {
                                         if (err) {
                                             throw err
                                         }
-                                     
-                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated to:"+(results.cart[0].quantity+1)) 
+
+                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated to:" + (results.cart[0].quantity + 1))
                                     })
 
+                                } else {
+                                    User.findOneAndUpdate({
+                                        _id: req.user._id
+                                    }, {
+                                        $push: {
+                                            cart: cart
+                                        }
+                                    }, function (err) {
+                                        if (err) {
+                                            throw err;
+                                        }
+                                        res.send(true);
+                                    })
                                 }
-                                else{
-                                   User.findOneAndUpdate({
-                                       _id:req.user._id
-                                   },{
-                                       $push:{
-                                           cart:cart
-                                       }
-                                   },function(err){
-                                       if(err){throw err;}
-                                       res.send(true);
-                                   })
-                                }
-                              
-                        
+
+
                             })
 
                         })
