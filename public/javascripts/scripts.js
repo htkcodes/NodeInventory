@@ -3,6 +3,11 @@
 $( document ).ready(function() {
 
     $('.modal').modal();
+    $('.qty-edit').on('click',function(){
+      let form= $(this).parents(".bottom-sheet").children(".modal-content").find("form");
+      console.log(parent)
+     $(form).submit();
+    })
     console.log( "ready!" );
     $(".button-collapse").sideNav();
 
@@ -218,7 +223,6 @@ if(top.location.pathname == "/inventory/item/create")
 {
   
        $("button").click(function(){
-console.log("clciked");
         if($(".quantity").is(':invalid') || $(".price").is(':invalid') || $(".name").is(':invalid'))
         {
             console.log('first func');
@@ -239,8 +243,6 @@ console.log("clciked");
  itemname=$(".name").val();
  quantity=$(".quantity").val(); 
  
- 
-     
      let formData={
          'quantity':quantity,
          'name':itemname,
@@ -621,9 +623,6 @@ $(".msg").removeClass("hide");
      }, 5000);
   }
 
-  function adjustMenu()
-  {
- 
-  }
+
 
 });

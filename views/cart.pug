@@ -12,23 +12,45 @@ block content
         | ok
   .row
     .col.s12.l12.m12
+  if  cart 
       ul.collection
-    
+        each  cart_item,i in  cart.cart
           li.collection-item.avatar.consumer-list
-            button.waves-effect.waves-light.btn.link-list.add-to-cart.red
-              i.material-icons.left.white-text delete
-              input(type="hidden", name="_id" value)
+            button.waves-effect.waves-light.btn.link-list.cart-btn-2.red
+              i.material-icons.left.white-text remove_shopping_cart
+              input(type="hidden", name="_id")
+              | REMOVE
+            button.waves-effect.waves-light.btn.cart.modal-trigger(href='#modal'+(i+1))
+              i.material-icons.left.white-text create
+              | EDIT QTY
               
-              | DELETE
-            button.waves-effect.waves-light.btn.addtoquantity
-              i.material-icons.left.white-text delete
-              input(type="hidden", name="_id" value)
-              
-              | DELETE
-              
-            span.title Bun
-            span.title.right.price.highlight-color  300
-            
+            span.title  #{cart_item.item.name}
+            span.title.right.price.highlight-color  $#{cart_item.item.price}
+            p.cart-indent
+              i.material-icons info_outline
+              span  Quantity :
+                span.quan  #{cart_item.quantity}
+              .modal.bottom-sheet(id="modal"+(i+1))
+                .modal-content
+                  h4.center EDIT QTY
+                  p  
+                    form(action="", method="post" class="qty-form")
+                      input(type="hidden", name="_id" value=cart_item._id)
+                      select(class="browser-default" id="quantitySelect" name="quantity" required)
+                        - var n=0;
+                          option(value=cart_item.quantity, selected='' disabled ) #{cart_item.quantity}
+                        while n<cart_item.item.quantity
+                          option(value=n++) #{n}
+                .modal-footer
+                  a.modal-action.waves-effect.waves-green.btn-flat.qty-edit(href='#!') EDIT
+                  a.modal-action.waves-effect.waves-green.modal-close.btn-flat(href="#!") Close
+      ul.collection.total
+          li.collection-item.avatar.consumer-list
+            span.title  Total
+            span.title.right.price.highlight-color  $#{cart_total}
+  else
+      h3.center No items in your cart
+                        
 
 
 

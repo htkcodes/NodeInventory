@@ -328,16 +328,47 @@ router.get('/cart',function(req,res,next){
     User.findById({_id:req.user._id},'cart')
     .populate("cart.item")
     .exec(function(err,result){
+        console.log(result)
        let cart_total=0;
       for(let i=0;i<result.cart.length;i++)
       {
           cart_total+=result.cart[i].item.price*result.cart[i].quantity;
       }
-      console.log("CART TOTAL" + cart_total)
        if(err){throw err;}
-       res.render('cart',{title:"My Cart",cart:result})
+       res.render('cart',{title:"My Cart",cart:result,cart_total:cart_total})
     })
 })
+router.post('/cart',function(req,res,next){
+    let id=req.body._id;
+    let quantity=req.body.quantity;
+    req.checkBody('_id', 'ID is Required').notEmpty();
+    req.checkBody('quantity','Quantity hasn\'t changed').notEmpty();
+    req.checkBody('quantity','Must be  a number').isNumeric();
+quantity=parseInt(quantity);
+    var errors = req.validationErrors();
+    if(errors)
+    {
+        User.findById({_id:req.user._id},'cart')
+        .populate("cart.item")
+        .exec(function(err,result){
+           let cart_total=0;
+          for(let i=0;i<result.cart.length;i++)
+          {
+              cart_total+=result.cart[i].item.price*result.cart[i].quantity;
+          }
+           if(err){throw err;}
+           res.render('cart',{title:"My Cart",cart:result,cart_total:cart_total,errors:errors})
+        })
+    }
+    else{
+       User.update( {_id:req.user._id, "cart._id" : id } , 
+        {$set : {"cart.$.quantity" :(quantity) +1} },function(err,result){
+            console.log(result);
+            res.redirect('cart')        });
+    }
+})
+
+
 
 router.post('/addtocart', function (req, res, next) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;

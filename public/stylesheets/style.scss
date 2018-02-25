@@ -223,10 +223,11 @@ p{
  position: absolute;
 }
 
+ul.total{
+  height: 38px;
+}
+
 .collection .collection-item.avatar{
-
-
-
 min-height: 130px;  
   padding-left:6px !important;
   margin-bottom: 4px;
@@ -277,6 +278,17 @@ p.indent{
     font-size: 15px;
     position: relative;
     top:3px;
+  }
+}
+p.cart-indent
+{
+  margin-top: 0.8rem;
+  margin-left: 0.5rem;
+  font-size: 15px;
+  i{
+    font-size: 18px;
+    position: relative;
+    top:3.2px;
   }
 }
 }
@@ -1073,9 +1085,23 @@ i{
     height: 36px;
     margin:0 0 0 16px !important;
   }
+ .cart{
+  position: absolute;
+  bottom: 0;
+  left: -2px;
+  width: 129.5px !important;
+  height: 36px;
+  margin:0 0 0 16px !important;
+  padding: 0 15px;
+ }
 }
 .add-to-cart{
   left:30vw !important;
   width: 180.5px !important;
+}
+.cart-btn-2{
+  left:48vw !important;
+  width: 129.5px !important;
+  padding: 0 15px;
 }
 

@@ -143,6 +143,9 @@ p {
   text-align: left;
   position: absolute; }
 
+ul.total {
+  height: 38px; }
+
 .collection .collection-item.avatar {
   min-height: 130px;
   padding-left: 6px !important;
@@ -177,6 +180,14 @@ p {
       font-size: 15px;
       position: relative;
       top: 3px; }
+  .collection .collection-item p.cart-indent {
+    margin-top: 0.8rem;
+    margin-left: 0.5rem;
+    font-size: 15px; }
+    .collection .collection-item p.cart-indent i {
+      font-size: 18px;
+      position: relative;
+      top: 3.2px; }
 
 .secondary-content p.price {
   font-size: 1.7em;
@@ -728,9 +739,22 @@ span.badge {
     width: 60px !important;
     height: 36px;
     margin: 0 0 0 16px !important; }
+  .consumer-list .cart {
+    position: absolute;
+    bottom: 0;
+    left: -2px;
+    width: 129.5px !important;
+    height: 36px;
+    margin: 0 0 0 16px !important;
+    padding: 0 15px; }
 
 .add-to-cart {
   left: 30vw !important;
   width: 180.5px !important; }
+
+.cart-btn-2 {
+  left: 48vw !important;
+  width: 129.5px !important;
+  padding: 0 15px; }
 
 /*# sourceMappingURL=style.css.map */
