@@ -12,13 +12,13 @@ block content
         | ok
   .row
     .col.s12.l12.m12
-  if  cart 
+  if  cart.cart!=''
       ul.collection
         each  cart_item,i in  cart.cart
           li.collection-item.avatar.consumer-list
-            button.waves-effect.waves-light.btn.link-list.cart-btn-2.red
+            button.waves-effect.waves-light.btn.link-list.cart-btn-2.red.cart-remove
               i.material-icons.left.white-text remove_shopping_cart
-              input(type="hidden", name="_id")
+              input(type="hidden", name="_id" value=cart_item._id)
               | REMOVE
             button.waves-effect.waves-light.btn.cart.modal-trigger(href='#modal'+(i+1))
               i.material-icons.left.white-text create
@@ -48,6 +48,8 @@ block content
           li.collection-item.avatar.consumer-list
             span.title  Total
             span.title.right.price.highlight-color  $#{cart_total}
+      button.waves-effect.waves-light.btn.btn__width__100.submit-order
+        | SUBMIT ORDER
   else
       h3.center No items in your cart
                         

@@ -33,7 +33,97 @@ $( document ).ready(function() {
             console.log('match')
         }
     })
-    
+   if(top.location.pathname=="/users/cart" || "/users/cart/")
+   {
+       $(".submit-order").click(function(){
+           let sure=confirm("Are you sure you want to submit your order? This cannot be undone.")
+           Materialize.toast('Working...',5500,'toast-custom')
+           if(sure==true)
+           {
+            $.ajax({
+                type:'POST',
+             url:'/users/pending',
+             contentType:'application/json',
+             success:function(data){
+                if(data==true)
+                {
+                    Materialize.toast('Order was succesfully submitted',5000,'toast-custom');
+                    window.location.href=window.location.protocol+'//'+window.location.host+'/users/pending'
+                }
+                else if(data=="string"){
+                    Materialize.toast(data,3000,'toast-custom');
+                    Materialize.toast("Page is going to reload",5000,'toast-custom');
+                    setTimeout(function(){
+                        window.location.reload(1);
+                     }, 7000);
+                }
+
+             },
+             error:function (jqXHR,exception) {
+                var toastElement = $('.toast').first()[0];
+                var toastInstance = toastElement.M_Toast;
+                toastInstance.remove();
+                 console.log('err');
+                 Materialize.toast(exception,5000,'toast-custom');
+             }
+            
+        });
+           }
+       })
+        /*-------CART DELETE AJAX FUNCTION--------*/
+    $(".cart-remove").click(function(){
+        let sure=confirm("This will remove the item from the cart are you sure?");
+        Materialize.toast('Working...',55000,'toast-custom')
+        if(sure==true)
+        {
+          
+            let id=$(this).children("input").val();
+            let selectedItem=$(this).closest("li");
+            let formData={
+                '_id':id
+            };
+ 
+            $.ajax({
+                type:'POST',
+             url:'/users/cart/delete',
+             data:JSON.stringify(formData),
+             contentType:'application/json',
+             success:function(data){
+                if(typeof data=="object")
+                {
+                if(data.success==true)
+                {
+                    console.log(data)
+                    let total=$('.total').find(".price");
+                       total.text("$"+data.cart_total)
+                    selectedItem.remove();
+                    var toastElement = $('.toast').first()[0];
+                    var toastInstance = toastElement.M_Toast;
+                    toastInstance.remove();
+                    Materialize.toast('Item was successfully removed.',5000,'toast-custom');
+                }  
+                }
+                else if(data=="string"){
+                    Materialize.toast(data,3000,'toast-custom');
+                    Materialize.toast("Page is going to reload",5000,'toast-custom');
+                    setTimeout(function(){
+                        window.location.reload(1);
+                     }, 7000);
+                }
+
+             },
+             error:function (jqXHR,exception) {
+                var toastElement = $('.toast').first()[0];
+                var toastInstance = toastElement.M_Toast;
+                toastInstance.remove();
+                 console.log('err');
+                 Materialize.toast(exception,5000,'toast-custom');
+             }
+            
+        }); 
+        }
+    })
+   }
     /*-------DELETE AJAX FUNCTION ----------*/
     $(".delete").click(function(){
         let sure=confirm("Are you sure?");

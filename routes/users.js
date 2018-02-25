@@ -389,13 +389,23 @@ router.post('/cart', function (req, res, next) {
     }
 })
 
-router.get('/cart/delete', function (req, res, next) {
-    let id =  "5a924c97767a1c45bcaefb25";
-   // req.checkBody('_id', 'ID is Required').notEmpty();
+router.post('/cart/delete', function (req, res, next) {
+    let id =  req.body._id
+    req.checkBody('_id', 'ID is Required').notEmpty();
     var errors = req.validationErrors();
     if (errors) {
-        console.log("here errors")
-        User.findById({
+        res.send("ID is Required");
+    } else {
+        User.update({
+            _id: req.user._id,
+            "cart._id": id
+        }, {
+            $pull: {
+                cart:{_id:id}
+                     }
+        }, function (err, result) {
+            if(err){throw err;}
+            User.findById({
                 _id: req.user._id
             }, 'cart')
             .populate("cart.item")
@@ -405,27 +415,17 @@ router.get('/cart/delete', function (req, res, next) {
                     cart_total += result.cart[i].item.price * result.cart[i].quantity;
                 }
                 if (err) {
-                    throw err;
+                    res.send("An error");
                 }
-                res.render('cart', {
-                    title: "My Cart",
-                    cart: result,
-                    cart_total: cart_total,
-                    errors: errors
-                })
+               else{
+                let ajaxupdate={
+                    sucess:true,
+                    cart_total:cart_total
+                }
+                res.send(ajaxupdate)
+               }
             })
-    } else {
-        User.update({
-            _id: req.user._id,
-            "cart._id": id
-        }, {
-
-            $unset: {
-                "cart.$":1 /*FIXME:SETS ARRAY TO NULL FIX PLS*/
-                     }
-        }, function (err, result) {
-            if(err){throw err;}
-            res.send("done")
+           
         });
     }
 })
@@ -492,14 +492,6 @@ router.post('/addtocart', function (req, res, next) {
 
                                     User.findOneAndUpdate({
                                         "cart.item": cart.item
-                                        /*  cart: {
-                                             $elemMatch: {
-                                                 item: cart.item,
-                                                 quantity: {
-                                                     $gte: 1
-                                                 }
-                                             }
-                                         } */
                                     }, {
                                         $inc: {
                                             "cart.$.quantity": app.get('quantity')
@@ -537,17 +529,74 @@ router.post('/addtocart', function (req, res, next) {
         ])
     }
 
+})
+router.post('/pending',function(req,res,next){
+    User.findById({
+        _id: req.user._id
+    }, 'name cart')
+    .populate("cart.item")
+    .exec(function (err, result) {
+        if(err){throw err;}
+       let pending={
+           item:result.cart[0].item,
+           quantity:result.cart[0].quantity,
+           ready:false,
+           name:result.name,
+           date:moment()
+       }
+       User.update({
+          _id:req.user._id 
+       },{
+        $push:{
+            pending:pending
+        },
+        $set:{
+            "cart":[]
+        }
+       },function(err){
+           if(err)
+           {
+               res.send("An error occured")
+           }
+           else{
 
+               res.send(true);
+           }
+           
+       })
 
-
-
-
-
-
-
+    })
+})
+router.get('/pending',function(req,res){
+   
+    User.findById({
+        _id: req.user._id
+    }, '_id pending')
+    .populate("pending.item")
+    .exec(function (err, result) {
+        console.log(result)
+        let user_id=result._id;
+        let amount_due = [];
+        for (let i = 0; i < result.pending.length; i++) {
+          
+            amount_due.push(result.pending[i].item.price * result.pending[i].quantity);
+        }
+        if (err) {
+            throw err;
+        }
+        
+        res.render('pending', {
+            title: "Pending",
+            pending: result,
+            amount_due: amount_due,
+            user_id:user_id
+        })
+    })
 
 })
+router.get('/orderhistory',function(req,res,next){
 
+})
 function ensureAuth(req, res, next) {
     if (req.isAuthenticated()) {
         console.log(req.isAuthenticated());

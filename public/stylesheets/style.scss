@@ -226,7 +226,16 @@ p{
 ul.total{
   height: 38px;
 }
-
+.btn__width__100{
+  width: 100% !important;
+}
+.collection.with-header .collection-header{
+  border:none;
+  padding: 0;
+  h4{
+    font-size: 1.2rem;
+  }
+}
 .collection .collection-item.avatar{
 min-height: 130px;  
   padding-left:6px !important;
@@ -290,6 +299,9 @@ p.cart-indent
     position: relative;
     top:3.2px;
   }
+}
+span.name{
+  margin-right: 1rem;
 }
 }
 .secondary-content{

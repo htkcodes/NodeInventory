@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  h1=title
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
+  .row
+    -   pending.pending.sort(function(a,b){return (a.date>b.date)?0:((b.date>a.date)?1:0)})
+    .col.s12.l12.m12
+     each pending_item,i in pending.pending 
+        ul.collection.with-header 
+            li.collection-header
+                h4  Order from #{pending_item.name}
+            li.collection-item.avatar.consumer-list
+                if  i==0
+                    span.new.blue.badge(data-badge-caption="New Order")
+                span.title Order Details 
+                span.title.right.price.highlight-color
+                p.cart-indent
+                p.cart-indent
+                    |   Item :
+                    span.name   #{pending_item.item.name}
+                    span.quan Quantity : #{pending_item.quantity} 
+        p
+            |   Order ID : #{pending_item._id}
+        p(class="hide")
+            |   #{user._id}
+        ul.collection.total
+                li.collection-item.avatar.consumer-list
+                    span.title  Amount Due
+                        span.title.right.price.highlight-color  $#{amount_due[i]}
+        button.waves-effect.waves-light.btn.btn__width__100
+            | ORDER READY
+                        
+
+
+
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  script(src="/javascripts/itemlist.js")
+    
+
+
+
