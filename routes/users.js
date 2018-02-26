@@ -7,7 +7,7 @@ var moment = require('moment');
 var User = require('../models/users');
 var item = require('../models/item');
 var profit = require('../models/profit');
-var Pending=require('../models/pending')
+var Order=require('../models/orders')
 var async = require('async');
 var mongoose = require('mongoose');
 var moment = require('moment');
@@ -466,6 +466,7 @@ router.post('/addtocart', function (req, res, next) {
     var errors = req.validationErrors();
 
     if (errors) {
+        console.log("errors")
         res.send(errors)
     } else {
         app.set('user_id', req.user._id);
@@ -534,7 +535,7 @@ router.post('/addtocart', function (req, res, next) {
     }
 
 })
-router.get('/order', function (req, res, next) {
+router.post('/addtoorder',function (req,res,next) { 
     User.findById({
         _id: req.user._id
     }, 'cart')
@@ -544,42 +545,45 @@ router.get('/order', function (req, res, next) {
         let cart_total = 0;
         for (let i = 0; i < result.cart.length; i++) {
             cart_total = result.cart[i].item.price * result.cart[i].quantity;
-            let order={
+            let order= new Order({
                 item_name:result.cart[i].item.name,
                 quantity_purchased:result.cart[i].quantity,
                 item_price:result.cart[i].item.price,
                 order_date:moment(),
                 total:cart_total,
-                ready:false
-            }
-            User.findOneAndUpdate({
-                _id: req.user._id
-            }, {
-                $push: {
-                    orders: order
-                },
-                $set:{
-                    cart:[]
-                }
-            }, function (err) {
-                if (err) {
-                    throw err;
-                }
-               else{
-                User.findById({
-                    _id:req.user._id
-                },'orders',function(err,result){
-                    console.log('order')
-                    res.render('orders',{title:'Order',Orders:result})
+                ready:false,
+                user_name:req.user.name
+            })
+            order.save(function (err) {
+                if(err){throw err;}  
+                User.findOneAndUpdate({
+                    _id: req.user._id
+                }, {
+                    $set:{
+                        cart:[]
+                    }
                 })
-               }
             })
         }
-
+    },function(err){
+        console.log("here")
+    })
+ })
+router.get('/order', function (req, res, next) {
+    Order.find({},function(err,result){
+        if(err){
+            throw err;
+        }
+        let amount_due=0;
+           for(let i=0;i<result.length;i++)
+        {
+           amount_due+=result[i].total;  
+        } 
+        res.render('order',{title:'Order',orders:result,amount_due:amount_due})
     })
 })
 
-router.post('/orders',function(req,res){
+router.get('/readyorder',function(req,res){
     let id=req.body._id
 
     req.checkBody('_id','ID is Required');
@@ -590,12 +594,11 @@ router.post('/orders',function(req,res){
         res.send("ID is Required")
     }
     else{
-        User.findOneAndUpdate({
-            _id:req.user._id,
-            "orders._id":id
+        Order.findOneAndUpdate({
+            _id:mongoose.Types.ObjectId('5a93dc6c45d45b8bb0061cd0')
         },{
          $set:{
-             "orders.$.ready":true
+             "ready":true
          }   
         },function(err){
             if(err)

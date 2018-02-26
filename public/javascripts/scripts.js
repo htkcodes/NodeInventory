@@ -42,7 +42,7 @@ $( document ).ready(function() {
            {
             $.ajax({
                 type:'POST',
-             url:'/users/pending',
+             url:'/users/addtoorder',
              contentType:'application/json',
              success:function(data){
                 if(data==true)

@@ -46,7 +46,6 @@ app.use(session({
   secret:secret.secretKey,
   saveUninitialized:true,
   resave:true,
-
   store:new MongoStore({url:secret.database,autoReconnect:true})
 }));
 
