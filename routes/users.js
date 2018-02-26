@@ -7,7 +7,9 @@ var moment = require('moment');
 var User = require('../models/users');
 var item = require('../models/item');
 var profit = require('../models/profit');
+var Pending=require('../models/pending')
 var async = require('async');
+var mongoose = require('mongoose');
 var moment = require('moment');
 
 
@@ -361,8 +363,7 @@ router.post('/cart', function (req, res, next) {
             .exec(function (err, result) {
                 let cart_total = 0;
                 for (let i = 0; i < result.cart.length; i++) {
-                    
-                   cart_total += result.cart[i].item.price * result.cart[i].quantity;
+                    cart_total += result.cart[i].item.price * result.cart[i].quantity;
                 }
                 if (err) {
                     throw err;
@@ -390,7 +391,7 @@ router.post('/cart', function (req, res, next) {
 })
 
 router.post('/cart/delete', function (req, res, next) {
-    let id =  req.body._id
+    let id = req.body._id
     req.checkBody('_id', 'ID is Required').notEmpty();
     var errors = req.validationErrors();
     if (errors) {
@@ -401,31 +402,34 @@ router.post('/cart/delete', function (req, res, next) {
             "cart._id": id
         }, {
             $pull: {
-                cart:{_id:id}
-                     }
+                cart: {
+                    _id: id
+                }
+            }
         }, function (err, result) {
-            if(err){throw err;}
+            if (err) {
+                throw err;
+            }
             User.findById({
-                _id: req.user._id
-            }, 'cart')
-            .populate("cart.item")
-            .exec(function (err, result) {
-                let cart_total = 0;
-                for (let i = 0; i < result.cart.length; i++) {
-                    cart_total += result.cart[i].item.price * result.cart[i].quantity;
-                }
-                if (err) {
-                    res.send("An error");
-                }
-               else{
-                let ajaxupdate={
-                    sucess:true,
-                    cart_total:cart_total
-                }
-                res.send(ajaxupdate)
-               }
-            })
-           
+                    _id: req.user._id
+                }, 'cart')
+                .populate("cart.item")
+                .exec(function (err, result) {
+                    let cart_total = 0;
+                    for (let i = 0; i < result.cart.length; i++) {
+                        cart_total += result.cart[i].item.price * result.cart[i].quantity;
+                    }
+                    if (err) {
+                        res.send("An error");
+                    } else {
+                        let ajaxupdate = {
+                            sucess: true,
+                            cart_total: cart_total
+                        }
+                        res.send(ajaxupdate)
+                    }
+                })
+
         });
     }
 })
@@ -530,73 +534,77 @@ router.post('/addtocart', function (req, res, next) {
     }
 
 })
-router.post('/pending',function(req,res,next){
+router.get('/order', function (req, res, next) {
     User.findById({
         _id: req.user._id
-    }, 'name cart')
+    }, 'cart')
     .populate("cart.item")
     .exec(function (err, result) {
-        if(err){throw err;}
-       let pending={
-           item:result.cart[0].item,
-           quantity:result.cart[0].quantity,
-           ready:false,
-           name:result.name,
-           date:moment()
-       }
-       User.update({
-          _id:req.user._id 
-       },{
-        $push:{
-            pending:pending
-        },
-        $set:{
-            "cart":[]
-        }
-       },function(err){
-           if(err)
-           {
-               res.send("An error occured")
-           }
-           else{
-
-               res.send(true);
-           }
-           
-       })
-
-    })
-})
-router.get('/pending',function(req,res){
-   
-    User.findById({
-        _id: req.user._id
-    }, '_id pending')
-    .populate("pending.item")
-    .exec(function (err, result) {
         console.log(result)
-        let user_id=result._id;
-        let amount_due = [];
-        for (let i = 0; i < result.pending.length; i++) {
-          
-            amount_due.push(result.pending[i].item.price * result.pending[i].quantity);
+        let cart_total = 0;
+        for (let i = 0; i < result.cart.length; i++) {
+            cart_total = result.cart[i].item.price * result.cart[i].quantity;
+            let order={
+                item_name:result.cart[i].item.name,
+                quantity_purchased:result.cart[i].quantity,
+                item_price:result.cart[i].item.price,
+                order_date:moment(),
+                total:cart_total,
+                ready:false
+            }
+            User.findOneAndUpdate({
+                _id: req.user._id
+            }, {
+                $push: {
+                    orders: order
+                },
+                $set:{
+                    cart:[]
+                }
+            }, function (err) {
+                if (err) {
+                    throw err;
+                }
+               else{
+                User.findById({
+                    _id:req.user._id
+                },'orders',function(err,result){
+                    console.log('order')
+                    res.render('orders',{title:'Order',Orders:result})
+                })
+               }
+            })
         }
-        if (err) {
-            throw err;
-        }
-        
-        res.render('pending', {
-            title: "Pending",
-            pending: result,
-            amount_due: amount_due,
-            user_id:user_id
-        })
+
     })
-
 })
-router.get('/orderhistory',function(req,res,next){
 
+router.post('/orders',function(req,res){
+    let id=req.body._id
+
+    req.checkBody('_id','ID is Required');
+
+    let errors=req.validationErrors()
+    if(errors)
+    {
+        res.send("ID is Required")
+    }
+    else{
+        User.findOneAndUpdate({
+            _id:req.user._id,
+            "orders._id":id
+        },{
+         $set:{
+             "orders.$.ready":true
+         }   
+        },function(err){
+            if(err)
+            {throw err}
+            res.send("done orders")
+        })
+    }
 })
+
 function ensureAuth(req, res, next) {
     if (req.isAuthenticated()) {
         console.log(req.isAuthenticated());

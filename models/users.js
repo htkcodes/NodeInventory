@@ -37,16 +37,13 @@ var UserSchema = Schema({
 			item:{type:Schema.Types.ObjectId,ref:'Item'},
 			quantity:{type:Number}
 	}],
-	pending:[{
-			item:{type:Schema.Types.ObjectId,ref:'Item'},
-			quantity:{type:Number},
-			ready:Boolean,
-			name:String,
-			date:Date
-	}],
-	order_history:[{
-		item:String,
-		date:Date
+	orders:[{
+		item_name:String,
+		item_price:String,
+		quantity_purchased:Number,
+		order_date:Date,
+		total:Number,
+		ready:Boolean
 	}]
 	
 });
