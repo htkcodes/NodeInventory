@@ -7,7 +7,7 @@ var moment = require('moment');
 var User = require('../models/users');
 var item = require('../models/item');
 var profit = require('../models/profit');
-var Order=require('../models/orders')
+var Order = require('../models/orders')
 var async = require('async');
 var mongoose = require('mongoose');
 var moment = require('moment');
@@ -170,10 +170,11 @@ router.post('/register', function (req, res) {
     var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
-    var password2 = req.body.password2;
-    var userType = req.body.userType;
+    var password2 = req.body.confirm_password;
+    var admin = req.body.admin;
     var secret = req.body.secret;
     var secretconfirm = "copperexplaintruck";
+
 
     // Validation
     req.checkBody('name', 'Name is required').notEmpty();
@@ -182,17 +183,20 @@ router.post('/register', function (req, res) {
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
-    req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-   // req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
+    req.checkBody('confirm_password', 'Passwords do not match').equals(req.body.password);
 
+    if(admin == "true")
+    {
+        console.log('here')
+        req.checkBody('secret','Secret is empty').notEmpty()
+        req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
+    }
 
 
     var errors = req.validationErrors();
 
     if (errors) {
-        res.render('register', {
-            errors: errors
-        });
+        res.send(errors)
     } else {
         //Checks if the item thats being added doesn't exist in the database
         User.find({
@@ -208,24 +212,21 @@ router.post('/register', function (req, res) {
 
                 let errors = "Username Already Exists";
 
-                res.render('register', {
-                    user_exist: errors
-                });
+                res.send(errors)
             } else {
                 var newUser = new User({
                     name: name,
                     email: email,
                     username: username,
                     password: password,
-                    admin:false
+                    admin: admin
                 });
 
                 User.createUser(newUser, function (err, user) {
                     if (err) throw err;
-                    console.log(user);
+                    res.send(true);
                 });
-                req.flash('success_msg', 'You are registered and can now login');
-                res.redirect('/users/login');
+              
             }
 
         })
@@ -312,7 +313,7 @@ router.get('/logout', function (req, res) {
     res.redirect('/users/login');
 });
 
-router.get('/consumer', function (req, res, next) {
+router.get('/consumer',ensureAuth, function (req, res, next) {
     item.find({}, 'name quantity price sold total')
         .exec(function (err, list_items) {
             if (err) {
@@ -327,7 +328,7 @@ router.get('/consumer', function (req, res, next) {
         });
 })
 
-router.get('/cart', function (req, res, next) {
+router.get('/cart',ensureAuth, function (req, res, next) {
     User.findById({
             _id: req.user._id
         }, 'cart')
@@ -348,7 +349,7 @@ router.get('/cart', function (req, res, next) {
             })
         })
 })
-router.post('/cart', function (req, res, next) {
+router.post('/cart',ensureAuth, function (req, res, next) {
     let id = req.body._id;
     let quantity = req.body.quantity;
     req.checkBody('_id', 'ID is Required').notEmpty();
@@ -391,7 +392,7 @@ router.post('/cart', function (req, res, next) {
     }
 })
 
-router.post('/cart/delete', function (req, res, next) {
+router.post('/cart/delete',ensureAuth, function (req, res, next) {
     let id = req.body._id
     req.checkBody('_id', 'ID is Required').notEmpty();
     var errors = req.validationErrors();
@@ -435,7 +436,7 @@ router.post('/cart/delete', function (req, res, next) {
     }
 })
 
-router.post('/addtocart', function (req, res, next) {
+router.post('/addtocart',ensureAuth, function (req, res, next) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
     function isEmpty(obj) {
@@ -491,7 +492,7 @@ router.post('/addtocart', function (req, res, next) {
                                 throw err;
                             }
                             User.find({
-                                _id:req.user._id,
+                                _id: req.user._id,
                                 "cart.item": cart.item
                             }, function (err, count) {
 
@@ -537,157 +538,161 @@ router.post('/addtocart', function (req, res, next) {
 
 })
 
-router.post('/readyorder',function(req,res){
-    let id=req.body._id;
-    let item_id=req.body.item_id;
-    let quantity_purchased=req.body.quantity;
-    req.checkBody('_id','ID is Required').notEmpty()
-    req.checkBody('item_id','Item ID is missing').notEmpty()
-    req.checkBody('quantity','Quantity purchased must not be empty').notEmpty()
+router.post('/readyorder',ensureAuth, function (req, res) {
+    let id = req.body._id;
+    let item_id = req.body.item_id;
+    let quantity_purchased = req.body.quantity;
+    req.checkBody('_id', 'ID is Required').notEmpty()
+    req.checkBody('item_id', 'Item ID is missing').notEmpty()
+    req.checkBody('quantity', 'Quantity purchased must not be empty').notEmpty()
 
-    let errors=req.validationErrors();
-    if(errors)
-    {
+    let errors = req.validationErrors();
+    if (errors) {
         res.send("ID is Required")
-    }
-    else{
+    } else {
         async.waterfall([
-            function(callback){
+            function (callback) {
                 Order.findOneAndUpdate({
-                    _id:id
-                },{
-                 $set:{
-                     "ready":true
-                 }   
-                },function(err){
-                    if(err)
-                    {throw err}
-                    let fake=0;
-                    callback(err,fake)
+                    _id: id
+                }, {
+                    $set: {
+                        "ready": true
+                    }
+                }, function (err) {
+                    if (err) {
+                        throw err
+                    }
+                    let fake = 0;
+                    callback(err, fake)
                 })
-            
-            
-            
-            },function(fake,callback){
+
+
+
+            },
+            function (fake, callback) {
                 item.findById(item_id, function foundItem(err, product) {
-                    try{
-                        var updatedProduct = new item(
-                            { name: product.name, 
-                              quantity:(product.currentqty-quantity_purchased), 
-                              price: product.price,
-                              _id:product._id,
-                              sold:(product.currentsold+quantity_purchased),
-                              total:product.totalupdate
-                             }); 
-            
-                             item.findByIdAndUpdate(product._id,updatedProduct,function updateItem(err){
-                                if(err){return next(err);}
-                                callback(err, updatedProduct);
-                            });
+                    try {
+                        var updatedProduct = new item({
+                            name: product.name,
+                            quantity: (product.currentqty - quantity_purchased),
+                            price: product.price,
+                            _id: product._id,
+                            sold: (product.currentsold + quantity_purchased),
+                            total: product.totalupdate
+                        });
+
+                        item.findByIdAndUpdate(product._id, updatedProduct, function updateItem(err) {
+                            if (err) {
+                                return next(err);
+                            }
+                            callback(err, updatedProduct);
+                        });
+                    } catch (err) {
+                        console.log("caught");
                     }
-                    catch(err){
-            console.log("caught");
-                    }
-            
-                    
+
+
                 })
             }
-            
-                ],function(err){
-                   if(err)
-                   {
-                       res.send("err");
-                   }
-                   else{
-                       res.send(true);
-                   }
-                })
+
+        ], function (err) {
+            if (err) {
+                res.send("err");
+            } else {
+                res.send(true);
+            }
+        })
 
     }
 
-  
+
 })
 
 
 
-router.post('/addtoorder',function (req,res,next) { 
-  async.waterfall([
-      function(callback){
-        User.findById({
-            _id: req.user._id
-        }, 'cart')
-        .populate("cart.item")
-        .exec(function (err, result) {
-            console.log(result)
-            let cart_total = 0;
-            for (let i = 0; i < result.cart.length; i++) {
-                cart_total = result.cart[i].item.price * result.cart[i].quantity;
-                let order= new Order({
-                    item_name:result.cart[i].item.name,
-                    quantity_purchased:result.cart[i].quantity,
-                    item_price:result.cart[i].item.price,
-                    order_date:moment(),
-                    total:cart_total,
-                    ready:false,
-                    user_name:req.user.name,
-                    user_id:req.user._id,
-                    item_id:result.cart[i].item._id
+router.post('/addtoorder',ensureAuth, function (req, res, next) {
+    async.waterfall([
+        function (callback) {
+            User.findById({
+                    _id: req.user._id
+                }, 'cart')
+                .populate("cart.item")
+                .exec(function (err, result) {
+                    console.log(result)
+                    let cart_total = 0;
+                    for (let i = 0; i < result.cart.length; i++) {
+                        cart_total = result.cart[i].item.price * result.cart[i].quantity;
+                        let order = new Order({
+                            item_name: result.cart[i].item.name,
+                            quantity_purchased: result.cart[i].quantity,
+                            item_price: result.cart[i].item.price,
+                            order_date: moment(),
+                            total: cart_total,
+                            ready: false,
+                            user_name: req.user.name,
+                            user_id: req.user._id,
+                            item_id: result.cart[i].item._id
+                        })
+                        order.save(function (err) {})
+                    }
+                    let useless_callback = 0;
+                    callback(err, useless_callback);
                 })
-                order.save(function (err) {
-                })
-            }
-        let useless_callback=0;
-        callback(err,useless_callback);
-        })
-       
-      },
-     function(useless_callback,callback){
-          User.findByIdAndUpdate({
-              _id:req.user._id
-          },{
-              $set:{
-                  cart:[]
-              }
-          },function(err){
-              if(err)return next(err);
-          })
-      }
-  
-   ])
- })
-router.get('/order', function (req, res, next) {
-    Order.find({},function(err,result){
-        if(err){
+
+        },
+        function (useless_callback, callback) {
+            User.findByIdAndUpdate({
+                _id: req.user._id
+            }, {
+                $set: {
+                    cart: []
+                }
+            }, function (err) {
+                if (err) return next(err);
+            })
+        }
+
+    ])
+})
+router.get('/order',ensureAuth, function (req, res, next) {
+    Order.find({}, function (err, result) {
+        if (err) {
             throw err;
         }
-        let amount_due=0;
-           for(let i=0;i<result.length;i++)
-        {
-           amount_due+=result[i].total;  
-        } 
-        res.render('order',{title:'Order',orders:result,amount_due:amount_due})
+        let amount_due = 0;
+        for (let i = 0; i < result.length; i++) {
+            amount_due += result[i].total;
+        }
+        res.render('order', {
+            title: 'Order',
+            orders: result,
+            amount_due: amount_due
+        })
     })
 })
-router.get('/order/:id',function(req,res,next){
-Order.find({
-    user_id:req.params.id,
-    ready:true
-},function foundOrders(err,found_orders){
-    if(err){
-        return next(err);
-    }
-    res.render('completed_orders',{title:"Completed Orders",completed:found_orders})
-})
+router.get('/order/:id',ensureAuth, function (req, res, next) {
+    Order.find({
+        user_id: req.params.id,
+        ready: true
+    }, function foundOrders(err, found_orders) {
+        if (err) {
+            return next(err);
+        }
+        res.render('completed_orders', {
+            title: "Completed Orders",
+            completed: found_orders
+        })
+    })
 })
 
 
 
 function ensureAuth(req, res, next) {
     if (req.isAuthenticated()) {
-        console.log(req.isAuthenticated());
-        res.redirect('/inventory');
+        res.redirect('/');
     }
     res.redirect('/users/login');
 }
+
 
 module.exports = router;

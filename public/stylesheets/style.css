@@ -182,6 +182,10 @@ ul.total {
   left: 5vw !important;
   width: 90% !important; }
 
+.user-type p {
+  display: inline-block !important;
+  margin-left: 1rem; }
+
 .collection .collection-item {
   border-bottom: none;
   background: #fff;

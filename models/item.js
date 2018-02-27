@@ -50,6 +50,12 @@ ItemSchema
 .get(function(){
   return((this.total + this.price));
 });
+
+ItemSchema
+.virtual('currentprice')
+.get(function(){
+  return(this.price)
+})
 // Virtual to update item sold.
 ItemSchema
 .virtual('soldupdate')

@@ -2,6 +2,81 @@
 // A $( document ).ready() block.
 $( document ).ready(function() {
 
+if(top.location.pathname=="/users/register")
+{
+    console.log("here")
+    $(".user-type>p>input").on("click",()=>{
+        if($("input:checked").val() == "true")
+        {
+           let parent=$(".user-type").closest(".row");
+            parent.append(`<div class="input-field security-key col s8 l4 offset-s2 offset-l4"><i class="material-icons prefix">security</i>
+            <input type="password" name="secret" placeholder="Secret Key" id="icon_prefix" class="secret"/>
+            <label for="secret" class="hide"></label>
+          </div>
+         `) 
+        }
+        else{
+            $(".security-key").remove();
+        }
+    })
+
+    $("form").submit(function(e){
+        e.preventDefault();
+       let formdata=$(this).serializeArray();
+        let formArray=[];
+       for(let [index,pair] of formdata.entries())
+       {
+           formArray.push(pair.value)
+       }
+
+       let form={
+        name:formArray[0],
+        email:formArray[1],
+        username:formArray[2],
+        password:formArray[3],
+        confirm_password:formArray[4],
+        admin:formArray[5]
+          }
+
+          if(formArray[5]=="true")
+          {
+             form["secret"]=$('.secret').val()
+          }
+
+              $.ajax({
+        type: "POST",
+        url: "/users/register",
+        data: JSON.stringify(form),
+        contentType:'application/json',
+        success: function (response) {
+            if(response == true)
+            {
+               Materialize.toast('Registered Successfully',5000,'toast-custom')
+               Materialize.toast('You\'ll be redirected to the login page',5000,'toast-custom')
+               setTimeout(function(){
+                $(location).attr('href', window.location.protocol+'//'+window.location.host+'/users/login');
+               },4000) 
+            }
+            else if(typeof response =="object")
+            {
+                Object.keys(response).forEach(function(key) {
+       
+                    Materialize.toast(response[key].msg,5000,'toast-custom');
+                        });
+            }
+            else if(typeof response=="string" )
+        {
+            Materialize.toast(response,5000,'toast')
+        }
+          
+        }
+    }); 
+    })
+
+ 
+}
+
+
     $('.modal').modal();
     $('.qty-edit').on('click',function(){
       let form= $(this).parents(".bottom-sheet").children(".modal-content").find("form");
@@ -50,7 +125,7 @@ $( document ).ready(function() {
                     Materialize.toast('Order was succesfully submitted',5000,'toast-custom');
                     window.location.href=window.location.protocol+'//'+window.location.host+'/users/pending'
                 }
-                else if(data=="string"){
+                else if(typeof data=="string"){
                     Materialize.toast(data,3000,'toast-custom');
                     Materialize.toast("Page is going to reload",5000,'toast-custom');
                     setTimeout(function(){
@@ -70,6 +145,19 @@ $( document ).ready(function() {
         });
            }
        })
+
+
+       if($(".collection").children().length===0)
+    {
+        $(".collection").append(`<h5 class="center">No Order History</h5>`);
+    }
+
+    $("span.date").each(function(i){
+        var sd=  $(this).text();
+        var fd=moment(sd).format("MMM Do YYYY");
+        $(this).text(fd);
+      }); 
+
 
   if(top.location.pathname=="/users/order")
   {
@@ -104,7 +192,7 @@ $( document ).ready(function() {
                     selected.remove();
                 }  
             
-                else if(data=="string"){
+                else if(typeof data=="string"){
                     Materialize.toast(data,3000,'toast-custom');
                 }
 
@@ -154,7 +242,7 @@ $( document ).ready(function() {
                     Materialize.toast('Item was successfully removed.',5000,'toast-custom');
                 }  
                 }
-                else if(data=="string"){
+                else if(typeof data=="string"){
                     Materialize.toast(data,3000,'toast-custom');
                     Materialize.toast("Page is going to reload",5000,'toast-custom');
                     setTimeout(function(){

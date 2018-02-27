@@ -280,6 +280,13 @@ left: 5px;
   left:5vw !important;
   width: 90% !important;
 }
+
+.user-type{
+  p {
+    display: inline-block !important;
+    margin-left:1rem
+  }
+}
 .collection .collection-item{
  // box-shadow: 1px 0px 25px -1px rgba(133,135,137,0.3);
 border-bottom:none;

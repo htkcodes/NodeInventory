@@ -12,7 +12,6 @@ block content
         | ok
   .row
     .col.s12.l12.m12
-    if  completed!=''
       ul.collection
         each complete,i in completed
           li.collection-item.avatar.consumer-list
@@ -34,15 +33,11 @@ block content
               i.material-icons info_outline
               span  Order Date :
                 span.date #{complete.order_date}
-    else
-        h5.center   No completed Orders
 
 
 
   
   script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
-  script(src="/javascripts/itemlist.js")
-    
 
 
 
