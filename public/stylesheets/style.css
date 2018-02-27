@@ -178,6 +178,10 @@ ul.total {
   .collection .collection-item.avatar .title {
     padding-left: 0.5rem; }
 
+.btn__cart__width__90 {
+  left: 5vw !important;
+  width: 90% !important; }
+
 .collection .collection-item {
   border-bottom: none;
   background: #fff;

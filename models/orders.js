@@ -11,6 +11,7 @@ var OrderSchema = Schema({
   ready:Boolean,
   user_name:String,
   user_id:{type:Schema.Types.ObjectId,ref:'User'},
+  item_id:{type:Schema.Types.ObjectId,ref:'Item'}
   });
 
 

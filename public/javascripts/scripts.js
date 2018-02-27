@@ -70,6 +70,57 @@ $( document ).ready(function() {
         });
            }
        })
+
+  if(top.location.pathname=="/users/order")
+  {
+      console.log("read")
+    $(".order-ready").click(function(){
+        let sure=confirm("Are you sure the order is ready? this cannot be undone");
+        Materialize.toast('Working...',55000,'toast-custom')
+        if(sure==true)
+        {
+            let item_id=$(this).children("input").filter("input.item_id").val();
+            let order_id=$(this).children("input").filter("input.order_id").val();
+            let quantity_purchased=$(this).children("input").filter("input.qtyp").val()
+            let selected=$(this).parent();
+           
+            let formData={
+                '_id':order_id,
+                'item_id':item_id,
+                'quantity':quantity_purchased
+            }
+
+
+            $.ajax({
+                type:'POST',
+             url:'/users/readyorder',
+             data:JSON.stringify(formData),
+             contentType:'application/json',
+             success:function(data){
+
+                if(data==true)
+                {
+                    console.log(data)
+                    selected.remove();
+                }  
+            
+                else if(data=="string"){
+                    Materialize.toast(data,3000,'toast-custom');
+                }
+
+             },
+             error:function (jqXHR,exception) {
+                var toastElement = $('.toast').first()[0];
+                var toastInstance = toastElement.M_Toast;
+                toastInstance.remove();
+                 console.log('err');
+                 Materialize.toast(exception,5000,'toast-custom');
+             }
+            
+        }); 
+        }
+    })
+  }
         /*-------CART DELETE AJAX FUNCTION--------*/
     $(".cart-remove").click(function(){
         let sure=confirm("This will remove the item from the cart are you sure?");

@@ -33,6 +33,17 @@ ItemSchema
   return ((this.quantity-1));
 });
 
+ItemSchema
+.virtual('currentqty')
+.get(function(){
+  return  (this.quantity);
+})
+
+ItemSchema
+.virtual('currentsold')
+.get(function(){
+  return  (this.sold)
+})
 // Virtual to update item total
 ItemSchema
 .virtual('totalupdate')

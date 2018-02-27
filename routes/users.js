@@ -507,8 +507,7 @@ router.post('/addtocart', function (req, res, next) {
                                         if (err) {
                                             throw err
                                         }
-
-                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated to:" + (results.cart[0].quantity + 1))
+                                        res.send("This item was already in your cart" + `<br>` + "Quantity has been updated")
                                     })
 
                                 } else {
@@ -537,6 +536,80 @@ router.post('/addtocart', function (req, res, next) {
     }
 
 })
+
+router.post('/readyorder',function(req,res){
+    let id=req.body._id;
+    let item_id=req.body.item_id;
+    let quantity_purchased=req.body.quantity;
+    req.checkBody('_id','ID is Required').notEmpty()
+    req.checkBody('item_id','Item ID is missing').notEmpty()
+    req.checkBody('quantity','Quantity purchased must not be empty').notEmpty()
+
+    let errors=req.validationErrors();
+    if(errors)
+    {
+        res.send("ID is Required")
+    }
+    else{
+        async.waterfall([
+            function(callback){
+                Order.findOneAndUpdate({
+                    _id:id
+                },{
+                 $set:{
+                     "ready":true
+                 }   
+                },function(err){
+                    if(err)
+                    {throw err}
+                    let fake=0;
+                    callback(err,fake)
+                })
+            
+            
+            
+            },function(fake,callback){
+                item.findById(item_id, function foundItem(err, product) {
+                    try{
+                        var updatedProduct = new item(
+                            { name: product.name, 
+                              quantity:(product.currentqty-quantity_purchased), 
+                              price: product.price,
+                              _id:product._id,
+                              sold:(product.currentsold+quantity_purchased),
+                              total:product.totalupdate
+                             }); 
+            
+                             item.findByIdAndUpdate(product._id,updatedProduct,function updateItem(err){
+                                if(err){return next(err);}
+                                callback(err, updatedProduct);
+                            });
+                    }
+                    catch(err){
+            console.log("caught");
+                    }
+            
+                    
+                })
+            }
+            
+                ],function(err){
+                   if(err)
+                   {
+                       res.send("err");
+                   }
+                   else{
+                       res.send(true);
+                   }
+                })
+
+    }
+
+  
+})
+
+
+
 router.post('/addtoorder',function (req,res,next) { 
   async.waterfall([
       function(callback){
@@ -557,7 +630,8 @@ router.post('/addtoorder',function (req,res,next) {
                     total:cart_total,
                     ready:false,
                     user_name:req.user.name,
-                    user_id:req.user._id
+                    user_id:req.user._id,
+                    item_id:result.cart[i].item._id
                 })
                 order.save(function (err) {
                 })
@@ -606,30 +680,7 @@ Order.find({
 })
 })
 
-router.get('/readyorder',function(req,res){
-    let id=req.body._id
 
-    req.checkBody('_id','ID is Required');
-
-    let errors=req.validationErrors()
-    if(errors)
-    {
-        res.send("ID is Required")
-    }
-    else{
-        Order.findOneAndUpdate({
-            _id:mongoose.Types.ObjectId('5a94717ea6280f95945ccb85')
-        },{
-         $set:{
-             "ready":true
-         }   
-        },function(err){
-            if(err)
-            {throw err}
-            res.send("done orders")
-        })
-    }
-})
 
 function ensureAuth(req, res, next) {
     if (req.isAuthenticated()) {

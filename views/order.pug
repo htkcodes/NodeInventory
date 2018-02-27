@@ -14,23 +14,30 @@ block content
     .col.s12.l12.m12
       ul.collection
         each order,i  in orders
-          li.collection-item.avatar.consumer-list
-            button.waves-effect.waves-light.btn.link-list.red.btn__width__100
-              i.material-icons.left.white-text remove_shopping_cart
-              input(type="hidden", name="_id" value=)
-              | ORDER READY
-            span.title #{order.item_name}
-            span.title.right.price.highlight-color  
-            p.cart-indent
-              i.material-icons info_outline
-              span  Amount Ordered :
-                span.quan  
-      ul.collection.total
-          li.collection-item.avatar.consumer-list
-            span.title  Amount  Due
-            span.title.right.price.highlight-color  #{amount_due}
-      button.waves-effect.waves-light.btn.btn__width__100.submit-order
-        | SUBMIT ORDER
+          if  order.ready!=true
+            li.collection-item.avatar.consumer-list
+              button.waves-effect.waves-light.btn.link-list.order-ready.blue.btn__cart__width__90
+                i.material-icons.left.white-text check
+                input(type="hidden", name="_id"  class="order_id" value=order._id)
+                input(type="hidden",name="item_id" class="item_id" value=order.item_id)
+                input(type="hidden", name="qty" class="qtyp" value=order.quantity_purchased)
+                | READY
+              span.title Order from #{order.user_name}
+              span.title.right.price.highlight-color
+              p.cart-indent
+                i.material-icons info_outline
+                span  Item Name :
+                  span.quan #{order.item_name} 
+              p.cart-indent
+                i.material-icons info_outline
+                span  Amount Ordered :
+                  span.quan #{order.quantity_purchased} 
+              p.cart-indent
+                i.material-icons attach_money
+                span  Amount Due :
+                  span.quan $#{order.total}
+            
+              
 
 
 
