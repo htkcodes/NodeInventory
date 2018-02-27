@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  h1=title
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
+  .row
+    .col.s12.l12.m12
+    if  completed!=''
+      ul.collection
+        each complete,i in completed
+          li.collection-item.avatar.consumer-list
+            span.title Order Details
+            span.title.right.price.highlight-color 
+            p.cart-indent
+              i.material-icons info_outline
+              span  Item(s) :
+                span.quan #{complete.item_name} 
+            p.cart-indent
+              i.material-icons info_outline
+              span  Amount Purchased :
+                span.quan   #{complete.quantity_purchased}
+            p.cart-indent
+              i.material-icons info_outline
+              span  Total Cost:$
+                span.quan   #{complete.total} 
+            p.cart-indent
+              i.material-icons info_outline
+              span  Order Date :
+                span.date #{complete.order_date}
+    else
+        h5.center   No completed Orders
+
+
+
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  script(src="/javascripts/itemlist.js")
+    
+
+
+

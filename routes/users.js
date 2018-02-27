@@ -183,7 +183,7 @@ router.post('/register', function (req, res) {
     req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-    req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
+   // req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
 
 
 
@@ -217,7 +217,7 @@ router.post('/register', function (req, res) {
                     email: email,
                     username: username,
                     password: password,
-                    userType: userType
+                    admin:false
                 });
 
                 User.createUser(newUser, function (err, user) {
@@ -291,6 +291,7 @@ router.post('/login',
                 console.log('admin')
                 res.redirect('/inventory');
             } else {
+                console.log(user)
                 res.redirect(
                     'consumer'
                 );
@@ -469,7 +470,6 @@ router.post('/addtocart', function (req, res, next) {
         console.log("errors")
         res.send(errors)
     } else {
-        app.set('user_id', req.user._id);
         async.waterfall([
             function (callback) {
                 item.findById(req.body._id, function addItemToCart(err, found_item) {
@@ -477,7 +477,8 @@ router.post('/addtocart', function (req, res, next) {
                 })
             },
             function (found_item, callback) {
-                User.findById(app.get('user_id'), function store(err, found_User) {
+                User.findById(req.user._id, function store(err, found_User) {
+                    console.log(found_User)
                     User.find({
                             _id: found_User._id
                         })
@@ -490,6 +491,7 @@ router.post('/addtocart', function (req, res, next) {
                                 throw err;
                             }
                             User.find({
+                                _id:req.user._id,
                                 "cart.item": cart.item
                             }, function (err, count) {
 
@@ -536,38 +538,48 @@ router.post('/addtocart', function (req, res, next) {
 
 })
 router.post('/addtoorder',function (req,res,next) { 
-    User.findById({
-        _id: req.user._id
-    }, 'cart')
-    .populate("cart.item")
-    .exec(function (err, result) {
-        console.log(result)
-        let cart_total = 0;
-        for (let i = 0; i < result.cart.length; i++) {
-            cart_total = result.cart[i].item.price * result.cart[i].quantity;
-            let order= new Order({
-                item_name:result.cart[i].item.name,
-                quantity_purchased:result.cart[i].quantity,
-                item_price:result.cart[i].item.price,
-                order_date:moment(),
-                total:cart_total,
-                ready:false,
-                user_name:req.user.name
-            })
-            order.save(function (err) {
-                if(err){throw err;}  
-                User.findOneAndUpdate({
-                    _id: req.user._id
-                }, {
-                    $set:{
-                        cart:[]
-                    }
+  async.waterfall([
+      function(callback){
+        User.findById({
+            _id: req.user._id
+        }, 'cart')
+        .populate("cart.item")
+        .exec(function (err, result) {
+            console.log(result)
+            let cart_total = 0;
+            for (let i = 0; i < result.cart.length; i++) {
+                cart_total = result.cart[i].item.price * result.cart[i].quantity;
+                let order= new Order({
+                    item_name:result.cart[i].item.name,
+                    quantity_purchased:result.cart[i].quantity,
+                    item_price:result.cart[i].item.price,
+                    order_date:moment(),
+                    total:cart_total,
+                    ready:false,
+                    user_name:req.user.name,
+                    user_id:req.user._id
                 })
-            })
-        }
-    },function(err){
-        console.log("here")
-    })
+                order.save(function (err) {
+                })
+            }
+        let useless_callback=0;
+        callback(err,useless_callback);
+        })
+       
+      },
+     function(useless_callback,callback){
+          User.findByIdAndUpdate({
+              _id:req.user._id
+          },{
+              $set:{
+                  cart:[]
+              }
+          },function(err){
+              if(err)return next(err);
+          })
+      }
+  
+   ])
  })
 router.get('/order', function (req, res, next) {
     Order.find({},function(err,result){
@@ -582,6 +594,17 @@ router.get('/order', function (req, res, next) {
         res.render('order',{title:'Order',orders:result,amount_due:amount_due})
     })
 })
+router.get('/order/:id',function(req,res,next){
+Order.find({
+    user_id:req.params.id,
+    ready:true
+},function foundOrders(err,found_orders){
+    if(err){
+        return next(err);
+    }
+    res.render('completed_orders',{title:"Completed Orders",completed:found_orders})
+})
+})
 
 router.get('/readyorder',function(req,res){
     let id=req.body._id
@@ -595,7 +618,7 @@ router.get('/readyorder',function(req,res){
     }
     else{
         Order.findOneAndUpdate({
-            _id:mongoose.Types.ObjectId('5a93dc6c45d45b8bb0061cd0')
+            _id:mongoose.Types.ObjectId('5a94717ea6280f95945ccb85')
         },{
          $set:{
              "ready":true

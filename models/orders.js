@@ -9,7 +9,8 @@ var OrderSchema = Schema({
   order_date:Date,
   total:Number,
   ready:Boolean,
-  user_name:String
+  user_name:String,
+  user_id:{type:Schema.Types.ObjectId,ref:'User'},
   });
 
 

@@ -30,8 +30,8 @@ var UserSchema = Schema({
     logout:{
         type:Date
 	},
-	userType:{
-		type:String
+	admin:{
+		type:Boolean
 	},
 	cart:[{
 			item:{type:Schema.Types.ObjectId,ref:'Item'},
