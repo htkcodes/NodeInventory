@@ -37,6 +37,8 @@ var UserSchema = Schema({
 			item:{type:Schema.Types.ObjectId,ref:'Item'},
 			quantity:{type:Number}
 	}],
+	resetPasswordToken: String,
+	resetPasswordExpires: Date
 
 	
 });

@@ -11,15 +11,16 @@ var Order = require('../models/orders')
 var async = require('async');
 var mongoose = require('mongoose');
 var moment = require('moment');
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
 
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-
     res.redirect('/users/login');
 });
 
-router.get('/profit', function (req, res) {
+router.get('/profit',ensureAuthAdmin, function (req, res) {
     async.series({
         item_total: function (callback) {
             item.aggregate({
@@ -288,7 +289,7 @@ router.post('/login',
                 return done(null, false, {
                     message: 'Unknown User'
                 });
-            } else if (user.userType === "admin") {
+            } else if (user.admin === true) {
                 console.log('admin')
                 res.redirect('/inventory');
             } else {
@@ -313,7 +314,7 @@ router.get('/logout', function (req, res) {
     res.redirect('/users/login');
 });
 
-router.get('/consumer',ensureAuth, function (req, res, next) {
+router.get('/consumer',ensureAuthUser, function (req, res, next) {
     item.find({}, 'name quantity price sold total')
         .exec(function (err, list_items) {
             if (err) {
@@ -328,7 +329,7 @@ router.get('/consumer',ensureAuth, function (req, res, next) {
         });
 })
 
-router.get('/cart',ensureAuth, function (req, res, next) {
+router.get('/cart',ensureAuthUser, function (req, res, next) {
     User.findById({
             _id: req.user._id
         }, 'cart')
@@ -349,7 +350,7 @@ router.get('/cart',ensureAuth, function (req, res, next) {
             })
         })
 })
-router.post('/cart',ensureAuth, function (req, res, next) {
+router.post('/cart', ensureAuthUser,function (req, res, next) {
     let id = req.body._id;
     let quantity = req.body.quantity;
     req.checkBody('_id', 'ID is Required').notEmpty();
@@ -392,7 +393,7 @@ router.post('/cart',ensureAuth, function (req, res, next) {
     }
 })
 
-router.post('/cart/delete',ensureAuth, function (req, res, next) {
+router.post('/cart/delete',ensureAuthUser, function (req, res, next) {
     let id = req.body._id
     req.checkBody('_id', 'ID is Required').notEmpty();
     var errors = req.validationErrors();
@@ -436,7 +437,7 @@ router.post('/cart/delete',ensureAuth, function (req, res, next) {
     }
 })
 
-router.post('/addtocart',ensureAuth, function (req, res, next) {
+router.post('/addtocart',ensureAuthUser, function (req, res, next) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
     function isEmpty(obj) {
@@ -538,7 +539,7 @@ router.post('/addtocart',ensureAuth, function (req, res, next) {
 
 })
 
-router.post('/readyorder',ensureAuth, function (req, res) {
+router.post('/readyorder',ensureAuthAdmin, function (req, res) {
     let id = req.body._id;
     let item_id = req.body.item_id;
     let quantity_purchased = req.body.quantity;
@@ -578,7 +579,7 @@ router.post('/readyorder',ensureAuth, function (req, res) {
                             price: product.price,
                             _id: product._id,
                             sold: (product.currentsold + quantity_purchased),
-                            total: product.totalupdate
+                            total: (product.price*quantity_purchased)
                         });
 
                         item.findByIdAndUpdate(product._id, updatedProduct, function updateItem(err) {
@@ -610,7 +611,7 @@ router.post('/readyorder',ensureAuth, function (req, res) {
 
 
 
-router.post('/addtoorder',ensureAuth, function (req, res, next) {
+router.post('/addtoorder',ensureAuthUser, function (req, res, next) {
     async.waterfall([
         function (callback) {
             User.findById({
@@ -654,7 +655,7 @@ router.post('/addtoorder',ensureAuth, function (req, res, next) {
 
     ])
 })
-router.get('/order',ensureAuth, function (req, res, next) {
+router.get('/order',ensureAuthAdmin, function (req, res, next) {
     Order.find({}, function (err, result) {
         if (err) {
             throw err;
@@ -670,7 +671,7 @@ router.get('/order',ensureAuth, function (req, res, next) {
         })
     })
 })
-router.get('/order/:id',ensureAuth, function (req, res, next) {
+router.get('/order/:id',ensureAuthUser, function (req, res, next) {
     Order.find({
         user_id: req.params.id,
         ready: true
@@ -685,14 +686,140 @@ router.get('/order/:id',ensureAuth, function (req, res, next) {
     })
 })
 
+router.get('/forgot', function(req, res) {
+    res.render('forgot', {
+      user: req.user
+    });
+  });
 
+router.post('/forgot',function(req,res){
+    async.waterfall([
+        function(done) {
+          crypto.randomBytes(20, function(err, buf) {
+            var token = buf.toString('hex');
+            done(err, token);
+          });
+        },
+        function(token, done) {
+          User.findOne({ email: req.body.email }, function(err, user) {
+            if (!user) {
+              console.log('email doesnt exist')
+              return res.redirect('/users/forgot');
+            }
+    
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    
+            user.save(function(err) {
+              done(err, token, user);
+            });
+          });
+        },
+        function(token, user, done) {
+          var smtpTransport = nodemailer.createTransport({
+            service: 'SendGrid',
+            auth: {
+              user: 'htk_codes',
+              pass: '6siRucJBS2M9'
+            }
+          });
+          var mailOptions = {
+            to: user.email,
+            from: 'chipsinv@cis.net',
+            subject: 'Password Reset',
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+              'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+              'http://' + req.headers.host + '/users/r/' + token + '\n\n' +
+              'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          };
+          smtpTransport.sendMail(mailOptions, function(err) {
+            console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+            done(err, 'done');
+          });
+        }
+      ], function(err) {
+        if (err) return next(err);
+        res.redirect('/users/forgot');
+      });
+})
 
-function ensureAuth(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.redirect('/');
+router.get('/r/:token', function(req, res) {
+    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+      if (!user) {
+       console.log("TOKEN IS invalid")
+        return res.redirect('users/forgot');
+      }
+      res.render('resett', {
+        user: req.user
+      });
+    });
+  });
+
+router.post('/r/:token', function(req, res) {
+    async.waterfall([
+      function(done) {
+        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+          if (!user) {
+            console.log("token is invalid or expired");
+          }
+  
+          user.password = req.body.password;
+          user.resetPasswordToken = undefined;
+          user.resetPasswordExpires = undefined;
+  
+          user.save(function(err) {
+            req.logIn(user, function(err) {
+              done(err, user);
+            });
+          });
+        });
+      },
+      function(user, done) {
+        var smtpTransport = nodemailer.createTransport({
+          service: 'SendGrid',
+          auth: {
+            user: 'htk_codes',
+            pass: '6siRucJBS2M9'
+          }
+        });
+        var mailOptions = {
+          to: user.email,
+          from: 'passwordreset@demo.com',
+          subject: 'Your password has been changed',
+          text: 'Hello,\n\n' +
+            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+        };
+        smtpTransport.sendMail(mailOptions, function(err) {
+         console.log("done")
+          done(err);
+        });
+      }
+    ], function(err) {
+      res.redirect('/inventory');
+    });
+  });
+function ensureAuthAdmin(req,res,next){
+    if(req.isAuthenticated()){
+      User.findById({
+        _id:req.user._id
+    },'admin',function(err,found_user){
+        if(found_user.admin === false)
+        {
+           res.redirect('/users/consumer')
+        }
+        else{
+            return next()
+        }
+    });
+    }
+}
+
+function ensureAuthUser(req,res,next){
+    if(req.isAuthenticated()){
+      return next();
     }
     res.redirect('/users/login');
-}
+  }
 
 
 module.exports = router;

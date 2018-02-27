@@ -44,6 +44,13 @@ ItemSchema
 .get(function(){
   return  (this.sold)
 })
+
+ItemSchema
+.virtual('currentTotal')
+.get(function () 
+{ 
+  return (this.total)
+ })
 // Virtual to update item total
 ItemSchema
 .virtual('totalupdate')

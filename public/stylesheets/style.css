@@ -126,6 +126,8 @@ h6 {
     font-size: 1.2em;
     text-transform: inherit;
     color: #fff !important; }
+  .side-nav li .userlink {
+    padding: 0 30px !important; }
 
 .pf-info {
   color: #858789 !important; }

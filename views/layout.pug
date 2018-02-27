@@ -20,7 +20,7 @@ html(lang='en')
       div(class='row')
         ul#slide-out.side-nav.primary
           div(class="list-wrap")
-            if user
+            if user.admin==true
               li
                 a(href="/inventory") 
                   i.material-icons.white-text home
@@ -50,6 +50,28 @@ html(lang='en')
                 a(href="/users/register")
                   i.material-icons.white-text person_add
                   | Register
+            if user.admin==false
+              li
+                a(href="/users/consumer").userlink 
+                  i.material-icons.white-text shopping_basket
+                  |  View Products
+              li
+                a(href="/users/cart").userlink 
+                  i.material-icons.white-text shopping_cart
+                  | My Cart
+
+                a(href="/users/order/"+user._id).userlink 
+                  i.material-icons.white-text done_all
+                  | Completed Orders
+              li
+                a(href="#").userlink 
+                  i.material-icons.white-text vpn_key
+                  | Forgot  Password
+              li
+                a(href="/users/logout").userlink 
+                  i.material-icons.white-text input
+                  | Logout
+            
 
             
           block sidebar

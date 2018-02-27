@@ -1,0 +1,22 @@
+extends layout
+
+block content
+
+ .row
+  h1.register RESET Password
+  h6 Fill out the fields down below
+  form(id="#form" method="post").col.s12
+    .row
+      .input-field.col.s8.l4.offset-s2.offset-l4
+        i.material-icons.prefix security
+        input(type='password' name='password' placeholder="Password"  required="true" id="icon_prefix" class="validate" autofocus)
+        label(for='icon_prefix' data-error="Enter a password Thanks! 🤗") 
+      .input-field.col.s8.l4.offset-s2.offset-l4
+        i.material-icons.prefix security
+        input(type='password' name='confirm' placeholder="Confirm Password"  required="true" id="icon_prefix" class="validate email")
+        label(for='icon_prefix' data-error="Enter a password THANKS! 🤗") 
+                
+    
+    
+        
+    button.btn.btn-primary.move.register-btn.btn-large.checkpass(type='submit') SUBMIT
