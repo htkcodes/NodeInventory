@@ -178,7 +178,7 @@ if(socket!==undefined){
             console.log(amt);
             for(let i=0;i<data.length;i++)
             {
-                /* FIXME: */
+                /* FIXME:get object out of array ...idea:store each arrAY INDEX IN A new object then enumerate through the object */
                 let formArray=[];
                 for(let [index,pair] of data[i].entries())
                 {
