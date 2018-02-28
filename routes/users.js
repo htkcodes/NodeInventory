@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
+var bcrypt=require('bcrypt');
 
 
 /* GET users listing. */
@@ -763,15 +764,24 @@ router.post('/r/:token', function(req, res) {
             console.log("token is invalid or expired");
           }
   
-          user.password = req.body.password;
-          user.resetPasswordToken = undefined;
-          user.resetPasswordExpires = undefined;
-  
-          user.save(function(err) {
-            req.logIn(user, function(err) {
-              done(err, user);
+
+          bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(req.body.password, salt, function(err, hash) {
+                user.password = hash;
+                user.resetPasswordToken = undefined;
+                user.resetPasswordExpires = undefined;
+                user.save(function(err) {
+                    req.logIn(user, function(err) {
+                      done(err, user);
+                    });
+                  });
             });
-          });
+        });
+          
+         
+  
+          
+          
         });
       },
       function(user, done) {
