@@ -14,6 +14,10 @@ var moment = require('moment');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var bcrypt=require('bcrypt');
+const io = require('socket.io').listen(4000).sockets;
+
+
+
 
 
 /* GET users listing. */
@@ -610,7 +614,22 @@ router.post('/readyorder',ensureAuthAdmin, function (req, res) {
 
 })
 
-
+io.on('connection',function(socket){
+    console.log('sockets live')
+ socket.on('ordersubmitted',function(){
+    Order.find({}, function (err, result) {
+        if (err) {
+            throw err;
+        }
+        let amount_due = 0;
+        for (let i = 0; i < result.length; i++) {
+            amount_due += result[i].total;
+        }
+       
+io.emit('neworder',[result],amount_due)
+    })
+ })
+})
 
 router.post('/addtoorder',ensureAuthUser, function (req, res, next) {
     async.waterfall([
@@ -643,6 +662,7 @@ router.post('/addtoorder',ensureAuthUser, function (req, res, next) {
 
         },
         function (useless_callback, callback) {
+
             User.findByIdAndUpdate({
                 _id: req.user._id
             }, {
@@ -651,12 +671,13 @@ router.post('/addtoorder',ensureAuthUser, function (req, res, next) {
                 }
             }, function (err) {
                 if (err) return next(err);
+                res.send(true);
             })
         }
 
     ])
 })
-router.get('/order',ensureAuthAdmin, function (req, res, next) {
+router.get('/order', function (req, res, next) {
     Order.find({}, function (err, result) {
         if (err) {
             throw err;
@@ -670,6 +691,22 @@ router.get('/order',ensureAuthAdmin, function (req, res, next) {
             orders: result,
             amount_due: amount_due
         })
+    })
+
+})
+
+router.post('/removeorder',function(req,res,next){
+    let id=req.body._id;
+    Order.remove({
+        _id:id
+    },function orderfound(err,found_order){
+        if(err)
+        {
+            res.send(err)
+        }
+        else{
+            res.send(true)
+        }
     })
 })
 router.get('/order/:id',ensureAuthUser, function (req, res, next) {

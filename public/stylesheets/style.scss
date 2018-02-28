@@ -281,7 +281,17 @@ left: 5px;
 
 .btn__cart__width__90{
   left:5vw !important;
-  width: 90% !important;
+ 
+}
+.btn__cart__width_50{
+  width: 43vw !important;
+  &:nth-child(1)
+  {
+    left:3vw !important;
+  }
+  &:nth-child(2){
+    left:48vw !important;
+  }
 }
 
 .user-type{

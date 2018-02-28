@@ -20,7 +20,16 @@ html(lang='en')
       div(class='row')
         ul#slide-out.side-nav.primary
           div(class="list-wrap")
-            if user.admin==true
+            if !user
+              li
+                a(href="/users/login")
+                  i.material-icons.white-text person
+                  | Login
+              li
+                a(href="/users/register")
+                  i.material-icons.white-text person_add
+                  | Register
+            if user
               li
                 a(href="/inventory") 
                   i.material-icons.white-text home
@@ -41,37 +50,28 @@ html(lang='en')
                 a(href="/users/logout")
                   i.material-icons.white-text input
                   | Logout
-            if !user
-              li
-                a(href="/users/login")
-                  i.material-icons.white-text person
-                  | Login
-              li
-                a(href="/users/register")
-                  i.material-icons.white-text person_add
-                  | Register
-            if user.admin==false
-              li
-                a(href="/users/consumer").userlink 
-                  i.material-icons.white-text shopping_basket
-                  |  View Products
-              li
-                a(href="/users/cart").userlink 
-                  i.material-icons.white-text shopping_cart
-                  | My Cart
+              if user.admin==false
+                li
+                  a(href="/users/consumer").userlink 
+                    i.material-icons.white-text shopping_basket
+                    |  View Products
+                li
+                  a(href="/users/cart").userlink 
+                    i.material-icons.white-text shopping_cart
+                    | My Cart
 
-                a(href="/users/order/"+user._id).userlink 
-                  i.material-icons.white-text done_all
-                  | Completed Orders
-              li
-                a(href="#").userlink 
-                  i.material-icons.white-text vpn_key
-                  | Forgot  Password
-              li
-                a(href="/users/logout").userlink 
-                  i.material-icons.white-text input
-                  | Logout
-            
+                  a(href="/users/order/"+user._id).userlink 
+                    i.material-icons.white-text done_all
+                    | Completed Orders
+                li
+                  a(href="#").userlink 
+                    i.material-icons.white-text vpn_key
+                    | Forgot  Password
+                li
+                  a(href="/users/logout").userlink 
+                    i.material-icons.white-text input
+                    | Logout
+              
 
             
           block sidebar
@@ -91,6 +91,7 @@ html(lang='en')
     script(src='/javascripts/moment.js')
     script(src="/javascripts/Chart.bundle.js")
     script(src='/javascripts/materialize.min.js')
+    script(src="/javascripts/socket.io.js")
     script(src="/javascripts/scripts.js")
     script(src="/javascripts/attrchange.js")
    

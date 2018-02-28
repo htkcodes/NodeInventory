@@ -181,8 +181,14 @@ ul.total {
     padding-left: 0.5rem; }
 
 .btn__cart__width__90 {
-  left: 5vw !important;
-  width: 90% !important; }
+  left: 5vw !important; }
+
+.btn__cart__width_50 {
+  width: 43vw !important; }
+  .btn__cart__width_50:nth-child(1) {
+    left: 3vw !important; }
+  .btn__cart__width_50:nth-child(2) {
+    left: 48vw !important; }
 
 .user-type p {
   display: inline-block !important;

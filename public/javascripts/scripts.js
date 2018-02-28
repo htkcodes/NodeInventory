@@ -23,11 +23,11 @@ if(top.location.pathname=="/users/register")
     $("form").submit(function(e){
         e.preventDefault();
        let formdata=$(this).serializeArray();
-        let formArray=[];
+         let formArray=[];
        for(let [index,pair] of formdata.entries())
        {
            formArray.push(pair.value)
-       }
+       } 
 
        let form={
         name:formArray[0],
@@ -108,8 +108,19 @@ if(top.location.pathname=="/users/register")
             console.log('match')
         }
     })
+    
+    let socket=io.connect('http://localhost:4000');
+
+//check for connection
+if(socket!==undefined){
+    console.log('Connected to socket');
+}
+
+
+
    if(top.location.pathname=="/users/cart" || "/users/cart/")
    {
+
        $(".submit-order").click(function(){
            let sure=confirm("Are you sure you want to submit your order? This cannot be undone.")
            Materialize.toast('Working...',5500,'toast-custom')
@@ -122,8 +133,9 @@ if(top.location.pathname=="/users/register")
              success:function(data){
                 if(data==true)
                 {
+                    socket.emit('ordersubmitted');
                     Materialize.toast('Order was succesfully submitted',5000,'toast-custom');
-                    window.location.href=window.location.protocol+'//'+window.location.host+'/users/pending'
+                   // window.location.href=window.location.protocol+'//'+window.location.host+'/users/pending'
                 }
                 else if(typeof data=="string"){
                     Materialize.toast(data,3000,'toast-custom');
@@ -158,10 +170,120 @@ if(top.location.pathname=="/users/register")
         $(this).text(fd);
       }); 
 
+      socket.on('neworder',function(data,amt){
+          if(top.location.pathname=="/users/order")
+          {
+            console.log('neworder');
+            console.log(data);
+            console.log(amt);
+            for(let i=0;i<data.length;i++)
+            {
+                /* FIXME: */
+                let formArray=[];
+                for(let [index,pair] of data[i].entries())
+                {
+                    formArray.push(pair.value)
+                } 
+                console.log(formArray);
+             /*    $(".order-list").append(`
+            <li class="collection-item avatar consumer-list">
+    <button class="waves-effect waves-light btn link-list order-ready blue btn__cart__width_50">
+        <i class="material-icons left white-text">
+            check
+        </i>
+        <input type="hidden" name="_id" class="order_id" value="${data[i]._id}">
+        <input type="hidden" name="item_id" class="item_id" value="${data[i].item_id}">
+        <input type="hidden" name="qty" class="qtyp" value="${data[i].quantity_purchased}"> READY
+    </button>
+    <button class="waves-effect waves-light btn link-list remove-order red btn__cart__width_50">
+        <i class="material-icons left white-text">
+            remove
+        </i>
+        <input type="hidden" name="_id" class="order_id" value="${data[i]._id}"> REMOVE ORDER
+    </button>
+    <span class="title"> Order from ${data[i].user_name}
+    </span>
+    <span class="title right price highlight-color"></span>
+    <p class="cart-indent">
+        <i class="material-icons">info_outline</i>
+        <span>Item Name:
+            <span class="quan">${data[i].item_name}</span>
+        </span>
+    </p>
+    <p class="cart-indent">
+            <i class="material-icons">info_outline</i>
+            <span>Amount Ordered : 
+                <span class="quan">${data[i].quantity_purchased}</span>
+            </span>
+        </p>
+        <p class="cart-indent">
+                <i class="material-icons">attach_money</i>
+                <span>Amount Due : 
+                    <span class="quan">${amt}</span>
+                </span>
+            </p>
+</li>
+            `) */
+            }
+          }
+          else{
+              console.log('nope')
+          }
+    })
 
   if(top.location.pathname=="/users/order")
   {
-      console.log("read")
+
+
+      $(".remove-order").click(function(){
+        let sure=confirm("Are you sure you want to remove this order?");
+        Materialize.toast('Working...',55000,'toast-custom')
+        if(sure==true)
+        {
+           
+            let order_id=$(this).children("input").filter("input.order_id").val();
+            let selected=$(this).parent();
+           
+            let formData={
+                '_id':order_id,
+            }
+
+
+            $.ajax({
+                type:'POST',
+             url:'/users/removeorder',
+             data:JSON.stringify(formData),
+             contentType:'application/json',
+             success:function(data){
+
+                if(data==true)
+                {
+                    var toastElement = $('.toast').first()[0];
+                    var toastInstance = toastElement.M_Toast;
+                    toastInstance.remove();
+                    Materialize.toast('Order Removed',5000,'toast-custom');
+                    selected.remove();
+                }  
+            
+                else if(typeof data=="string"){
+                    var toastElement = $('.toast').first()[0];
+                    var toastInstance = toastElement.M_Toast;
+                    toastInstance.remove();
+                    Materialize.toast(data,5000,'toast-custom');
+                }
+
+             },
+             error:function (jqXHR,exception) {
+                var toastElement = $('.toast').first()[0];
+                var toastInstance = toastElement.M_Toast;
+                toastInstance.remove();
+                 console.log('err');
+                 Materialize.toast(exception,5000,'toast-custom');
+             }
+            
+        }); 
+        }  
+      })
     $(".order-ready").click(function(){
         let sure=confirm("Are you sure the order is ready? this cannot be undone");
         Materialize.toast('Working...',55000,'toast-custom')
@@ -188,11 +310,16 @@ if(top.location.pathname=="/users/register")
 
                 if(data==true)
                 {
-                    console.log(data)
+                    var toastElement = $('.toast').first()[0];
+                    var toastInstance = toastElement.M_Toast;
+                    toastInstance.remove();
                     selected.remove();
                 }  
             
                 else if(typeof data=="string"){
+                    var toastElement = $('.toast').first()[0];
+                    var toastInstance = toastElement.M_Toast;
+                    toastInstance.remove();
                     Materialize.toast(data,3000,'toast-custom');
                 }
 

@@ -12,16 +12,20 @@ block content
         | ok
   .row
     .col.s12.l12.m12
-      ul.collection
+      ul.collection.order-list
         each order,i  in orders
           if  order.ready!=true
             li.collection-item.avatar.consumer-list
-              button.waves-effect.waves-light.btn.link-list.order-ready.blue.btn__cart__width__90
+              button.waves-effect.waves-light.btn.link-list.order-ready.blue.btn__cart__width_50
                 i.material-icons.left.white-text check
                 input(type="hidden", name="_id"  class="order_id" value=order._id)
                 input(type="hidden",name="item_id" class="item_id" value=order.item_id)
                 input(type="hidden", name="qty" class="qtyp" value=order.quantity_purchased)
                 | READY
+              button.waves-effect.waves-light.btn.link-list.remove-order.red.btn__cart__width_50
+                i.material-icons.left.white-text remove
+                input(type="hidden", name="_id"  class="order_id" value=order._id)
+                | REMOVE ORDER
               span.title Order from #{order.user_name}
               span.title.right.price.highlight-color
               p.cart-indent
