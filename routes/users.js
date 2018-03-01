@@ -281,7 +281,7 @@ router.post('/login',
     passport.authenticate('local', {
         //successRedirect: '/inventory',
         failureRedirect: '/users/login',
-        failureFlash: 'Invalid username or password'
+
     }),
     function (req, res) {
         app.set('name', req.body.email);
@@ -299,9 +299,7 @@ router.post('/login',
                 res.redirect('/inventory');
             } else {
                 console.log(user)
-                res.redirect(
-                    'consumer'
-                );
+                res.send(true)
             }
 
         });

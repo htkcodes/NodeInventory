@@ -2,6 +2,59 @@
 // A $( document ).ready() block.
 $( document ).ready(function() {
 
+
+    if(top.location.pathname=="/users/login")
+{
+
+    $("form").submit(function(e){
+        e.preventDefault();
+       let formdata=$(this).serializeArray();
+         let formArray=[];
+       for(let [index,pair] of formdata.entries())
+       {
+           formArray.push(pair.value)
+       } 
+
+       let form={
+        email:formArray[0],
+        password:formArray[1],
+          }
+
+
+              $.ajax({
+        type: "POST",
+        url: "/users/login",
+        data: JSON.stringify(form),
+        contentType:'application/json',
+        success: function (response) {
+            if(response == true)
+            {
+               Materialize.toast('Registered Successfully',5000,'toast-custom')
+               Materialize.toast('You\'ll be redirected to the login page',5000,'toast-custom')
+               setTimeout(function(){
+                $(location).attr('href', window.location.protocol+'//'+window.location.host+'/users/login');
+               },4000) 
+            }
+            else if(typeof response =="object")
+            {
+                Object.keys(response).forEach(function(key) {
+       
+                    Materialize.toast(response[key].msg,5000,'toast-custom');
+                        });
+            }
+            else if(typeof response=="string" )
+        {
+            Materialize.toast(response,5000,'toast')
+        }
+          
+        }
+    }); 
+    })
+
+ 
+}
+
+
 if(top.location.pathname=="/users/register")
 {
     console.log("here")
@@ -176,55 +229,55 @@ if(socket!==undefined){
             console.log('neworder');
             console.log(data);
             console.log(amt);
+            let formObject={};
             for(let i=0;i<data.length;i++)
             {
-                /* FIXME:get object out of array ...idea:store each arrAY INDEX IN A new object then enumerate through the object */
-                let formArray=[];
-                for(let [index,pair] of data[i].entries())
-                {
-                    formArray.push(pair.value)
-                } 
-                console.log(formArray);
-             /*    $(".order-list").append(`
+           
+                formObject=data[i];
+            
+                Object.keys(formObject).forEach(function(key) {
+                 $(".order-list").append(`
             <li class="collection-item avatar consumer-list">
     <button class="waves-effect waves-light btn link-list order-ready blue btn__cart__width_50">
         <i class="material-icons left white-text">
             check
         </i>
-        <input type="hidden" name="_id" class="order_id" value="${data[i]._id}">
-        <input type="hidden" name="item_id" class="item_id" value="${data[i].item_id}">
-        <input type="hidden" name="qty" class="qtyp" value="${data[i].quantity_purchased}"> READY
+        <input type="hidden" name="_id" class="order_id" value="${formObject[key]._id}">
+        <input type="hidden" name="item_id" class="item_id" value="${formObject[key].item_id}">
+        <input type="hidden" name="qty" class="qtyp" value="${formObject[key].quantity_purchased}"> READY
     </button>
     <button class="waves-effect waves-light btn link-list remove-order red btn__cart__width_50">
         <i class="material-icons left white-text">
             remove
         </i>
-        <input type="hidden" name="_id" class="order_id" value="${data[i]._id}"> REMOVE ORDER
+        <input type="hidden" name="_id" class="order_id" value="${formObject[key]._id}"> REMOVE ORDER
     </button>
-    <span class="title"> Order from ${data[i].user_name}
+    <span class="title"> Order from ${formObject[key].user_name}
     </span>
     <span class="title right price highlight-color"></span>
     <p class="cart-indent">
         <i class="material-icons">info_outline</i>
         <span>Item Name:
-            <span class="quan">${data[i].item_name}</span>
+            <span class="quan">${formObject[key].item_name}</span>
         </span>
     </p>
     <p class="cart-indent">
             <i class="material-icons">info_outline</i>
             <span>Amount Ordered : 
-                <span class="quan">${data[i].quantity_purchased}</span>
+                <span class="quan">${formObject[key].quantity_purchased}</span>
             </span>
         </p>
         <p class="cart-indent">
                 <i class="material-icons">attach_money</i>
                 <span>Amount Due : 
-                    <span class="quan">${amt}</span>
+                    <span class="quan">${formObject[key].total}</span>
                 </span>
             </p>
 </li>
-            `) */
+            `)
+        });
             }
+           
           }
           else{
               console.log('nope')
@@ -235,7 +288,7 @@ if(socket!==undefined){
   {
 
 
-      $(".remove-order").click(function(){
+      $(".order-list").on('click','.remove-order',function(){
         let sure=confirm("Are you sure you want to remove this order?");
         Materialize.toast('Working...',55000,'toast-custom')
         if(sure==true)
@@ -284,7 +337,7 @@ if(socket!==undefined){
         }); 
         }  
       })
-    $(".order-ready").click(function(){
+    $(".order-list").on('click','.order-ready',function(){
         let sure=confirm("Are you sure the order is ready? this cannot be undone");
         Materialize.toast('Working...',55000,'toast-custom')
         if(sure==true)

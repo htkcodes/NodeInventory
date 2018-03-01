@@ -11,8 +11,14 @@ html(lang='en')
   
     link(rel="stylesheet", href="/stylesheets/animate.css")
     link(rel="stylesheet",href="/stylesheets/hover.css")
-    
-
+    script(src='https://cdn.onesignal.com/sdks/OneSignalSDK.js', async='')
+    script.
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+      OneSignal.init({
+      appId: "5678a7af-2cd3-4158-9953-360547c5d811",
+      });
+      });
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="/javascripts/countup/countUp.js")
   body

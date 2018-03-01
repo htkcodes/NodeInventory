@@ -14,6 +14,17 @@ var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
 var secret=require('./config/secret');
+var Onesignal=require('./config/onesignal')
+
+
+/* var message = { 
+  app_id: "5678a7af-2cd3-4158-9953-360547c5d811",
+  contents: {"en": "English Message"},
+  included_segments: ["All"]
+};
+
+
+Onesignal.sendNotification(message); */
 //mongodb://127.0.0.1/chipsinv -localhost db
 //mongodb://root:bn33bn33@ds225028.mlab.com:25028/chipsinventory
 mongoose.connect(secret.database,{
