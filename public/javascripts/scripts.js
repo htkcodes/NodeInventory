@@ -77,7 +77,27 @@ if(top.location.pathname=="/users/register")
  
 }
 
+if(top.location.pathname.indexOf("/users/changepassword/")==0)
+{
 
+    $("input[name='confirm_password']").on('keyup input',()=>{
+        let pass=$("input[name='password']").val();
+        let pass2=$("input[name='confirm_password']").val();
+        console.log(pass)
+        if(pass2=='')
+        {
+            return;
+        }
+       else if(pass!=pass2){
+            $("label[for ='confirm']").css("color","#FE3959").text('Passwords do not match 😲😋');
+    
+        }
+        else
+        {
+            $("label[for ='confirm']").css("color","#0087fb").text('Passwords match 😎');
+        }
+    })
+}
     $('.modal').modal();
     $('.qty-edit').on('click',function(){
       let form= $(this).parents(".bottom-sheet").children(".modal-content").find("form");
@@ -171,9 +191,11 @@ if(socket!==undefined){
         $(this).text(fd);
       }); 
 
+      
       socket.on('neworder',function(data,amt){
-          if(top.location.pathname=="/users/order")
+          if(top.location.pathname=="/users/order/")
           {
+              console.log('here')
             console.log('neworder');
             console.log(data);
             console.log(amt);
@@ -232,7 +254,7 @@ if(socket!==undefined){
           }
     })
 
-  if(top.location.pathname=="/users/order")
+  if(top.location.pathname=="/users/order/")
   {
 
 

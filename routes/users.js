@@ -204,7 +204,7 @@ router.post('/register', function (req, res) {
     if (errors) {
         res.send(errors)
     } else {
-        //Checks if the item thats being added doesn't exist in the database
+        //Checks if the email thats being added doesn't exist in the database
         User.find({
             email: email
         }).limit(1).exec(function (err, email_exist) {
@@ -216,7 +216,7 @@ router.post('/register', function (req, res) {
 
                 var user_exists = true;
 
-                let errors = "Username Already Exists";
+                let errors = "Email Already Exists";
 
                 res.send(errors)
             } else {
@@ -581,7 +581,8 @@ router.post('/readyorder',ensureAuthAdmin, function (req, res) {
                             quantity: (product.currentqty - quantity_purchased),
                             price: product.price,
                             _id: product._id,
-                            sold: (product.currentsold + quantity_purchased),
+                            //Parse int to make sure the values are integers.
+                            sold: (parseInt(product.currentsold) + parseInt(quantity_purchased)),
                             total: (product.price*quantity_purchased)
                         });
 

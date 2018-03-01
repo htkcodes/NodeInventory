@@ -26,11 +26,11 @@ block content
               i.material-icons.right.green-text shopping_basket
               input(type="hidden", name="_id" value=item._id)
               
-            span.title #{item.name}
+            span.title.item-name #{item.name}
             span.title.right.price.highlight-color $#{item.price}
             p.indent
               i.material-icons info_outline
-              span  Quantity :
+              span(data-quantity=item.quantity)  Quantity :
                 span.quan  #{item.quantity}
             p.indent
               i.material-icons info_outline

@@ -243,19 +243,26 @@ exports.item_sell_post = function(req, res,next) {
     else{
         item.findById(req.body._id,function(err,product){
             try{
-                var updatedProduct = new item(
-                    { name: product.name, 
-                      quantity: product.quantityupdate, 
-                      price: product.price,
-                      _id:product._id,
-                      sold:product.soldupdate,
-                      total:product.totalupdate
-                     }); 
-    
-                     item.findByIdAndUpdate(product._id,updatedProduct,function updateItem(err){
-                        if(err){return next(err);}
-                        res.send(true);
-                    });
+                if(product.currentqty < 1)
+                {
+                    res.send("Removed the disabbled attribute? Well that didn't do anything to the database :p")
+                }
+                else{
+                    var updatedProduct = new item(
+                        { name: product.name, 
+                          quantity: product.quantityupdate, 
+                          price: product.price,
+                          _id:product._id,
+                          sold:product.soldupdate,
+                          total:product.totalupdate
+                         }); 
+        
+                         item.findByIdAndUpdate(product._id,updatedProduct,function updateItem(err){
+                            if(err){return next(err);}
+                            res.send(true);
+                        });
+                } 
+               
             }
             catch(err){
 res.send("the ID was tampered with");

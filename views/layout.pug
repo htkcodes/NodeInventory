@@ -28,32 +28,52 @@ html(lang='en')
           div(class="list-wrap")
             if !user
               li
-                a(href="/users/login")
+                a(href="/users/login").userlink 
                   i.material-icons.white-text person
                   | Login
               li
-                a(href="/users/register")
+                a(href="/users/register").userlink 
                   i.material-icons.white-text person_add
                   | Register
             if user
               li
-                a(href="/inventory") 
+                a(href="/inventory").userlink  
                   i.material-icons.white-text home
                   |  Home
               li
-                a(href="/inventory/items")
+                a(href="/inventory/items").userlink 
                   i.material-icons.white-text list
                   | Products
               li
-                a(href="/users/profit")
+                a(href="/users/profit").userlink 
                   i.material-icons.white-text insert_chart
-                  | Profits
-
-                a(href="/inventory/item/create")
-                  i.material-icons.white-text add_shopping_cart
-                  | Add
+                  | Profits and Expenses
               li
-                a(href="/users/logout")
+                a(href="/inventory/item/create").userlink 
+                  i.material-icons.white-text add_shopping_cart
+                  | Add Product
+              li 
+                a(href="/users/order/").userlink 
+                  i.material-icons.white-text view_list
+                  | Orders
+              li
+                a(href="/users/consumer").userlink 
+                   i.material-icons.white-text shopping_basket
+                   |  View Products
+              li 
+                a(href="/users/changepassword/"+user._id).userlink 
+                  i.material-icons.white-text lock_outline
+                  | Change Password
+              li
+                a(href="/users/cart").userlink 
+                  i.material-icons.white-text shopping_cart
+                  | My Cart
+              li 
+                a(href="/users/order/"+user._id).userlink 
+                  i.material-icons.white-text done_all
+                  | Completed Orders
+              li
+                a(href="/users/logout").userlink 
                   i.material-icons.white-text input
                   | Logout
               if user.admin==false
@@ -65,19 +85,14 @@ html(lang='en')
                   a(href="/users/cart").userlink 
                     i.material-icons.white-text shopping_cart
                     | My Cart
-
+                li
                   a(href="/users/order/"+user._id).userlink 
                     i.material-icons.white-text done_all
                     | Completed Orders
                 li
-                  a(href="#").userlink 
-                    i.material-icons.white-text vpn_key
-                    | Forgot  Password
-                li
                   a(href="/users/logout").userlink 
                     i.material-icons.white-text input
                     | Logout
-              
 
             
           block sidebar

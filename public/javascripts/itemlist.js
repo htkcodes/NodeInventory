@@ -1,6 +1,23 @@
 /**Prevents Selling of Item if there is no item left and warns users when quantity of an item is running out */
 
 $(document).ready(function(){
+
+  if( $("ul.collection").children().length >0)
+  {
+     $("ul.collection").children().each(function(){
+        let quantity=$(this).children("p").children("span").eq(0).attr('data-quantity');
+       if(quantity <10 && quantity>=1)
+       {
+           let item_name=$(this).children("span.title.item-name").text() + " is running low 😥";
+            Materialize.toast(item_name,5000,'toast-custom');
+       }
+       else if(quantity<1){
+        let item_name=$(this).children("span.title.item-name").text() + " is out of stock 😥";
+        $(this).children("button").filter("button.sell").addClass("ddisabled");
+        Materialize.toast(item_name,5000,'toast-custom');
+       }
+      });
+  }
     let quan=$(".quan").text().trim();
     let item_Name=$(".itemname").text().trim();
 
