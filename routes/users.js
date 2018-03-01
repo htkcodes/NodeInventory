@@ -281,7 +281,6 @@ router.post('/login',
     passport.authenticate('local', {
         //successRedirect: '/inventory',
         failureRedirect: '/users/login',
-
     }),
     function (req, res) {
         app.set('name', req.body.email);
@@ -295,11 +294,12 @@ router.post('/login',
                     message: 'Unknown User'
                 });
             } else if (user.admin === true) {
-                console.log('admin')
+                //console.log('admin')
                 res.redirect('/inventory');
             } else {
-                console.log(user)
-                res.send(true)
+              
+                res.redirect(
+                    'consumer');
             }
 
         });
@@ -629,6 +629,7 @@ io.emit('neworder',[result],amount_due)
  })
 })
 
+
 router.post('/addtoorder',ensureAuthUser, function (req, res, next) {
     async.waterfall([
         function (callback) {
@@ -739,7 +740,7 @@ router.post('/forgot',function(req,res){
         function(token, done) {
           User.findOne({ email: req.body.email }, function(err, user) {
             if (!user) {
-              console.log('email doesnt exist')
+              req.flash('email_no','Email Doesn\'t Exist')
               return res.redirect('/users/forgot');
             }
     
@@ -766,7 +767,7 @@ router.post('/forgot',function(req,res){
             text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
               'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
               'http://' + req.headers.host + '/users/r/' + token + '\n\n' +
-              'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+              'If you did not request this, please ignore this email and your password will remain unchanged.Link will expire in one hour\n'
           };
           smtpTransport.sendMail(mailOptions, function(err) {
             console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
@@ -782,7 +783,7 @@ router.post('/forgot',function(req,res){
 router.get('/r/:token', function(req, res) {
     User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
       if (!user) {
-       console.log("TOKEN IS invalid")
+       req.flash('invalid_token','token is invalid or expired')
         return res.redirect('users/forgot');
       }
       res.render('resett', {
@@ -798,8 +799,6 @@ router.post('/r/:token', function(req, res) {
           if (!user) {
             console.log("token is invalid or expired");
           }
-  
-
           bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(req.body.password, salt, function(err, hash) {
                 user.password = hash;
@@ -858,6 +857,63 @@ function ensureAuthAdmin(req,res,next){
     });
     }
 }
+
+router.get('/changepassword/:id',ensureAuthUser,function(req,res,next){
+   res.render('changepassword');
+})
+router.post('/changepassword/:id',ensureAuthUser,function(req,res,next){
+
+    var old=req.body.old;
+    let newPassword=req.body.password;
+    let newPasswordConfirm=req.body.confirm_password;
+
+
+    req.checkBody('old','Old password is empty').notEmpty();
+    req.checkBody('password','password is empty').notEmpty();
+    req.checkBody('confirm_password','Passwords do not match').equals(newPassword);
+
+    let errors=req.validationErrors();
+
+    if(errors)
+    {
+        res.render('changepassword',{errors:errors})
+    }
+    else{
+    async.waterfall([
+        function(callback)
+        {
+            User.findById({
+                _id:req.params.id
+            })
+            .exec(function(err,result){
+                callback(err,result);
+            })
+        },
+        function(result,callback)
+        {
+                User.comparePassword(old,result.password, function (err, isMatch) {
+                    if (err) throw err;
+                     if (isMatch) {
+                        bcrypt.genSalt(10, function(err, salt) {
+                            bcrypt.hash(newPassword, salt, function(err, hash) {
+                                result.password = hash;
+                                result.save(callback);
+                                req.flash('passwordchanged','Password Successfully Changed');
+                                res.render('changepassword');
+                            });
+                        });
+                    } else {
+                
+                        req.flash('incorrect','Old password is incorrect');
+                        res.render('changepassword');
+                    } 
+                });
+         
+        }
+    ])
+    }
+  
+})
 
 function ensureAuthUser(req,res,next){
     if(req.isAuthenticated()){

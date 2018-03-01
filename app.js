@@ -1,3 +1,4 @@
+var flash = require('express-flash');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,7 +11,6 @@ var passport=require('passport');
 var LocalStrategy=require('passport-local');
 var MongoStore=require('connect-mongo')(session)
 
-var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
 var secret=require('./config/secret');
@@ -87,6 +87,7 @@ app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
+  res.locals.incorrect=req.flash('incorrect');
   res.locals.user = req.user || null;
   next();
 });

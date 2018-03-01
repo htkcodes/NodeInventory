@@ -481,41 +481,29 @@ td,th{
 .min-width-300{
   min-width: 280px !important
 }
-.flash-error{
-color:#FF4073;
-position: absolute;
-left: 50%;
--webkit-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-        transform: translateX(-50%);
-height: 20px;
-i{
-  margin-top: -3px;
+.changepwd{
+  width: 17rem !important;
 }
-font-family: $robo;
-white-space: normal;
-min-width: 220px;
-}
-.center-horizontal{
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%);
-}
-.flash-success{
-  color:$green;
-  position: absolute;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%);
+%flash{
   height: 20px;
-  i{
-    margin-top: -3px;
-  }
+    i{
+      font-size: 1.2rem;
+      position: relative;
+      top:3.8px;
+      color:$prim-darker !important;
+    }
+  
   font-family: $robo;
   white-space: normal;
-  min-width: 218px;
+  min-width: 220px;
+}
+.flash-error{
+  @extend %flash;
+  color:#FF4073;
+}
+.flash-success{
+  @extend %flash;
+  color:$green;
 }
 
 .hide{

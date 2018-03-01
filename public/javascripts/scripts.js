@@ -3,58 +3,6 @@
 $( document ).ready(function() {
 
 
-    if(top.location.pathname=="/users/login")
-{
-
-    $("form").submit(function(e){
-        e.preventDefault();
-       let formdata=$(this).serializeArray();
-         let formArray=[];
-       for(let [index,pair] of formdata.entries())
-       {
-           formArray.push(pair.value)
-       } 
-
-       let form={
-        email:formArray[0],
-        password:formArray[1],
-          }
-
-
-              $.ajax({
-        type: "POST",
-        url: "/users/login",
-        data: JSON.stringify(form),
-        contentType:'application/json',
-        success: function (response) {
-            if(response == true)
-            {
-               Materialize.toast('Registered Successfully',5000,'toast-custom')
-               Materialize.toast('You\'ll be redirected to the login page',5000,'toast-custom')
-               setTimeout(function(){
-                $(location).attr('href', window.location.protocol+'//'+window.location.host+'/users/login');
-               },4000) 
-            }
-            else if(typeof response =="object")
-            {
-                Object.keys(response).forEach(function(key) {
-       
-                    Materialize.toast(response[key].msg,5000,'toast-custom');
-                        });
-            }
-            else if(typeof response=="string" )
-        {
-            Materialize.toast(response,5000,'toast')
-        }
-          
-        }
-    }); 
-    })
-
- 
-}
-
-
 if(top.location.pathname=="/users/register")
 {
     console.log("here")

@@ -353,39 +353,25 @@ td, th {
 .min-width-300 {
   min-width: 280px !important; }
 
-.flash-error {
-  color: #FF4073;
-  position: absolute;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
+.changepwd {
+  width: 17rem !important; }
+
+.flash-error, .flash-success {
   height: 20px;
   font-family: "Roboto", sans-serif;
   white-space: normal;
   min-width: 220px; }
-  .flash-error i {
-    margin-top: -3px; }
+  .flash-error i, .flash-success i {
+    font-size: 1.2rem;
+    position: relative;
+    top: 3.8px;
+    color: #0087fb !important; }
 
-.center-horizontal {
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%); }
+.flash-error {
+  color: #FF4073; }
 
 .flash-success {
-  color: #00A676;
-  position: absolute;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  height: 20px;
-  font-family: "Roboto", sans-serif;
-  white-space: normal;
-  min-width: 218px; }
-  .flash-success i {
-    margin-top: -3px; }
+  color: #00A676; }
 
 .hide {
   visibility: hidden; }

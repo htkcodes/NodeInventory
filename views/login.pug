@@ -16,12 +16,12 @@ block content
     .row
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix.highlight-color account_circle
-        input(placeholder='Email', type='text' name="email" id="icon_prefix" class="validate usrname email" required="true" maxlength="50")
+        input(placeholder='Email', type='email' name="email" id="icon_prefix" class="validate usrname email" required maxlength="50")
         label(for='icon_prefix' data-error="You actually need to type in an email 😒")
       .input-field.col.s8.offset-s2.l4.offset-l4
         i.material-icons.prefix.highlight-color lock
-        input(type='password' placeholder="Password" name="password" id="icon_prefix" class="validate pwd" required="true")
-        label(for='password' data-error="You actually need to type in a password 😒")
+        input(type='password' placeholder="Password" name="password" id="icon_prefix" class="validate pwd" minlength="6" required)
+        label(for='password' data-error="Password should be a minimum of six characters 😒")
     button.btn.btn-primary.move.btn-large.login(type='submit' data-position="bottom" data-delay="50" data-tooltip="")
      span.login-text
       |Login

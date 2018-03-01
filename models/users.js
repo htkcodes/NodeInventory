@@ -39,8 +39,6 @@ var UserSchema = Schema({
 	}],
 	resetPasswordToken: String,
 	resetPasswordExpires: Date
-
-	
 });
 
 
@@ -91,6 +89,7 @@ module.exports.updateLogout=function(name,callback)
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+		console.log(isMatch)
     	if(err) throw err;
     	callback(null, isMatch);
 	});
