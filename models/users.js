@@ -7,7 +7,9 @@
 var bcrypt=require('bcrypt');
 
 // User Schema
-var UserSchema = mongoose.Schema({
+
+let Schema=mongoose.Schema;
+var UserSchema = Schema({
 	username: {
 		type: String,
 		index:true
@@ -16,7 +18,8 @@ var UserSchema = mongoose.Schema({
 		type: String,bcrypt:true,required:true
 	},
 	email: {
-		type: String
+		type: String,
+		unique:true
 	},
 	name: {
 		type: String
@@ -26,8 +29,19 @@ var UserSchema = mongoose.Schema({
     },
     logout:{
         type:Date
-    }
+	},
+	admin:{
+		type:Boolean
+	},
+	cart:[{
+			item:{type:Schema.Types.ObjectId,ref:'Item'},
+			quantity:{type:Number}
+	}],
+	resetPasswordToken: String,
+	resetPasswordExpires: Date,
+	onesignal_id:String
 });
+
 
 
 
@@ -76,6 +90,7 @@ module.exports.updateLogout=function(name,callback)
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+		console.log(isMatch)
     	if(err) throw err;
     	callback(null, isMatch);
 	});

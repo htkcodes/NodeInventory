@@ -1,3 +1,4 @@
+var flash = require('express-flash');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,10 +11,20 @@ var passport=require('passport');
 var LocalStrategy=require('passport-local');
 var MongoStore=require('connect-mongo')(session)
 
-var flash=require('connect-flash');
 var mongo=require('mongodb');
 var mongoose=require('mongoose');
 var secret=require('./config/secret');
+var Onesignal=require('./config/onesignal')
+
+
+/* var message = { 
+  app_id: "5678a7af-2cd3-4158-9953-360547c5d811",
+  contents: {"en": "English Message"},
+  included_segments: ["All"]
+};
+
+
+Onesignal.sendNotification(message); */
 //mongodb://127.0.0.1/chipsinv -localhost db
 //mongodb://root:bn33bn33@ds225028.mlab.com:25028/chipsinventory
 mongoose.connect(secret.database,{
@@ -21,7 +32,7 @@ mongoose.connect(secret.database,{
 });
 var db=mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection error'));
+
 
 
 var index = require('./routes/index');
@@ -46,9 +57,6 @@ app.use(session({
   secret:secret.secretKey,
   saveUninitialized:true,
   resave:true,
-  cookie:{
-    maxAge:6000000
-  },
   store:new MongoStore({url:secret.database,autoReconnect:true})
 }));
 
@@ -79,6 +87,7 @@ app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
+  res.locals.incorrect=req.flash('incorrect');
   res.locals.user = req.user || null;
   next();
 });
@@ -92,6 +101,8 @@ app.get('*',function(req,res,next){
 res.locals.user=req.user || null;
 next();
 })
+
+
 
 app.use('/', index);
 app.use('/users', users);

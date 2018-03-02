@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1    Products
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
+  .row
+    .col.s12.l12.m12
+      ul.collection
+        each  item, i  in  item_list
+          li.collection-item.avatar.consumer-list
+            select(class="browser-default addtoquantity" id="quantitySelect")
+              - var n=0;
+                option(value='', selected='' disabled ) Qty
+              while n<item.quantity
+                option(value=n++) #{n} 
+            //input(type="number", name="quantity" class="addtoquantity" placeholder="Qty" min="1" max=item.quantity required)
+            button.waves-effect.waves-light.btn.link-list.add-to-cart
+              i.material-icons.left.white-text add_shopping_cart
+              input(type="hidden", name="_id" value=item._id)
+              
+              | ADD TO CART
+              
+            span.title #{item.name}
+            span.title.right.price.highlight-color Price: $#{item.price}
+            p.indent
+              i.material-icons info_outline
+              span  Amount Remaining :
+                span.quan  #{item.quantity}
+            
+
+
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+    
+
+
+

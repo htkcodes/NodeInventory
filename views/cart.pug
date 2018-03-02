@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  h1=title
+  a.btn-floating.btn-large.waves-effect.waves-light.middle-left.highlight-bg.white-text(href="/inventory/item/create" id="menu" style="display:none")
+    i.material-icons.white-text add
+  div.tap-target(data-activate="menu")
+    div.tap-target-content
+      h5
+        | ok
+      p
+        | ok
+  .row
+    .col.s12.l12.m12
+  if  cart.cart!=''
+      ul.collection
+        each  cart_item,i in  cart.cart
+          li.collection-item.avatar.consumer-list
+            button.waves-effect.waves-light.btn.link-list.cart-btn-2.red.cart-remove
+              i.material-icons.left.white-text remove_shopping_cart
+              input(type="hidden", name="_id" value=cart_item._id)
+              | REMOVE
+            button.waves-effect.waves-light.btn.cart.modal-trigger(href='#modal'+(i+1))
+              i.material-icons.left.white-text create
+              | EDIT QTY
+              
+            span.title  #{cart_item.item.name}
+            span.title.right.price.highlight-color  $#{cart_item.item.price}
+            p.cart-indent
+              i.material-icons info_outline
+              span  Quantity :
+                span.quan  #{cart_item.quantity}
+              .modal.bottom-sheet(id="modal"+(i+1))
+                .modal-content
+                  h4.center EDIT QTY
+                  p  
+                    form(action="", method="post" class="qty-form")
+                      input(type="hidden", name="_id" value=cart_item._id)
+                      select(class="browser-default" id="quantitySelect" name="quantity" required)
+                        - var n=0;
+                          option(value=cart_item.quantity, selected='' disabled ) #{cart_item.quantity}
+                        while n<cart_item.item.quantity
+                          option(value=n++) #{n}
+                .modal-footer
+                  a.modal-action.waves-effect.waves-green.btn-flat.qty-edit(href='#!') EDIT
+                  a.modal-action.waves-effect.waves-green.modal-close.btn-flat(href="#!") Close
+      ul.collection.total
+          li.collection-item.avatar.consumer-list
+            span.title  Total
+            span.title.right.price.highlight-color  $#{cart_total}
+      button.waves-effect.waves-light.btn.btn__width__100.submit-order
+        | SUBMIT ORDER
+  else
+      h3.center No items in your cart
+                        
+
+
+
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js')
+  
+    
+
+
+

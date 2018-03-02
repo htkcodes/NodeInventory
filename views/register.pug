@@ -15,20 +15,20 @@ block content
           | Email Already Exists
           i.material-icons.left.highlight-color error
   h6 Fill out the fields down below
-  form(method="POST" id="reg" action="/users/register").col.s12
+  form(id="#form" method="post").col.s12
     .row
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix account_circle
-        input(placeholder='Name', type='text' name='name' id="icon_prefix" class="validate" required="true") 
+        input(placeholder='Name', type='text' name='name' id="icon_prefix" class="validate name" required="true") 
         label(for='icon_prefix' data-error="You actually need to type in a name 😒") 
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix contact_mail
-        input(type='email' name='email' placeholder="Email"  required="true" id="icon_prefix" class="validate")
+        input(type='email' name='email' placeholder="Email"  required="true" id="icon_prefix" class="validate email")
         label(for='icon_prefix' data-error="Enter the correct format THANKS! 🤗") 
     .row
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix contacts
-        input( placeholder='Username', required="true" type='text' name='username' id="icon_prefix" class="validate")
+        input( placeholder='Username', required="true" type='text' minlength="4" maxlength="20" name='username' id="icon_prefix" class="validate username")
         label(for='icon_prefix' data-error="Enter a username ty :)") 
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix lock
@@ -39,13 +39,24 @@ block content
         i.material-icons.prefix lock_outline
         input(type='password' class="validate pass2" name='password2' placeholder="Confirm Password" id="icon_prefix")
         label(for='password2' class="hide") 
-      .input-field.col.s8.l4.offset-s2.offset-l4
-        i.material-icons.prefix security
-        input(type='password' class="secret" name='secret' placeholder="Secret Key" id="icon_prefix")
-        label(for='secret' class="hide")
+    .row
+      .col.s8.l4.offset-s2.offset-l4
+        .user-type
+          p User Type:      
+          p
+            input.with-gap#test1(name='group1', type='radio' value="true")
+            label(for='test1') Admin
+          p
+            input.with-gap#test2(name='group1', type='radio' value="false" checked)
+            label(for='test2') User
+                
+    
     
         
-    button.btn.btn-primary.move.register-btn.btn-large.checkpass(type='submit') Register
+    button.btn.btn-primary.move.register-btn.btn-large.checkpass(type='submit')
+      span.login-text
+        |Register
+      i.material-icons.right.white-text send
    
 
     

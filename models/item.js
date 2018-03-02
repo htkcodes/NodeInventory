@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ItemSchema = Schema({
-   name: {type: String, required: true, max: 100},
+   name: {type: String, required: true, max: 255},
     quantity: {type: Number, required: true, max: 1000},
-   price:{type:Number},
+   price:{type:Number,required:true},
    sold:{type:Number},
    total:{
      type:Number
@@ -33,12 +33,36 @@ ItemSchema
   return ((this.quantity-1));
 });
 
+ItemSchema
+.virtual('currentqty')
+.get(function(){
+  return  (this.quantity);
+})
+
+ItemSchema
+.virtual('currentsold')
+.get(function(){
+  return  (this.sold)
+})
+
+ItemSchema
+.virtual('currentTotal')
+.get(function () 
+{ 
+  return (this.total)
+ })
 // Virtual to update item total
 ItemSchema
 .virtual('totalupdate')
 .get(function(){
   return((this.total + this.price));
 });
+
+ItemSchema
+.virtual('currentprice')
+.get(function(){
+  return(this.price)
+})
 // Virtual to update item sold.
 ItemSchema
 .virtual('soldupdate')

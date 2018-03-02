@@ -14,19 +14,22 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "express-flash": "0.0.2",
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "4.2.1",
     "moment": "^2.19.1",
     "mongo-to-csv": "^1.0.1",
     "mongodb": "*",
-    "mongoose": "4.12.4",
+    "mongoose": "*",
     "morgan": "~1.9.0",
     "multer": "*",
+    "nodemailer": "^4.6.0",
     "passport": "*",
     "passport-http": "*",
     "passport-local": "^1.0.0",
     "pug": "2.0.0-rc.4",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
   }
 }
