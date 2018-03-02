@@ -5,8 +5,14 @@ block content
  .row
   h1.register Forgot Password
   h6 Fill out the fields down below
+    if messages.email_no
+     h6.center.flash-error   #{messages.email_no}
+      i.material-icons    info
+    if messages.sent
+     h6.center.flash-error   #{messages.sent}
+      i.material-icons    send
   form(id="#form" method="post").col.s12
-    .row
+    .row.forgot__margintop__10vh
       .input-field.col.s8.l4.offset-s2.offset-l4
         i.material-icons.prefix contact_mail
         input(type='email' name='email' placeholder="Email"  required="true" id="icon_prefix" class="validate email")
@@ -15,4 +21,7 @@ block content
     
     
         
-    button.btn.btn-primary.move.register-btn.btn-large.checkpass(type='submit') SUBMIT
+    button.btn.btn-primary.move.btn-large.login.forgot(type='submit' data-position="bottom" data-delay="50" data-tooltip="")
+     span.login-text
+      |Submit
+     i.material-icons.right.white-text send

@@ -758,7 +758,7 @@ router.post('/forgot', function (req, res) {
                 email: req.body.email
             }, function (err, user) {
                 if (!user) {
-                    req.flash('email_no', 'Email Doesn\'t Exist')
+                    req.flash('email_no', 'Cannot find specified Email')
                     return res.redirect('/users/forgot');
                 }
 
@@ -788,7 +788,7 @@ router.post('/forgot', function (req, res) {
                     'If you did not request this, please ignore this email and your password will remain unchanged.Link will expire in one hour\n'
             };
             smtpTransport.sendMail(mailOptions, function (err) {
-                console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                req.flash('sent', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
                 done(err, 'done');
             });
         }
@@ -856,7 +856,7 @@ router.post('/r/:token', function (req, res) {
             });
             var mailOptions = {
                 to: user.email,
-                from: 'passwordreset@demo.com',
+                from: 'chipsinv@cis.net',
                 subject: 'Your password has been changed',
                 text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -871,19 +871,7 @@ router.post('/r/:token', function (req, res) {
     });
 });
 
-function ensureAuthAdmin(req, res, next) {
-    if (req.isAuthenticated()) {
-        User.findById({
-            _id: req.user._id
-        }, 'admin', function (err, found_user) {
-            if (found_user.admin === false) {
-                res.redirect('/users/consumer')
-            } else {
-                return next()
-            }
-        });
-    }
-}
+
 
 router.get('/changepassword/:id', ensureAuthUser, function (req, res, next) {
     res.render('changepassword');
@@ -956,7 +944,19 @@ router.post('/onesignal', function (req, res) {
             })
         })
 })
-
+function ensureAuthAdmin(req, res, next) {
+    if (req.isAuthenticated()) {
+        User.findById({
+            _id: req.user._id
+        }, 'admin', function (err, found_user) {
+            if (found_user.admin === false) {
+                res.redirect('/users/consumer')
+            } else {
+                return next()
+            }
+        });
+    }
+}
 function ensureAuthUser(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

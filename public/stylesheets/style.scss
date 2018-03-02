@@ -1082,11 +1082,20 @@ i{
 label{
   white-space: nowrap;
 }
+.forgot{
+    width: 144.567px;
+}
 
+.forgot__margintop__10vh
+{
+margin-top: 10vh;
+}
 
 @media all and (max-width: 1199px) { } 
 @media only screen and (min-width: 993px) {
-
+  .forgot {
+    width: 160.567px;
+}
   .add-to-cart {
     left: 30vw !important;
     width: 30vw !important;
