@@ -64,13 +64,118 @@ $(document).ready(function () {
 
 
     }
+    if (top.location.pathname === "/users/order/") {
+        if($(".collection").children().length === 0)
+        {
+            $(".collection").append(`<h5 class="center">No New Orders</h5 >`)
+        }
 
+        $(".order-list").on('click', '.remove-order', function () {
+            let sure = confirm("Are you sure you want to remove this order?");
+            
+            if (sure == true) {
+                Materialize.toast('Working...', 55000, 'toast-custom')
+                let order_id = $(this).children("input").filter("input.order_id").val();
+                let selected = $(this).parent();
+
+                let formData = {
+                    '_id': order_id,
+                }
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/removeorder',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function (data) {
+
+                        if (data == true) {
+                            var toastElement = $('.toast').first()[0];
+                            var toastInstance = toastElement.M_Toast;
+                            toastInstance.remove();
+                            Materialize.toast('Order Removed', 5000, 'toast-custom');
+                            selected.remove();
+                        } else if (typeof data == "string") {
+                            var toastElement = $('.toast').first()[0];
+                            var toastInstance = toastElement.M_Toast;
+                            toastInstance.remove();
+                            Materialize.toast(data, 5000, 'toast-custom');
+                        }
+
+                    },
+                    error: function (jqXHR, exception) {
+                        var toastElement = $('.toast').first()[0];
+                        var toastInstance = toastElement.M_Toast;
+                        toastInstance.remove();
+                        console.log('err');
+                        Materialize.toast(exception, 5000, 'toast-custom');
+                    }
+
+                });
+            }
+            else{
+                Materialize.toast('Cancelled', 5000, 'toast-custom');
+            }
+        })
+        $(".order-list").on('click', '.order-ready', function () {
+            let sure = confirm("Are you sure the order is ready? this cannot be undone");
+            
+            if (sure == true) {
+                Materialize.toast('Working...', 55000, 'toast-custom')
+                let item_id = $(this).children("input").filter("input.item_id").val();
+                let order_id = $(this).children("input").filter("input.order_id").val();
+                let quantity_purchased = $(this).children("input").filter("input.qtyp").val()
+                let selected = $(this).parent();
+
+                let formData = {
+                    '_id': order_id,
+                    'item_id': item_id,
+                    'quantity': quantity_purchased
+                }
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/readyorder',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function (data) {
+
+                        if (data == true) {
+                            var toastElement = $('.toast').first()[0];
+                            var toastInstance = toastElement.M_Toast;
+                            toastInstance.remove();
+                            selected.remove();
+                            Materialize.toast('Order\'s Ready', 5000, 'toast-custom');
+                        } else if (typeof data == "string") {
+                            var toastElement = $('.toast').first()[0];
+                            var toastInstance = toastElement.M_Toast;
+                            toastInstance.remove();
+                            Materialize.toast(data, 3000, 'toast-custom');
+                        }
+
+                    },
+                    error: function (jqXHR, exception) {
+                        var toastElement = $('.toast').first()[0];
+                        var toastInstance = toastElement.M_Toast;
+                        toastInstance.remove();
+                        console.log('err');
+                        Materialize.toast(exception, 5000, 'toast-custom');
+                    }
+
+                });
+            }
+            else{
+                Materialize.toast('Cancelled', 5000, 'toast-custom');
+            }
+        })
+    }
     if (top.location.pathname.indexOf("/users/changepassword/") == 0) {
 
         $("input[name='confirm_password']").on('keyup input', () => {
             let pass = $("input[name='password']").val();
             let pass2 = $("input[name='confirm_password']").val();
-            console.log(pass)
             if (pass2 == '') {
                 return;
             } else if (pass != pass2) {
@@ -120,12 +225,12 @@ $(document).ready(function () {
 
 
 
-    if (top.location.pathname == "/users/cart" || "/users/cart/") {
+    if (top.location.pathname.indexOf("/users/cart") ==0 ) {
 
         $(".submit-order").click(function () {
-            let sure = confirm("Are you sure you want to submit your order? This cannot be undone.")
-            Materialize.toast('Working...', 5500, 'toast-custom')
+            let sure = confirm("Are you sure you want to submit your order? This cannot be undone.") 
             if (sure == true) {
+                Materialize.toast('Working...', 5500, 'toast-custom')
                 $.ajax({
                     type: 'POST',
                     url: '/users/addtoorder',
@@ -133,9 +238,15 @@ $(document).ready(function () {
                     success: function (data) {
                         if (data == true) {
                             socket.emit('ordersubmitted');
+                            var toastElement = $('.toast').first()[0];
+                            var toastInstance = toastElement.M_Toast;
+                            toastInstance.remove();
                             Materialize.toast('Order was succesfully submitted', 5000, 'toast-custom');
                             // window.location.href=window.location.protocol+'//'+window.location.host+'/users/pending'
                         } else if (typeof data == "string") {
+                            var toastElement = $('.toast').first()[0];
+                            var toastInstance = toastElement.M_Toast;
+                            toastInstance.remove();
                             Materialize.toast(data, 3000, 'toast-custom');
                             Materialize.toast("Page is going to reload", 5000, 'toast-custom');
                             setTimeout(function () {
@@ -154,6 +265,9 @@ $(document).ready(function () {
 
                 });
             }
+            else{
+                Materialize.toast('Cancelled',4000,'toast-custom');
+            }
         })
 
 
@@ -165,7 +279,7 @@ $(document).ready(function () {
 
 
         socket.on('neworder', function (data, amt) {
-            if (top.location.pathname == "/users/order/") {
+            if (top.location.pathname.indexOf("/users/order/") == 0) {
                 console.log('here')
                 console.log('neworder');
                 console.log(data);
@@ -223,102 +337,6 @@ $(document).ready(function () {
             }
         })
 
-        if (top.location.pathname == "/users/order/") {
-
-
-            $(".order-list").on('click', '.remove-order', function () {
-                let sure = confirm("Are you sure you want to remove this order?");
-                Materialize.toast('Working...', 55000, 'toast-custom')
-                if (sure == true) {
-
-                    let order_id = $(this).children("input").filter("input.order_id").val();
-                    let selected = $(this).parent();
-
-                    let formData = {
-                        '_id': order_id,
-                    }
-
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/users/removeorder',
-                        data: JSON.stringify(formData),
-                        contentType: 'application/json',
-                        success: function (data) {
-
-                            if (data == true) {
-                                var toastElement = $('.toast').first()[0];
-                                var toastInstance = toastElement.M_Toast;
-                                toastInstance.remove();
-                                Materialize.toast('Order Removed', 5000, 'toast-custom');
-                                selected.remove();
-                            } else if (typeof data == "string") {
-                                var toastElement = $('.toast').first()[0];
-                                var toastInstance = toastElement.M_Toast;
-                                toastInstance.remove();
-                                Materialize.toast(data, 5000, 'toast-custom');
-                            }
-
-                        },
-                        error: function (jqXHR, exception) {
-                            var toastElement = $('.toast').first()[0];
-                            var toastInstance = toastElement.M_Toast;
-                            toastInstance.remove();
-                            console.log('err');
-                            Materialize.toast(exception, 5000, 'toast-custom');
-                        }
-
-                    });
-                }
-            })
-            $(".order-list").on('click', '.order-ready', function () {
-                let sure = confirm("Are you sure the order is ready? this cannot be undone");
-                Materialize.toast('Working...', 55000, 'toast-custom')
-                if (sure == true) {
-                    let item_id = $(this).children("input").filter("input.item_id").val();
-                    let order_id = $(this).children("input").filter("input.order_id").val();
-                    let quantity_purchased = $(this).children("input").filter("input.qtyp").val()
-                    let selected = $(this).parent();
-
-                    let formData = {
-                        '_id': order_id,
-                        'item_id': item_id,
-                        'quantity': quantity_purchased
-                    }
-
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/users/readyorder',
-                        data: JSON.stringify(formData),
-                        contentType: 'application/json',
-                        success: function (data) {
-
-                            if (data == true) {
-                                var toastElement = $('.toast').first()[0];
-                                var toastInstance = toastElement.M_Toast;
-                                toastInstance.remove();
-                                selected.remove();
-                            } else if (typeof data == "string") {
-                                var toastElement = $('.toast').first()[0];
-                                var toastInstance = toastElement.M_Toast;
-                                toastInstance.remove();
-                                Materialize.toast(data, 3000, 'toast-custom');
-                            }
-
-                        },
-                        error: function (jqXHR, exception) {
-                            var toastElement = $('.toast').first()[0];
-                            var toastInstance = toastElement.M_Toast;
-                            toastInstance.remove();
-                            console.log('err');
-                            Materialize.toast(exception, 5000, 'toast-custom');
-                        }
-
-                    });
-                }
-            })
-        }
         /*-------CART DELETE AJAX FUNCTION--------*/
         $(".cart-remove").click(function () {
             let sure = confirm("This will remove the item from the cart are you sure?");

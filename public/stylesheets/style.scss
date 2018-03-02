@@ -963,6 +963,11 @@ td{
 }
 }
 
+.add-to-cart{
+  left:30vw !important;
+  width: 180.5px !important;
+}
+
 /* Portrait */
 @media screen 
   and (min-device-width: 425px) 
@@ -979,66 +984,6 @@ td{
 
 }
 }
-
-
-@media all and (max-width: 1199px) { } 
-@media only screen and (min-width: 993px) {
-
-  .collection .collection-item.avatar{
-    .link-list{
-left:3vw;
-    &:nth-child(1)
-    {
-      left:45vw;
-    }
-    &:nth-child(2)
-    {
-      left:87vw;
-    }
-    }
-      
- }
-} 
-@media all and (min-width: 768px) {
-
-  .collection .collection-item.avatar{
-    .link-list{
-
-    &:nth-child(1)
-    {
-      left:43vw;
-    }
-    &:nth-child(2)
-    {
-      left:85vw;
-    }
-    }
-      
- }
-
-} 
-
-
- @media all and(max-width: 425px) {
-
-  .collection .collection-item.avatar{
-
-    .link-list{
-
-    &:nth-child(1)
-    {
-      left:35vw;
-    }
-    &:nth-child(2)
-    {
-      left:70vw;
-    }
-    }
-      
- }
-
-}
- 
 
 
 
@@ -1128,13 +1073,104 @@ i{
   padding: 0 15px;
  }
 }
-.add-to-cart{
-  left:30vw !important;
-  width: 180.5px !important;
-}
+
 .cart-btn-2{
   left:48vw !important;
   width: 129.5px !important;
   padding: 0 15px;
 }
+label{
+  white-space: nowrap;
+}
+
+
+@media all and (max-width: 1199px) { } 
+@media only screen and (min-width: 993px) {
+
+  .add-to-cart {
+    left: 30vw !important;
+    width: 30vw !important;
+}                                                                                                                  
+  .collection .collection-item.avatar{
+    .link-list{
+left:3vw;
+    &:nth-child(1)
+    {
+      left:45vw;
+    }
+    &:nth-child(2)
+    {
+      left:87vw;
+    }
+    }
+      
+ }
+} 
+@media all and (min-width: 768px) {
+
+  .consumer-list .cart {
+    width: 43vw !important;
+}
+.cart-btn-2 {
+  left: 46vw !important;
+  width: 50vw !important;
+}
+
+  .collection .collection-item.avatar{
+    .link-list{
+
+    &:nth-child(1)
+    {
+      left:43vw;
+    }
+    &:nth-child(2)
+    {
+      left:85vw;
+    }
+    }
+
+ }
+
+ .add-to-cart {
+  left: 30vw !important;
+  width: 40vw !important;
+} 
+
+} 
+
+
+ @media all and(max-width: 426px) {
+
+  .consumer-list .cart {
+    width: 40vw !important;
+}
+.cart-btn-2 {
+  left: 50vw !important;
+  width: 40vw !important;
+}
+  .collection .collection-item.avatar{
+
+    .link-list{
+
+    &:nth-child(1)
+    {
+      left:35vw;
+    }
+    &:nth-child(2)
+    {
+      left:70vw;
+    }
+    }
+      
+ }
+
+}
+ 
+
+
+
+
+
+
+
 

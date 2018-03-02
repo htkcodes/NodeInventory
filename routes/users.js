@@ -134,14 +134,13 @@ router.get('/register', function (req, res) {
 // Login
 router.get('/login', function (req, res) {
     //Sunday Login
-
     if (moment().weekday() == 0) {
         res.redirect('cleanup');
     } else {
         res.render('login', {
             title: 'Login'
         });
-        req.flash('success_msg', 5)
+
     }
 
 });
@@ -283,7 +282,6 @@ router.post('/login',
     function (req, res) {
         app.set('name', req.body.email);
         User.updateLogin(app.get('name'), function (err, name) {});
-
         User.getUserByEmail(req.body.email, function (err, user) {
             if (err) throw err;
             if (!user) {
@@ -292,10 +290,8 @@ router.post('/login',
                     message: 'Unknown User'
                 });
             } else if (user.admin === true) {
-                //console.log('admin')
                 res.redirect('/inventory');
             } else {
-
                 res.redirect(
                     'consumer');
             }
