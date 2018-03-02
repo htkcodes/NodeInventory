@@ -32,7 +32,7 @@ mongoose.connect(secret.database,{
 });
 var db=mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection error'));
+
 
 
 var index = require('./routes/index');

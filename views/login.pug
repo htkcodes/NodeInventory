@@ -7,11 +7,15 @@ block content
   h6  Enter your credentials to login
   br
  
-  p.flash-error.animated.flash.move-up
-    | #{messages.raf}
-    i.material-icons.left.hide.highlight-color error
-  p.flash-success.animated.flash.center
-    | #{success_msg}
+  if  messages.no_user
+    p.flash-error.animated.flash.center
+      | 😋 #{messages.no_user}
+      i.material-icons.highlight-color error
+  if  messages.credentials
+    p.flash-error.animated.flash.center
+      |  😨 #{messages.credentials}
+      i.material-icons.highlight-color error
+
   form(method="post" action="/users/login" ).col.s12
     .row
       .input-field.col.s8.l4.offset-s2.offset-l4

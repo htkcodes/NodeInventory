@@ -2,6 +2,7 @@
 $(document).ready(function () {
       var $buoop={notify:{e:-6,f:-4,o:-4,s:-2,c:-4},insecure:!0,api:5};function $buo_f(){var e=document.createElement("script");e.src="//browser-update.org/update.min.js",document.body.appendChild(e)}try{document.addEventListener("DOMContentLoaded",$buo_f,!1)}catch(e){window.attachEvent("onload",$buo_f)}
     if (top.location.pathname == "/users/register") {
+
         console.log("here")
         $(".user-type>p>input").on("click", () => {
             if ($("input:checked").val() == "true") {
@@ -17,6 +18,9 @@ $(document).ready(function () {
         })
 
         $("form").submit(function (e) {
+            $(".login-text").addClass("hide")
+            $(".register-btn>.white-text").addClass("hide");
+            $(this).addClass("loader");
             e.preventDefault();
             let formdata = $(this).serializeArray();
             let formArray = [];
@@ -36,6 +40,7 @@ $(document).ready(function () {
             if (formArray[5] == "true") {
                 form["secret"] = $('.secret').val()
             }
+            
 
             $.ajax({
                 type: "POST",
@@ -908,19 +913,17 @@ $(document).ready(function () {
         })
 
 
-        $(".gross span.profit").each(function () {
+        $(".gross>span.profit").each(function () {
 
             let element = $(this).closest("div").children().filter("span.percentage");
 
             let percentage = element.attr('data-badge-caption');
 
-
-
             let profit = $(this).closest("div").children().filter("span.profit");
-            profit = profit.text().replace('$', '');
+           let number=profit.attr('data-profit');
+            
 
-            if (profit < 0) {
-                console.log('in function');
+            if (number < 0) {
                 element.attr('data-badge-caption', percentage + '% LOSS');
                 element.addClass('light-red');
             } else {

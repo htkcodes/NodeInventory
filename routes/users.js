@@ -47,7 +47,7 @@ router.get('/profit', ensureAuthAdmin, function (req, res) {
             var newProfit = new profit({
                 week: moment().weeks(),
                 date: moment().isoWeekday("Friday"),
-                amount: 45000,
+                amount: weekly,
             });
 
             if (!err && count === 0) {
@@ -238,16 +238,15 @@ router.post('/register', function (req, res) {
 
 //Passport Strategy
 passport.use(new LocalStrategy({
-        usernameField: 'email',
+    passReqToCallback:true,
+    usernameField: 'email'
     },
-    function (email, password, done) {
-        User.getUserByEmail(email, function (err, user) {
+    function (req,email,password, done) {
+        User.findOne({email:email}, function (err, user) {
             if (err) throw err;
             if (!user) {
                 console.log(user);
-                return done(null, false, {
-                    message: 'Unknown User'
-                });
+                return done(null, false,req.flash('no_user','User Doesn\'t Exist'));
             }
 
             User.comparePassword(password, user.password, function (err, isMatch) {
@@ -255,9 +254,7 @@ passport.use(new LocalStrategy({
                 if (isMatch) {
                     return done(null, user);
                 } else {
-                    return done(null, false, {
-                        message: 'Invalid password'
-                    });
+                    return done(null, false,req.flash('credentials','Incorrect password'));
                 }
             });
 
@@ -278,6 +275,7 @@ router.post('/login',
     passport.authenticate('local', {
         //successRedirect: '/inventory',
         failureRedirect: '/users/login',
+        failureFlash:true
     }),
     function (req, res) {
         app.set('name', req.body.email);
@@ -285,8 +283,9 @@ router.post('/login',
         User.getUserByEmail(req.body.email, function (err, user) {
             if (err) throw err;
             if (!user) {
-                console.log(user);
+                console.log("not auser");
                 return done(null, false, {
+                
                     message: 'Unknown User'
                 });
             } else if (user.admin === true) {

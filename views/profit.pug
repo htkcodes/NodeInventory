@@ -35,7 +35,7 @@ block content
           li.collection-item.white.list-data
             div.gross.highlight-color
               span.date #{foo.date}
-              span.profit 
+              span.profit(data-profit=foo.gross_profit.profit)
                 | Profit:$#{foo.gross_profit.profit}.00
               span.percentage(data-badge-caption=foo.gross_profit.percentage).badge
     #test3.col.s12
