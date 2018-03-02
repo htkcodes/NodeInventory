@@ -127,7 +127,7 @@ h6 {
     text-transform: inherit;
     color: #fff !important; }
   .side-nav li .userlink {
-    padding: 0 30px !important; }
+    padding: 0 25px !important; }
 
 .pf-info {
   color: #858789 !important; }
@@ -135,6 +135,12 @@ h6 {
 p {
   color: #858789;
   font-family: "Roboto", sans-serif; }
+
+.login-info {
+  margin-top: 8rem; }
+
+.login-info-forgot {
+  margin-top: 0rem; }
 
 .num {
   padding-top: 1vh;

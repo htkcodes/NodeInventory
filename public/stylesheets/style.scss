@@ -15,6 +15,7 @@
 }
 
 .material-icons {
+
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -204,7 +205,7 @@ li{
     color: $white !important;
   }
   .userlink{
-    padding: 0 30px !important;
+    padding: 0 25px !important;
   }
 }
 }
@@ -215,6 +216,13 @@ p{
  // text-align: center;
   color: $text;
   font-family: $robo;
+
+}
+.login-info{
+  margin-top: 8rem;
+}
+.login-info-forgot{
+  margin-top: 0rem;
 }
 .num{
   padding-top: 1vh;

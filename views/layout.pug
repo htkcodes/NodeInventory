@@ -6,19 +6,19 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     // Compiled and minified CSS
     link(rel='stylesheet', href='/stylesheets/materialize.min.css')
-    // Compiled and minified JavaScript
-    script(src='/javascripts/jquery.min.js')
-  
-    link(rel="stylesheet", href="/stylesheets/animate.css")
-    link(rel="stylesheet",href="/stylesheets/hover.css")
+    link(rel='manifest', href='/manifest.json')
     script(src='https://cdn.onesignal.com/sdks/OneSignalSDK.js', async='')
     script.
       var OneSignal = window.OneSignal || [];
       OneSignal.push(function() {
       OneSignal.init({
-      appId: "5678a7af-2cd3-4158-9953-360547c5d811",
+      appId: "03e830f7-e952-4cc6-bd87-a8a11ee2cdea",
       });
       });
+    script(src='/javascripts/jquery.min.js')
+    link(rel="stylesheet", href="/stylesheets/animate.css")
+    link(rel="stylesheet",href="/stylesheets/hover.css")
+
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="/javascripts/countup/countUp.js")
   body
@@ -28,73 +28,80 @@ html(lang='en')
           div(class="list-wrap")
             if !user
               li
-                a(href="/users/login").userlink 
+                a(href="/users/login")
                   i.material-icons.white-text person
                   | Login
               li
-                a(href="/users/register").userlink 
+                a(href="/users/register")
                   i.material-icons.white-text person_add
                   | Register
             if user
-              li
-                a(href="/inventory").userlink  
-                  i.material-icons.white-text home
-                  |  Home
-              li
-                a(href="/inventory/items").userlink 
-                  i.material-icons.white-text list
-                  | Products
-              li
-                a(href="/users/profit").userlink 
-                  i.material-icons.white-text insert_chart
-                  | Profits and Expenses
-              li
-                a(href="/inventory/item/create").userlink 
-                  i.material-icons.white-text add_shopping_cart
-                  | Add Product
-              li 
-                a(href="/users/order/").userlink 
-                  i.material-icons.white-text view_list
-                  | Orders
-              li
-                a(href="/users/consumer").userlink 
-                   i.material-icons.white-text shopping_basket
-                   |  View Products
-              li 
-                a(href="/users/changepassword/"+user._id).userlink 
-                  i.material-icons.white-text lock_outline
-                  | Change Password
-              li
-                a(href="/users/cart").userlink 
-                  i.material-icons.white-text shopping_cart
-                  | My Cart
-              li 
-                a(href="/users/order/"+user._id).userlink 
-                  i.material-icons.white-text done_all
-                  | Completed Orders
-              li
-                a(href="/users/logout").userlink 
-                  i.material-icons.white-text input
-                  | Logout
-              if user.admin==false
-                li
-                  a(href="/users/consumer").userlink 
-                    i.material-icons.white-text shopping_basket
-                    |  View Products
-                li
-                  a(href="/users/cart").userlink 
-                    i.material-icons.white-text shopping_cart
-                    | My Cart
-                li
-                  a(href="/users/order/"+user._id).userlink 
-                    i.material-icons.white-text done_all
-                    | Completed Orders
-                li
-                  a(href="/users/logout").userlink 
-                    i.material-icons.white-text input
-                    | Logout
-
-            
+                if  user.admin==false
+                  li
+                    a(href="/inventory").userlink  
+                      i.material-icons.white-text home
+                      |  Home
+                  li
+                    a(href="/users/consumer").userlink 
+                      i.material-icons.white-text shopping_basket
+                      |  View Products
+                  li 
+                    a(href="/users/changepassword/"+user._id).userlink 
+                      i.material-icons.white-text lock_outline
+                      | Change Password
+                  li
+                    a(href="/users/cart").userlink 
+                      i.material-icons.white-text shopping_cart
+                      | My Cart
+                  li 
+                    a(href="/users/order/"+user._id).userlink 
+                      i.material-icons.white-text done_all
+                      | Completed Orders
+                  li
+                    a(href="/users/logout").userlink 
+                      i.material-icons.white-text input
+                      | Logout
+                else
+                    li
+                      a(href="/inventory").userlink  
+                        i.material-icons.white-text home
+                        |  Home
+                    li
+                      a(href="/inventory/items").userlink 
+                        i.material-icons.white-text list
+                        | Products
+                    li
+                      a(href="/users/profit").userlink 
+                        i.material-icons.white-text insert_chart
+                        | Profits and Expenses
+                    li
+                      a(href="/inventory/item/create").userlink 
+                        i.material-icons.white-text add_shopping_cart
+                        | Add Product
+                    li 
+                      a(href="/users/order/").userlink 
+                        i.material-icons.white-text view_list
+                        | Orders
+                    li
+                      a(href="/users/consumer").userlink 
+                        i.material-icons.white-text shopping_basket
+                        |  View Products
+                    li 
+                      a(href="/users/changepassword/"+user._id).userlink 
+                        i.material-icons.white-text lock_outline
+                        | Change Password
+                    li
+                      a(href="/users/cart").userlink 
+                        i.material-icons.white-text shopping_cart
+                        | My Cart
+                    li 
+                      a(href="/users/order/"+user._id).userlink 
+                        i.material-icons.white-text done_all
+                        | Completed Orders
+                    li
+                      a(href="/users/logout").userlink 
+                        i.material-icons.white-text input
+                        | Logout 
           block sidebar
         div(class='col s12 m12 l12')
           div(class="main-wrap second")

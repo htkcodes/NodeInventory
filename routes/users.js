@@ -1,3 +1,5 @@
+
+
 var express = require('express');
 var app = express();
 var passport = require('passport');
@@ -13,8 +15,9 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
-var bcrypt=require('bcrypt');
+var bcrypt = require('bcrypt');
 const io = require('socket.io').listen(4000).sockets;
+var Onesignal = require('../config/onesignal');
 
 
 
@@ -24,8 +27,8 @@ const io = require('socket.io').listen(4000).sockets;
 router.get('/', function (req, res, next) {
     res.redirect('/users/login');
 });
-
-router.get('/profit',ensureAuthAdmin, function (req, res) {
+/* FIXME:REWRITE FUNCTION */
+router.get('/profit', ensureAuthAdmin, function (req, res) {
     async.series({
         item_total: function (callback) {
             item.aggregate({
@@ -37,12 +40,9 @@ router.get('/profit',ensureAuthAdmin, function (req, res) {
                 }
             }, callback)
         },
-
-
     }, function (err, results) {
 
         profit.count(function (err, count) {
-
             var weekly = results.item_total[0].sum;
             var newProfit = new profit({
                 week: moment().weeks(),
@@ -64,7 +64,6 @@ router.get('/profit',ensureAuthAdmin, function (req, res) {
                     if (err) {
                         return next(err)
                     }
-
                     //Find Latest date then assigns id to dateid
                     var latest = profit.find({}).sort({
                         date: -1
@@ -80,8 +79,8 @@ router.get('/profit',ensureAuthAdmin, function (req, res) {
                         }).sort({
                             date: -1
                         }).limit(1).exec(function (err, prev) {
+                            console.log(prev);
                             //Removes the document from the database if the week is the same
-
                             if (foo[0].week == prev[0].week) {
                                 profit.remove({
                                     _id: foo[0]._id
@@ -191,10 +190,9 @@ router.post('/register', function (req, res) {
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('confirm_password', 'Passwords do not match').equals(req.body.password);
 
-    if(admin == "true")
-    {
+    if (admin == "true") {
         console.log('here')
-        req.checkBody('secret','Secret is empty').notEmpty()
+        req.checkBody('secret', 'Secret is empty').notEmpty()
         req.checkBody('secret', 'The secret is incorrect').equals(secretconfirm);
     }
 
@@ -232,7 +230,7 @@ router.post('/register', function (req, res) {
                     if (err) throw err;
                     res.send(true);
                 });
-              
+
             }
 
         })
@@ -297,7 +295,7 @@ router.post('/login',
                 //console.log('admin')
                 res.redirect('/inventory');
             } else {
-              
+
                 res.redirect(
                     'consumer');
             }
@@ -317,7 +315,7 @@ router.get('/logout', function (req, res) {
     res.redirect('/users/login');
 });
 
-router.get('/consumer',ensureAuthUser, function (req, res, next) {
+router.get('/consumer', ensureAuthUser, function (req, res, next) {
     item.find({}, 'name quantity price sold total')
         .exec(function (err, list_items) {
             if (err) {
@@ -332,7 +330,7 @@ router.get('/consumer',ensureAuthUser, function (req, res, next) {
         });
 })
 
-router.get('/cart',ensureAuthUser, function (req, res, next) {
+router.get('/cart', ensureAuthUser, function (req, res, next) {
     User.findById({
             _id: req.user._id
         }, 'cart')
@@ -353,7 +351,7 @@ router.get('/cart',ensureAuthUser, function (req, res, next) {
             })
         })
 })
-router.post('/cart', ensureAuthUser,function (req, res, next) {
+router.post('/cart', ensureAuthUser, function (req, res, next) {
     let id = req.body._id;
     let quantity = req.body.quantity;
     req.checkBody('_id', 'ID is Required').notEmpty();
@@ -396,7 +394,7 @@ router.post('/cart', ensureAuthUser,function (req, res, next) {
     }
 })
 
-router.post('/cart/delete',ensureAuthUser, function (req, res, next) {
+router.post('/cart/delete', ensureAuthUser, function (req, res, next) {
     let id = req.body._id
     req.checkBody('_id', 'ID is Required').notEmpty();
     var errors = req.validationErrors();
@@ -440,7 +438,7 @@ router.post('/cart/delete',ensureAuthUser, function (req, res, next) {
     }
 })
 
-router.post('/addtocart',ensureAuthUser, function (req, res, next) {
+router.post('/addtocart', ensureAuthUser, function (req, res, next) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
     function isEmpty(obj) {
@@ -542,7 +540,7 @@ router.post('/addtocart',ensureAuthUser, function (req, res, next) {
 
 })
 
-router.post('/readyorder',ensureAuthAdmin, function (req, res) {
+router.post('/readyorder', ensureAuthAdmin, function (req, res) {
     let id = req.body._id;
     let item_id = req.body.item_id;
     let quantity_purchased = req.body.quantity;
@@ -556,6 +554,33 @@ router.post('/readyorder',ensureAuthAdmin, function (req, res) {
     } else {
         async.waterfall([
             function (callback) {
+                async.waterfall([
+                    function (callback) {
+                        Order.findOne({
+                            _id: id
+                        }).exec(function (err, order) {
+                            callback(err, order)
+                        })
+                    },
+                    function (order, callback) {
+                        User.findById({
+                                _id: order.user_id
+                            })
+                            .exec(function (err, found) {
+                              
+                                var message = {
+                                    app_id: "5678a7af-2cd3-4158-9953-360547c5d811",
+                                    template_id:"c2dfaa3f-bd5b-43c8-accc-7bea58a4262c",
+                                   include_player_ids:[found.onesignal_id]
+                                };
+                                Onesignal.sendNotification(message); 
+                                callback(err,found)
+                            })
+                    }
+                ],function(err,found){
+                console.log(err)
+                })
+
                 Order.findOneAndUpdate({
                     _id: id
                 }, {
@@ -569,9 +594,6 @@ router.post('/readyorder',ensureAuthAdmin, function (req, res) {
                     let fake = 0;
                     callback(err, fake)
                 })
-
-
-
             },
             function (fake, callback) {
                 item.findById(item_id, function foundItem(err, product) {
@@ -583,7 +605,7 @@ router.post('/readyorder',ensureAuthAdmin, function (req, res) {
                             _id: product._id,
                             //Parse int to make sure the values are integers.
                             sold: (parseInt(product.currentsold) + parseInt(quantity_purchased)),
-                            total: (product.price*quantity_purchased)
+                            total: (product.price * quantity_purchased)
                         });
 
                         item.findByIdAndUpdate(product._id, updatedProduct, function updateItem(err) {
@@ -613,25 +635,24 @@ router.post('/readyorder',ensureAuthAdmin, function (req, res) {
 
 })
 
-io.on('connection',function(socket){
-    console.log('sockets live')
- socket.on('ordersubmitted',function(){
-    Order.find({}, function (err, result) {
-        if (err) {
-            throw err;
-        }
-        let amount_due = 0;
-        for (let i = 0; i < result.length; i++) {
-            amount_due += result[i].total;
-        }
-       
-io.emit('neworder',[result],amount_due)
+io.on('connection', function (socket) {
+    socket.on('ordersubmitted', function () {
+        Order.find({}, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            let amount_due = 0;
+            for (let i = 0; i < result.length; i++) {
+                amount_due += result[i].total;
+            }
+
+            io.emit('neworder', [result], amount_due)
+        })
     })
- })
 })
 
 
-router.post('/addtoorder',ensureAuthUser, function (req, res, next) {
+router.post('/addtoorder', ensureAuthUser, function (req, res, next) {
     async.waterfall([
         function (callback) {
             User.findById({
@@ -695,21 +716,19 @@ router.get('/order', function (req, res, next) {
 
 })
 
-router.post('/removeorder',function(req,res,next){
-    let id=req.body._id;
+router.post('/removeorder', function (req, res, next) {
+    let id = req.body._id;
     Order.remove({
-        _id:id
-    },function orderfound(err,found_order){
-        if(err)
-        {
+        _id: id
+    }, function orderfound(err, found_order) {
+        if (err) {
             res.send(err)
-        }
-        else{
+        } else {
             res.send(true)
         }
     })
 })
-router.get('/order/:id',ensureAuthUser, function (req, res, next) {
+router.get('/order/:id', ensureAuthUser, function (req, res, next) {
     Order.find({
         user_id: req.params.id,
         ready: true
@@ -724,204 +743,230 @@ router.get('/order/:id',ensureAuthUser, function (req, res, next) {
     })
 })
 
-router.get('/forgot', function(req, res) {
+router.get('/forgot', function (req, res) {
     res.render('forgot', {
-      user: req.user
+        user: req.user
     });
-  });
+});
 
-router.post('/forgot',function(req,res){
+router.post('/forgot', function (req, res) {
     async.waterfall([
-        function(done) {
-          crypto.randomBytes(20, function(err, buf) {
-            var token = buf.toString('hex');
-            done(err, token);
-          });
-        },
-        function(token, done) {
-          User.findOne({ email: req.body.email }, function(err, user) {
-            if (!user) {
-              req.flash('email_no','Email Doesn\'t Exist')
-              return res.redirect('/users/forgot');
-            }
-    
-            user.resetPasswordToken = token;
-            user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-    
-            user.save(function(err) {
-              done(err, token, user);
+        function (done) {
+            crypto.randomBytes(20, function (err, buf) {
+                var token = buf.toString('hex');
+                done(err, token);
             });
-          });
         },
-        function(token, user, done) {
-          var smtpTransport = nodemailer.createTransport({
-            service: 'SendGrid',
-            auth: {
-              user: 'htk_codes',
-              pass: '6siRucJBS2M9'
-            }
-          });
-          var mailOptions = {
-            to: user.email,
-            from: 'chipsinv@cis.net',
-            subject: 'Password Reset',
-            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-              'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-              'http://' + req.headers.host + '/users/r/' + token + '\n\n' +
-              'If you did not request this, please ignore this email and your password will remain unchanged.Link will expire in one hour\n'
-          };
-          smtpTransport.sendMail(mailOptions, function(err) {
-            console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-            done(err, 'done');
-          });
+        function (token, done) {
+            User.findOne({
+                email: req.body.email
+            }, function (err, user) {
+                if (!user) {
+                    req.flash('email_no', 'Email Doesn\'t Exist')
+                    return res.redirect('/users/forgot');
+                }
+
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+                user.save(function (err) {
+                    done(err, token, user);
+                });
+            });
+        },
+        function (token, user, done) {
+            var smtpTransport = nodemailer.createTransport({
+                service: 'SendGrid',
+                auth: {
+                    user: 'htk_codes',
+                    pass: '6siRucJBS2M9'
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'chipsinv@cis.net',
+                subject: 'Password Reset',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://' + req.headers.host + '/users/r/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.Link will expire in one hour\n'
+            };
+            smtpTransport.sendMail(mailOptions, function (err) {
+                console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                done(err, 'done');
+            });
         }
-      ], function(err) {
+    ], function (err) {
         if (err) return next(err);
         res.redirect('/users/forgot');
-      });
+    });
 })
 
-router.get('/r/:token', function(req, res) {
-    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-      if (!user) {
-       req.flash('invalid_token','token is invalid or expired')
-        return res.redirect('users/forgot');
-      }
-      res.render('resett', {
-        user: req.user
-      });
+router.get('/r/:token', function (req, res) {
+    User.findOne({
+        resetPasswordToken: req.params.token,
+        resetPasswordExpires: {
+            $gt: Date.now()
+        }
+    }, function (err, user) {
+        if (!user) {
+            req.flash('invalid_token', 'token is invalid or expired')
+            return res.redirect('users/forgot');
+        }
+        res.render('resett', {
+            user: req.user
+        });
     });
-  });
+});
 
-router.post('/r/:token', function(req, res) {
+router.post('/r/:token', function (req, res) {
     async.waterfall([
-      function(done) {
-        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-          if (!user) {
-            console.log("token is invalid or expired");
-          }
-          bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(req.body.password, salt, function(err, hash) {
-                user.password = hash;
-                user.resetPasswordToken = undefined;
-                user.resetPasswordExpires = undefined;
-                user.save(function(err) {
-                    req.logIn(user, function(err) {
-                      done(err, user);
+        function (done) {
+            User.findOne({
+                resetPasswordToken: req.params.token,
+                resetPasswordExpires: {
+                    $gt: Date.now()
+                }
+            }, function (err, user) {
+                if (!user) {
+                    console.log("token is invalid or expired");
+                }
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(req.body.password, salt, function (err, hash) {
+                        user.password = hash;
+                        user.resetPasswordToken = undefined;
+                        user.resetPasswordExpires = undefined;
+                        user.save(function (err) {
+                            req.logIn(user, function (err) {
+                                done(err, user);
+                            });
+                        });
                     });
-                  });
+                });
+
+
+
+
+
             });
-        });
-          
-         
-  
-          
-          
-        });
-      },
-      function(user, done) {
-        var smtpTransport = nodemailer.createTransport({
-          service: 'SendGrid',
-          auth: {
-            user: 'htk_codes',
-            pass: '6siRucJBS2M9'
-          }
-        });
-        var mailOptions = {
-          to: user.email,
-          from: 'passwordreset@demo.com',
-          subject: 'Your password has been changed',
-          text: 'Hello,\n\n' +
-            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-        };
-        smtpTransport.sendMail(mailOptions, function(err) {
-         console.log("done")
-          done(err);
-        });
-      }
-    ], function(err) {
-      res.redirect('/inventory');
-    });
-  });
-function ensureAuthAdmin(req,res,next){
-    if(req.isAuthenticated()){
-      User.findById({
-        _id:req.user._id
-    },'admin',function(err,found_user){
-        if(found_user.admin === false)
-        {
-           res.redirect('/users/consumer')
+        },
+        function (user, done) {
+            var smtpTransport = nodemailer.createTransport({
+                service: 'SendGrid',
+                auth: {
+                    user: 'htk_codes',
+                    pass: '6siRucJBS2M9'
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'passwordreset@demo.com',
+                subject: 'Your password has been changed',
+                text: 'Hello,\n\n' +
+                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+            };
+            smtpTransport.sendMail(mailOptions, function (err) {
+                console.log("done")
+                done(err);
+            });
         }
-        else{
-            return next()
-        }
+    ], function (err) {
+        res.redirect('/inventory');
     });
+});
+
+function ensureAuthAdmin(req, res, next) {
+    if (req.isAuthenticated()) {
+        User.findById({
+            _id: req.user._id
+        }, 'admin', function (err, found_user) {
+            if (found_user.admin === false) {
+                res.redirect('/users/consumer')
+            } else {
+                return next()
+            }
+        });
     }
 }
 
-router.get('/changepassword/:id',ensureAuthUser,function(req,res,next){
-   res.render('changepassword');
+router.get('/changepassword/:id', ensureAuthUser, function (req, res, next) {
+    res.render('changepassword');
 })
-router.post('/changepassword/:id',ensureAuthUser,function(req,res,next){
+router.post('/changepassword/:id', ensureAuthUser, function (req, res, next) {
 
-    var old=req.body.old;
-    let newPassword=req.body.password;
-    let newPasswordConfirm=req.body.confirm_password;
+    var old = req.body.old;
+    let newPassword = req.body.password;
+    let newPasswordConfirm = req.body.confirm_password;
 
 
-    req.checkBody('old','Old password is empty').notEmpty();
-    req.checkBody('password','password is empty').notEmpty();
-    req.checkBody('confirm_password','Passwords do not match').equals(newPassword);
+    req.checkBody('old', 'Old password is empty').notEmpty();
+    req.checkBody('password', 'password is empty').notEmpty();
+    req.checkBody('confirm_password', 'Passwords do not match').equals(newPassword);
 
-    let errors=req.validationErrors();
+    let errors = req.validationErrors();
 
-    if(errors)
-    {
-        res.render('changepassword',{errors:errors})
-    }
-    else{
-    async.waterfall([
-        function(callback)
-        {
-            User.findById({
-                _id:req.params.id
-            })
-            .exec(function(err,result){
-                callback(err,result);
-            })
-        },
-        function(result,callback)
-        {
-                User.comparePassword(old,result.password, function (err, isMatch) {
+    if (errors) {
+        res.render('changepassword', {
+            errors: errors
+        })
+    } else {
+        async.waterfall([
+            function (callback) {
+                User.findById({
+                        _id: req.params.id
+                    })
+                    .exec(function (err, result) {
+                        callback(err, result);
+                    })
+            },
+            function (result, callback) {
+                User.comparePassword(old, result.password, function (err, isMatch) {
                     if (err) throw err;
-                     if (isMatch) {
-                        bcrypt.genSalt(10, function(err, salt) {
-                            bcrypt.hash(newPassword, salt, function(err, hash) {
+                    if (isMatch) {
+                        bcrypt.genSalt(10, function (err, salt) {
+                            bcrypt.hash(newPassword, salt, function (err, hash) {
                                 result.password = hash;
                                 result.save(callback);
-                                req.flash('passwordchanged','Password Successfully Changed');
+                                req.flash('passwordchanged', 'Password Successfully Changed');
                                 res.render('changepassword');
                             });
                         });
                     } else {
-                
-                        req.flash('incorrect','Old password is incorrect');
+
+                        req.flash('incorrect', 'Old password is incorrect');
                         res.render('changepassword');
-                    } 
+                    }
                 });
-         
-        }
-    ])
+
+            }
+        ])
     }
-  
+
 })
 
-function ensureAuthUser(req,res,next){
-    if(req.isAuthenticated()){
-      return next();
+router.post('/onesignal', function (req, res) {
+    let onesignal = req.body.onesignal_id;
+    User.findById({
+            _id: req.user._id
+        })
+        .exec(function (err, result) {
+            result.onesignal_id = onesignal;
+            result.save(function (err) {
+                if (err) {
+                    res.send(false)
+                } else {
+                    res.send("done");
+                }
+            })
+        })
+})
+
+function ensureAuthUser(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
     }
     res.redirect('/users/login');
-  }
+}
 
 
 module.exports = router;

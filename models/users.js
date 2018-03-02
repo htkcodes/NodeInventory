@@ -38,7 +38,8 @@ var UserSchema = Schema({
 			quantity:{type:Number}
 	}],
 	resetPasswordToken: String,
-	resetPasswordExpires: Date
+	resetPasswordExpires: Date,
+	onesignal_id:String
 });
 
 
