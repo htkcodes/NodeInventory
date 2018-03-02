@@ -6,15 +6,8 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     // Compiled and minified CSS
     link(rel='stylesheet', href='/stylesheets/materialize.min.css')
-    link(rel='manifest', href='/manifest.json')
     script(src='https://cdn.onesignal.com/sdks/OneSignalSDK.js', async='')
-    script.
-      var OneSignal = window.OneSignal || [];
-      OneSignal.push(function() {
-      OneSignal.init({
-      appId: "03e830f7-e952-4cc6-bd87-a8a11ee2cdea",
-      });
-      });
+    script(src='/javascripts/onesignal.js')
     script(src='/javascripts/jquery.min.js')
     link(rel="stylesheet", href="/stylesheets/animate.css")
     link(rel="stylesheet",href="/stylesheets/hover.css")
@@ -109,7 +102,8 @@ html(lang='en')
       div(class="top-left")
           a.button-collapse.show-on-large(href='#',data-activates='slide-out')
             i.material-icons.highlight-color menu
-      p.center Made with 💙 by Reneicko Getten
+      p.center Made with 💙 by Reneicko Getten™
+      p.center Copyright © 2018 C.H.I.P.S
     script(src='/javascripts/moment.js')
     script(src="/javascripts/Chart.bundle.js")
     script(src='/javascripts/materialize.min.js')

@@ -757,7 +757,7 @@ router.post('/forgot', function (req, res) {
                 email: req.body.email
             }, function (err, user) {
                 if (!user) {
-                    req.flash('email_no', 'Cannot find specified Email')
+                    req.flash('email_no', '☹️ Cannot find specified Email')
                     return res.redirect('/users/forgot');
                 }
 
@@ -805,8 +805,8 @@ router.get('/r/:token', function (req, res) {
         }
     }, function (err, user) {
         if (!user) {
-            req.flash('invalid_token', 'token is invalid or expired')
-            return res.redirect('users/forgot');
+            req.flash('invalid_token', '😬 Token is invalid or expired')
+            return res.redirect('/users/forgot');
         }
         res.render('resett', {
             user: req.user
@@ -824,7 +824,8 @@ router.post('/r/:token', function (req, res) {
                 }
             }, function (err, user) {
                 if (!user) {
-                    console.log("token is invalid or expired");
+                    req.flash('invalid_token', '😬 Token is invalid or expired')
+                    return res.redirect('/users/forgot');
                 }
                 bcrypt.genSalt(10, function (err, salt) {
                     bcrypt.hash(req.body.password, salt, function (err, hash) {

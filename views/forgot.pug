@@ -5,6 +5,9 @@ block content
  .row
   h1.register Forgot Password
   h6 Fill out the fields down below
+    if messages.invalid_token
+     h6.center.flash-error   #{messages.invalid_token}
+      i.material-icons    info
     if messages.email_no
      h6.center.flash-error   #{messages.email_no}
       i.material-icons    info
