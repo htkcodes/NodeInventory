@@ -773,8 +773,8 @@ router.post('/forgot', function (req, res) {
             var smtpTransport = nodemailer.createTransport({
                 service: 'SendGrid',
                 auth: {
-                    user: 'htk_codes',
-                    pass: '6siRucJBS2M9'
+                    user: secret.sendgridusername,
+                    pass: secret.sendgridpass
                 }
             });
             var mailOptions = {
